@@ -9,7 +9,7 @@ exports.up = function (knex) {
       .createTable('users', tbl => { // Users table
          tbl.increments();
 
-         tbl.integer('role_id')
+         tbl.integer('site_role')
             .unsigned()
             .notNullable()
             .references('id')
