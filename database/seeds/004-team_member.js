@@ -23,10 +23,10 @@ exports.seed = function (knex) {
 						"role_id": 2
 					}, {
 						"user_id": 61,
-						"role_id": 3
+						"role_id": 1
 					}, {
 						"user_id": 55,
-						"role_id": 3
+						"role_id": 1
 					}, {
 						"user_id": 58,
 						"role_id": 2
@@ -35,7 +35,7 @@ exports.seed = function (knex) {
 						"role_id": 2
 					}, {
 						"user_id": 64,
-						"role_id": 3
+						"role_id": 1
 					}, {
 						"user_id": 29,
 						"role_id": 1
@@ -47,10 +47,10 @@ exports.seed = function (knex) {
 						"role_id": 1
 					}, {
 						"user_id": 60,
-						"role_id": 3
+						"role_id": 1
 					}, {
 						"user_id": 20,
-						"role_id": 3
+						"role_id": 1
 					}, {
 						"user_id": 44,
 						"role_id": 1
@@ -59,7 +59,7 @@ exports.seed = function (knex) {
 						"role_id": 2
 					}, {
 						"user_id": 61,
-						"role_id": 3
+						"role_id": 1
 					}, {
 						"user_id": 84,
 						"role_id": 2
@@ -74,13 +74,13 @@ exports.seed = function (knex) {
 						"role_id": 1
 					}, {
 						"user_id": 41,
-						"role_id": 3
+						"role_id": 1
 					}, {
 						"user_id": 2,
-						"role_id": 3
+						"role_id": 1
 					}, {
 						"user_id": 94,
-						"role_id": 3
+						"role_id": 1
 					}, {
 						"user_id": 44,
 						"role_id": 1
@@ -92,7 +92,7 @@ exports.seed = function (knex) {
 						"role_id": 1
 					}, {
 						"user_id": 57,
-						"role_id": 3
+						"role_id": 1
 					}, {
 						"user_id": 75,
 						"role_id": 1

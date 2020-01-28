@@ -7,11 +7,9 @@ exports.seed = function (knex) {
 
 				[
 					{
-						"name": "Bitwolf"
+						"name": "Team Member"
 					}, {
-						"name": "Toughjoyfax"
-					}, {
-						"name": "Opela"
+						"name": "Team Lead"
 					}
 				]
 			);
