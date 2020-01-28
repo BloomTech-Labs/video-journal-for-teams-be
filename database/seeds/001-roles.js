@@ -7,14 +7,9 @@ exports.seed = function (knex) {
 
 				[
 					{
-						"role_id": 1,
-						"name": "Bitwolf"
+						"name": "Team Member"
 					}, {
-						"role_id": 2,
-						"name": "Toughjoyfax"
-					}, {
-						"role_id": 3,
-						"name": "Opela"
+						"name": "Team Lead"
 					}
 				]
 			);
