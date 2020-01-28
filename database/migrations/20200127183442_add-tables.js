@@ -6,31 +6,31 @@ exports.up = function (knex) {
       tbl.string('name', 128)
          .notNullable();
    })
-   .createTable('users', tbl => { // Users table
-      tbl.increments();
+      .createTable('users', tbl => { // Users table
+         tbl.increments();
 
-      tbl.integer('role_id')
-         .unsigned()
-         .notNullable()
-         .references('id')
-         .inTable('roles')
-         .onUpdate('CASCADE')
-         .onDelete('CASCADE');
+         tbl.integer('role_id')
+            .unsigned()
+            .notNullable()
+            .references('id')
+            .inTable('roles')
+            .onUpdate('CASCADE')
+            .onDelete('CASCADE');
 
-      tbl.integer()
-         .notNullable();
+         tbl.integer()
+            .notNullable();
 
-      tbl.string('email', 128)
-         .unique()
-         .notNullable();
+         tbl.string('email', 128)
+            .unique()
+            .notNullable();
 
-      tbl.string('username', 128)
-         .unique()
-         .notNullable();
+         tbl.string('username', 128)
+            .unique()
+            .notNullable();
 
-      tbl.string('password', 128)
-         .notNullable();
-   })
+         tbl.string('password', 128)
+            .notNullable();
+      })
       .createTable('teams', tbl => { // Teams table
          tbl.increments();
 
@@ -82,8 +82,8 @@ exports.up = function (knex) {
 
 exports.down = function (knex) {
    return knex.schema
+      .dropTableIfExists('roles')
       .dropTableIfExists('users')
       .dropTableIfExists('teams')
-      .dropTableIfExists('roles')
       .dropTableIfExists('team_member')
 };
