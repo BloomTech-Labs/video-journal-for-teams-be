@@ -17,9 +17,6 @@ exports.up = function (knex) {
             .onUpdate('CASCADE')
             .onDelete('CASCADE');
 
-         tbl.integer()
-            .notNullable();
-
          tbl.string('email', 128)
             .unique()
             .notNullable();
