@@ -9,14 +9,6 @@ exports.up = function (knex) {
       .createTable('users', tbl => { // Users table
          tbl.increments();
 
-         tbl.integer('role_id')
-            .unsigned()
-            .notNullable()
-            .references('id')
-            .inTable('roles')
-            .onUpdate('CASCADE')
-            .onDelete('CASCADE');
-
          tbl.string('email', 128)
             .unique()
             .notNullable();
