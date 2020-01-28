@@ -72,8 +72,6 @@ exports.up = function (knex) {
 
          // Composite key with user_id and team_id
          tbl.primary(['user_id', 'team_id'])
-            .notNullable();
-
       });
 }
 
