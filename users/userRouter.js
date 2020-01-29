@@ -11,6 +11,14 @@ router.get("/", (req, res) => {
     .catch((err) => console.log(err));
 });
 
+router.get('/:id', validateUserId, (req, res) => {
+  const { id } = req.params
+
+  Users.findById(id)
+  .then(users => res.status(200).json(users))
+  .catch(err => res.status(500).json({ message: "Could not get user.", error: err }))
+})
+
 router.get('/:id/teams', validateUserId, (req, res) => {
   const { id } = req.params
 
