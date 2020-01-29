@@ -3,7 +3,7 @@ const Users = require("../users/userModel.js");
 const Teams = require('../teams/teamModel.js');
 const passport = require("passport");
 const router = express.Router();
-const { signToken } = require("../middleware/middleware");
+const { signToken, validateUserId } = require("../middleware/middleware");
 
 router.get("/", (req, res) => {
   Users.find()
@@ -11,12 +11,12 @@ router.get("/", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-router.get('/:id/teams', (req, res) => {
+router.get('/:id/teams', validateUserId, (req, res) => {
   const { id } = req.params
 
   Teams.findByUserId(id)
   .then(teams => res.status(200).json(teams))
-  .catch(err => console.log(err))
+  .catch(err => res.status(500).json({ message: "Could not get teams for user.", error: error }))
 })
 
 router.post("/login/email", passport.authenticate("email-login", { session: false }), function(req, res) {
