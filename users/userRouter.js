@@ -11,6 +11,14 @@ router.get("/", (req, res) => {
     .catch((err) => console.log(err));
 });
 
+router.get('/:id/teams', (req, res) => {
+  const { id } = req.params
+
+  Teams.findByUserId(id)
+  .then(teams => res.status(200).json(teams))
+  .catch(err => console.log(err))
+})
+
 router.post("/login/email", passport.authenticate("email-login", { session: false }), function(req, res) {
   res.status(200).json(loginSuccessBody(req.user));
 });
