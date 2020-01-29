@@ -1,5 +1,6 @@
 const express = require("express");
 const Users = require("../users/userModel.js");
+const Teams = require('../teams/teamModel.js');
 const passport = require("passport");
 const router = express.Router();
 const { signToken } = require("../middleware/middleware");
