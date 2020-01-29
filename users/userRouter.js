@@ -16,7 +16,7 @@ router.get('/:id/teams', validateUserId, (req, res) => {
 
   Teams.findByUserId(id)
   .then(teams => res.status(200).json(teams))
-  .catch(err => res.status(500).json({ message: "Could not get teams for user.", error: error }))
+  .catch(err => res.status(500).json({ message: "Could not get teams for user.", error: err }))
 })
 
 router.post("/login/email", passport.authenticate("email-login", { session: false }), function(req, res) {

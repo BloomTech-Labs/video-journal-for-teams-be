@@ -7,11 +7,9 @@ module.exports = {
 };
 
 function validateUserId(req, res, next) {
-  const { username } = req.params
+  const { id } = req.params
 
-  console.log(username)
-
-  Users.findById(username)
+  Users.findById(id)
     .then((user) => {
       if (user) {
         next()
