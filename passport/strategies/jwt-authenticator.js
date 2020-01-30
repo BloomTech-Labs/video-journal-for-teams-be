@@ -6,6 +6,8 @@ const ExtractJwt = require("passport-jwt").ExtractJwt;
 const opts = {
   jwtFromRequest: ExtractJwt.fromHeader("authorization"),
   secretOrKey: process.env.JWT_SECRET,
+  ignoreExpiration: false,
+  passReqToCallback: false,
 };
 
 passport.use(
