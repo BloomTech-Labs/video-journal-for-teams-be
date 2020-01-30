@@ -2,6 +2,7 @@ const db = require("../database/dbConfig.js");
 
 module.exports = {
   find,
+  findById,
   findByEmail,
   findByUsername,
   insert,
@@ -9,6 +10,14 @@ module.exports = {
 
 function find() {
   return db("users").select("*");
+}
+
+function findById(id) {
+  return db
+    .select("*")
+    .from("users")
+    .where({ id: id })
+    .first();
 }
 
 function findByEmail(email) {
