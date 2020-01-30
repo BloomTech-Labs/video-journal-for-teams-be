@@ -1,14 +1,13 @@
 module.exports = {
-
   development: {
-    client: 'pg',
-    connection: 'postgresql://localhost',
+    client: "pg",
+    connection: process.env.DATABASE_URL_DEV,
     useNullAsDefault: true,
     migrations: {
-      directory: './database/migrations',
+      directory: "./database/migrations",
     },
     seeds: {
-      directory: './database/seeds'
+      directory: "./database/seeds",
     },
   },
   staging: {
@@ -16,21 +15,21 @@ module.exports = {
     connection: process.env.DATABASE_URL,
     useNullAsDefault: true,
     migrations: {
-      directory: "./database/migrations"
+      directory: "./database/migrations",
     },
     seeds: {
-      directory: "./database/seeds"
-    }
+      directory: "./database/seeds",
+    },
   },
   testing: {
-    client: 'pg',
-    connection: 'postgresql://localhost:5433',
+    client: "pg",
+    connection: process.env.DATABASE_URL_TEST,
     useNullAsDefault: true,
     migrations: {
-      directory: './database/migrations',
+      directory: "./database/migrations",
     },
     seeds: {
-      directory: './database/seeds'
+      directory: "./database/seeds",
     },
   },
   production: {
@@ -38,10 +37,10 @@ module.exports = {
     connection: process.env.DATABASE_URL,
     useNullAsDefault: true,
     migrations: {
-      directory: "./database/migrations"
+      directory: "./database/migrations",
     },
     seeds: {
-      directory: "./database/seeds"
-    }
-  }
+      directory: "./database/seeds",
+    },
+  },
 };
