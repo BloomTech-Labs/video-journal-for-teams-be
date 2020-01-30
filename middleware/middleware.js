@@ -1,9 +1,17 @@
 const signToken = require("./signToken");
+<<<<<<< HEAD
 const Users = require("../users/userModel.js");
 
 module.exports = {
   signToken,
   validateUserId
+=======
+const validateSignup = require("./validateSignup");
+
+module.exports = {
+  signToken,
+  validateSignup,
+>>>>>>> dbb875b32fea1e34136f946c7cca86576219a0cd
 };
 
 function validateUserId(req, res, next) {
