@@ -20,6 +20,9 @@ exports.up = function(knex) {
       tbl.timestamp('created_at')
             .defaultTo(knex.fn.now())
             .notNullable();
+      tbl.timestamp('updated_at')
+            .defaultTo(knex.fn.now())
+            .notNullable();
   })
   
     .createTable('videos', tbl => {
@@ -48,7 +51,7 @@ exports.up = function(knex) {
       tbl.string('video_url', 128)
             .notNullable();
             
-      tbl.integer('prompts_id')
+      tbl.integer('prompt_id')
           .unsigned()
           .notNullable()
           .references('id')
