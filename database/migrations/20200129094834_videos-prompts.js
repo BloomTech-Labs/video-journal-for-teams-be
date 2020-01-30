@@ -56,20 +56,10 @@ exports.up = function(knex) {
           .onUpdate('CASCADE')
           .onDelete('CASCADE');
     })
-    .table('users', tbl => {
-      tbl.string('first_name', 128)
-            .notNullable();
-      tbl.string('last_name', 128)
-            .notNullable();
-    })
 };
 
 exports.down = function(knex) {
   return knex.schema
-  .table('users', tbl => {
-      tbl.dropColumn('last_name')
-      tbl.dropColumn('first_name')
-    })
     .dropTableIfExists('videos')
     .dropTableIfExists('prompts')
 };
