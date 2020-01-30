@@ -4,6 +4,7 @@ module.exports = {
   find,
   findByEmail,
   findByUsername,
+  insert,
 };
 
 function find() {
@@ -24,4 +25,8 @@ function findByUsername(username) {
     .from("users")
     .where({ username: username })
     .first();
+}
+
+function insert(user) {
+  return db("users").insert(user, "id");
 }
