@@ -32,6 +32,28 @@ describe("Login/Register routes", () => {
       expect(response.status).toEqual(200);
     });
 
+    //? Does it return the data in the expected format?
+    test("should return a properly formatted JSON object on success", async () => {
+      const validUser = {
+        username: "fwilloughley0",
+        password: "4OTUUVDkYT",
+      };
+
+      const response = await request(server)
+        .post("/api/users/login/username")
+        .send(validUser);
+
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          user: {
+            email: expect.any(String),
+            username: expect.any(String),
+          },
+          token: expect.any(String),
+        })
+      );
+    });
+
     //? Does it return the correct status code for missing parameters?
     it("should return status code 400 on bad request", async () => {
       //To test missing params edge case
@@ -78,6 +100,28 @@ describe("Login/Register routes", () => {
         .send(validUser);
 
       expect(response.status).toEqual(200);
+    });
+
+    //? Does it return the data in the expected format?
+    test("should return a properly formatted JSON object on success", async () => {
+      const validUser = {
+        email: "asculpher0@independent.co.uk",
+        password: "4OTUUVDkYT",
+      };
+
+      const response = await request(server)
+        .post("/api/users/login/email")
+        .send(validUser);
+
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          user: {
+            email: expect.any(String),
+            username: expect.any(String),
+          },
+          token: expect.any(String),
+        })
+      );
     });
 
     //? Does it return the correct status code for missing parameters?
@@ -129,6 +173,29 @@ describe("Login/Register routes", () => {
       expect(response.status).toEqual(201);
     });
 
+    //? Does it return the data in the expected format?
+    test("should return a properly formatted JSON object on success", async () => {
+      const validSignup = {
+        email: "test1@email.com",
+        username: "testUser1",
+        password: "testPassword",
+      };
+
+      const response = await request(server)
+        .post("/api/users/register")
+        .send(validSignup);
+
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          user: {
+            email: expect.any(String),
+            username: expect.any(String),
+          },
+          token: expect.any(String),
+        })
+      );
+    });
+
     //? Does it return the correct status code for missing parameters?
     it("should return status code 400 on bad request", async () => {
       //To test missing params edge case
@@ -148,8 +215,8 @@ describe("Login/Register routes", () => {
     it("should return status code 409 when account already exists", async () => {
       //To test duplicate account register scenario
       const validSignup = {
-        email: "test1@email.com",
-        username: "testUser1",
+        email: "test2@email.com",
+        username: "testUser2",
         password: "testPassword",
       };
 
