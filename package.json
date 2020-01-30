@@ -23,7 +23,7 @@
     "supertest": "^4.0.2"
   },
   "jest": {
-    "testEnvirnoment": "node"
+    "testEnvironment": "node"
   },
   "scripts": {
     "server": "nodemon index.js",
