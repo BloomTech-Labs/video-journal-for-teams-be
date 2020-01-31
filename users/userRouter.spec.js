@@ -97,7 +97,11 @@ describe("Login/Register routes", () => {
 
       const response = await request(server)
         .post("/api/users/login/email")
+<<<<<<< HEAD
         .send(validUser)
+=======
+        .send(validUser);
+>>>>>>> f8005dc095ce9fd00e6f7689f813e7a57fd37b75
 
       expect(response.status).toEqual(200);
     });
@@ -234,6 +238,7 @@ describe("Login/Register routes", () => {
     });
   });
 });
+<<<<<<< HEAD
 
 describe("User Data Routes", () => {
   describe("GET /users", () => {
@@ -305,3 +310,5 @@ describe("User Data Routes", () => {
     })
   })
 })
+=======
+>>>>>>> f8005dc095ce9fd00e6f7689f813e7a57fd37b75
