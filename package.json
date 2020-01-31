@@ -29,7 +29,7 @@
   "scripts": {
     "server": "nodemon index.js",
     "start": "node index.js",
-    "test": "cross-env DB_ENV=testing jest --watchAll",
+    "test": "cross-env DB_ENV=testing jest --watchAll --runInBand",
     "db:test:seed": "cross-env NODE_ENV=testing knex seed:run",
     "db:test:migrate": "cross-env NODE_ENV=testing knex migrate:latest"
   },

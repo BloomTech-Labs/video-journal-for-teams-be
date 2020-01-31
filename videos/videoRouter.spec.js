@@ -14,75 +14,53 @@ afterAll(async () => {
   await db.destroy();
 });
 
-<<<<<<< HEAD
-describe("GET all teams endpoint", () => {
-
-});
-
-describe("GET team by id endpoint", () => {
-
-});
-
-describe("POST new team endpoint", () => {
-
-});
-
-describe("PUT update team endpoint", () => {
-
-});
-
-describe("DELETE team endpoint", () => {
-
-});
-=======
-describe("Team Data Routes", () => {
-  describe("GET /teams", () => {
+describe("Video Data Routes", () => {
+  describe("GET /videos", () => {
     it("should return status code 200", async () => {
       const response = await request(server)
-      .get("/api/teams")
+      .get("/api/videos")
       
       expect(response.status).toEqual(200);
     });
   
     it("should return an array", async () => {
       const response = await request(server)
-        .get("/api/teams")
+        .get("/api/videos")
       
       expect(Array.isArray(response.body)).toBe(true);
     });
   })
 
-  describe("GET /teams/:id", () => {
+  describe("GET /videos/:id", () => {
     it("should return status code 200", async () => {
       const response = await request(server)
-      .get("/api/teams/1")
+      .get("/api/videos/1")
       
       expect(response.status).toEqual(200);
     });
 
     it("should return status code 400 if the team id is invalid", async () => {
       const response = await request(server)
-      .get("/api/teams/150")
+      .get("/api/videos/150")
       
       expect(response.status).toEqual(400);
     })
   
     it("should return a properly formatted JSON object on success", async () => {
       const response = await request(server)
-        .get("/api/teams/1")
+        .get("/api/videos/1")
       
         expect(response.body).toEqual(
           expect.objectContaining({
             id: expect.any(Number),
-            name: expect.any(String),
+            title: expect.any(String),
+            owner_id: expect.any(Number),
             description: expect.any(String),
             created_at: expect.any(String),
-            updated_at: expect.any(String)
+            updated_at: expect.any(String),
+            viedo_url: expect.any(String)
           })
         )}
       )
     })
 })
-
-
->>>>>>> eafa8e8d439e27c63334a65952192468e8c09cd0

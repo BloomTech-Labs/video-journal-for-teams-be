@@ -1,16 +1,20 @@
 const express = require("express");
 const Users = require("../users/userModel.js");
+const Teams = require('../teams/teamModel.js');
+const Videos = require('../videos/videoModel.js');
 const passport = require("passport");
 const bcrypt = require("bcrypt");
 const router = express.Router();
-const { signToken, validateSignup } = require("../middleware/middleware");
+
+const { signToken, validateUserId, validateSignup } = require("../middleware/middleware");
 
 router.get("/", (req, res) => {
   Users.find()
     .then((users) => res.status(200).json(users))
-    .catch((err) => console.log(err));
+    .catch(err => res.status(500).json({ message: "Could not get users.", error: err }));
 });
 
+<<<<<<< HEAD
 router.get("/:id", async (req, res) => {
     try {
         const user = await Users.findById(req.params.id);
@@ -23,6 +27,31 @@ router.get("/:id", async (req, res) => {
         res.status(500).json({ error, message: "unable to find user" });
     }
 });
+=======
+router.get('/:id', validateUserId, (req, res) => {
+  const { id } = req.params
+
+  Users.findById(id)
+  .then(user => res.status(200).json(user))
+  .catch(err => res.status(500).json({ message: "Could not get user.", error: err }))
+})
+
+router.get('/:id/teams', validateUserId, (req, res) => {
+  const { id } = req.params
+
+  Teams.findByUserId(id)
+  .then(teams => res.status(200).json(teams))
+  .catch(err => res.status(500).json({ message: "Could not get teams for user.", error: err }))
+})
+
+router.get('/:id/videos', validateUserId, (req, res) => {
+  const { id } = req.params
+
+  Videos.findByUserId(id)
+  .then(videos => res.status(200).json(videos))
+  .catch(err => res.status(500).json({ message: "Could not get videos for user.", error: err }))
+})
+>>>>>>> eafa8e8d439e27c63334a65952192468e8c09cd0
 
 router.post("/login/email", passport.authenticate("email-login", { session: false }), function(req, res) {
   res.status(200).json(loginSuccessBody(req.user));

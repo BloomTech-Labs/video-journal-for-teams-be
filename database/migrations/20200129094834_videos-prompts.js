@@ -53,7 +53,6 @@ exports.up = function(knex) {
             
       tbl.integer('prompt_id')
           .unsigned()
-          .notNullable()
           .references('id')
           .inTable('prompts')
           .onUpdate('CASCADE')
