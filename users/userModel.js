@@ -6,6 +6,8 @@ module.exports = {
   findByEmail,
   findByUsername,
   insert,
+  update,
+  remove
 };
 
 function find() {
@@ -38,4 +40,16 @@ function findByUsername(username) {
 
 function insert(user) {
   return db("users").insert(user, "id");
+}
+
+function update(id, changes) {
+    return db('users')
+        .where({ id })
+        .update(changes);
+}
+
+function remove(id) {
+    return db('users')
+        .where({ id })
+        .del();
 }
