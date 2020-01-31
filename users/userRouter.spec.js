@@ -304,4 +304,25 @@ describe("User Data Routes", () => {
       expect(response.status).toEqual(400);
     })
   })
+  
+  describe("PUT /users/:id for updating a user", () => {
+    it("should return info updated message", async () => {
+        const username = "Bit_Wolf";
+        const response = await request(server)
+            .put("/api/users/1")
+            .send({ username: username })
+            .then(response => {
+                expect(response.body.message).toBe("info updated");
+            });
+    });
+    it("should return the updatedUser count of 1", async () => {
+        const username = "Bit_Wolf";
+        const response = await request(server)
+            .put("/api/users/1")
+            .send({ username: username })
+            .then(response => {
+                expect(response.body.updatedUser).toBe(1);
+            });
+    })
+  })
 })
