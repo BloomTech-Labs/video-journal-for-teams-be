@@ -14,27 +14,6 @@ afterAll(async () => {
   await db.destroy();
 });
 
-<<<<<<< HEAD
-describe("GET all teams endpoint", () => {
-
-});
-
-describe("GET team by id endpoint", () => {
-
-});
-
-describe("POST new team endpoint", () => {
-
-});
-
-describe("PUT update team endpoint", () => {
-
-});
-
-describe("DELETE team endpoint", () => {
-
-});
-=======
 describe("Team Data Routes", () => {
   describe("GET /teams", () => {
     it("should return status code 200", async () => {
@@ -85,4 +64,3 @@ describe("Team Data Routes", () => {
 })
 
 
->>>>>>> eafa8e8d439e27c63334a65952192468e8c09cd0

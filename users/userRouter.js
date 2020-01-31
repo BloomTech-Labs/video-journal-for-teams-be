@@ -14,7 +14,6 @@ router.get("/", (req, res) => {
     .catch(err => res.status(500).json({ message: "Could not get users.", error: err }));
 });
 
-<<<<<<< HEAD
 router.get("/:id", async (req, res) => {
     try {
         const user = await Users.findById(req.params.id);
@@ -27,7 +26,6 @@ router.get("/:id", async (req, res) => {
         res.status(500).json({ error, message: "unable to find user" });
     }
 });
-=======
 router.get('/:id', validateUserId, (req, res) => {
   const { id } = req.params
 
@@ -51,7 +49,6 @@ router.get('/:id/videos', validateUserId, (req, res) => {
   .then(videos => res.status(200).json(videos))
   .catch(err => res.status(500).json({ message: "Could not get videos for user.", error: err }))
 })
->>>>>>> eafa8e8d439e27c63334a65952192468e8c09cd0
 
 router.post("/login/email", passport.authenticate("email-login", { session: false }), function(req, res) {
   res.status(200).json(loginSuccessBody(req.user));
