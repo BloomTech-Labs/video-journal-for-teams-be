@@ -48,6 +48,8 @@ describe("Login/Register routes", () => {
           user: {
             email: expect.any(String),
             username: expect.any(String),
+            first_name: expect.any(String),
+            last_name: expect.any(String)
           },
           token: expect.any(String),
         })
@@ -118,6 +120,8 @@ describe("Login/Register routes", () => {
           user: {
             email: expect.any(String),
             username: expect.any(String),
+            first_name: expect.any(String),
+            last_name: expect.any(String)
           },
           token: expect.any(String),
         })
@@ -164,6 +168,8 @@ describe("Login/Register routes", () => {
         email: "test@email.com",
         username: "testUser",
         password: "testPassword",
+        first_name: "Test",
+        last_name: "User"
       };
 
       const response = await request(server)
@@ -179,6 +185,8 @@ describe("Login/Register routes", () => {
         email: "test1@email.com",
         username: "testUser1",
         password: "testPassword",
+        first_name: "Test",
+        last_name: "User"
       };
 
       const response = await request(server)
@@ -190,6 +198,8 @@ describe("Login/Register routes", () => {
           user: {
             email: expect.any(String),
             username: expect.any(String),
+            first_name: expect.any(String),
+            last_name: expect.any(String)
           },
           token: expect.any(String),
         })
@@ -218,6 +228,8 @@ describe("Login/Register routes", () => {
         email: "test2@email.com",
         username: "testUser2",
         password: "testPassword",
+        first_name: expect.any(String),
+        last_name: expect.any(String)
       };
 
       const duplicateSignup = validSignup;
@@ -277,6 +289,8 @@ describe("User Data Routes", () => {
             email: expect.any(String),
             username: expect.any(String),
             password: expect.any(String),
+            first_name: expect.any(String),
+            last_name: expect.any(String)
           })
         );
     });

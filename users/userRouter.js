@@ -77,6 +77,8 @@ function loginSuccessBody(user) {
     user: {
       email: user.email,
       username: user.username,
+      first_name: user.first_name,
+      last_name: user.last_name
     },
     token: token,
   };
