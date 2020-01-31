@@ -10,14 +10,14 @@ const { signToken, validateUserId, validateSignup } = require("../middleware/mid
 router.get("/", (req, res) => {
   Users.find()
     .then((users) => res.status(200).json(users))
-    .catch((err) => console.log(err));
+    .catch(err => res.status(500).json({ message: "Could not get users.", error: err }));
 });
 
 router.get('/:id', validateUserId, (req, res) => {
   const { id } = req.params
 
   Users.findById(id)
-  .then(users => res.status(200).json(users))
+  .then(user => res.status(200).json(user))
   .catch(err => res.status(500).json({ message: "Could not get user.", error: err }))
 })
 
