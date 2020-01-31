@@ -57,7 +57,7 @@ exports.up = function(knex) {
           .references('id')
           .inTable('prompts')
           .onUpdate('CASCADE')
-          .onDelete('CASCADE');
+          .onDelete('SET NULL');
     })
 };
 
