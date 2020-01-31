@@ -1,7 +1,7 @@
 
 exports.up = function(knex) {
 
-// Before the migration will run your users table needs to be cleared
+// Before the migration will run your users table needs to be cleared.
 
   return knex.schema
     .table("users", tbl => {
