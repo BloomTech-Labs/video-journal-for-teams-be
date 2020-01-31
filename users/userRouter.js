@@ -1,6 +1,7 @@
 const express = require("express");
 const Users = require("../users/userModel.js");
 const Teams = require('../teams/teamModel.js');
+const Videos = require('../videos/videoModel.js');
 const passport = require("passport");
 const bcrypt = require("bcrypt");
 const router = express.Router();
@@ -27,6 +28,14 @@ router.get('/:id/teams', validateUserId, (req, res) => {
   Teams.findByUserId(id)
   .then(teams => res.status(200).json(teams))
   .catch(err => res.status(500).json({ message: "Could not get teams for user.", error: err }))
+})
+
+router.get('/:id/videos', validateUserId, (req, res) => {
+  const { id } = req.params
+
+  Videos.findByUserId(id)
+  .then(videos => res.status(200).json(videos))
+  .catch(err => res.status(500).json({ message: "Could not get videos for user.", error: err }))
 })
 
 router.post("/login/email", passport.authenticate("email-login", { session: false }), function(req, res) {
