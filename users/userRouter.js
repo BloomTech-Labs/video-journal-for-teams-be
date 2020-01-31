@@ -68,6 +68,20 @@ router.post("/register", validateSignup, function(req, res) {
     });
 });
 
+router.put("/:id", async (req, res) => {
+    try {
+        const updatedUser = await Users.update(req.params.id, req.body);
+        if (updatedUser) {
+            res.status(200).json({ updatedUser, message: "info updated" });
+        } else {
+            res.status(404).json({ message: "user could not be found" });
+        } 
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ error, message: "unable to update this user" });
+    }
+});
+
 module.exports = router;
 
 function loginSuccessBody(user) {
