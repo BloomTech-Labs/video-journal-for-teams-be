@@ -91,6 +91,33 @@ describe("Team Data Routes", () => {
           )}
         )
       })
+
+    describe("GET /teams/:id/users", () => {
+      it("should return status code 200", async () => {
+        const response = await request(server)
+          .get("/api/teams/1/users")
+          .set("authorization", token)
+
+        expect(response.status).toEqual(200);
+      });
+
+      it("should return status code 400 if the team id is invalid", async () => {
+        const response = await request(server)
+          .get("/api/teams/150/users")
+          .set("authorization", token)
+
+        expect(response.status).toEqual(400);
+      })
+    })
+
+    it("should return array of data", async () => {
+      const response = await request(server)
+        .get("/api/teams/1/users")
+        .set("authorization", token)
+
+        expect(Array.isArray(response.body)).toBe(true);
+    })
+
   })
 })
 
