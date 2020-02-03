@@ -5,6 +5,7 @@ const helmet = require("helmet");
 const passport = require("passport");
 require("../passport/index");
 
+const AuthRouter = require("../auth/authRouter.js");
 const UserRouter = require("../users/userRouter.js");
 const TeamRouter = require("../teams/teamRouter.js");
 const VideoRouter = require("../videos/videoRouter.js");
@@ -17,6 +18,7 @@ server.use(express.json());
 
 server.use(passport.initialize());
 
+server.use("/api/auth", AuthRouter);
 server.use("/api/users", UserRouter);
 server.use("/api/teams", TeamRouter);
 server.use("/api/videos", VideoRouter);
