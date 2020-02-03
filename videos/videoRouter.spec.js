@@ -78,7 +78,7 @@ describe("Video Data Routes", () => {
         const response = await request(server)
           .get("/api/videos/1")
           .set("authorization", token)
-        
+          
           expect(response.body).toEqual(
             expect.objectContaining({
               id: expect.any(Number),
@@ -87,7 +87,8 @@ describe("Video Data Routes", () => {
               description: expect.any(String),
               created_at: expect.any(String),
               updated_at: expect.any(String),
-              viedo_url: expect.any(String)
+              video_url: expect.any(String),
+              prompt_id: expect.any(Number)
             })
           )}
         )
