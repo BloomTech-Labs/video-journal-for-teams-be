@@ -7,6 +7,7 @@ require("../passport/index");
 
 const UserRouter = require("../users/userRouter.js");
 const TeamRouter = require("../teams/teamRouter.js");
+const VideoRouter = require("../videos/videoRouter.js");
 
 const server = express();
 
@@ -18,6 +19,7 @@ server.use(passport.initialize());
 
 server.use("/api/users", UserRouter);
 server.use("/api/teams", TeamRouter);
+server.use("/api/videos", VideoRouter);
 
 server.get("/", (req, res) => {
   res.status(200).json({ api: "running" });

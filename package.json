@@ -13,6 +13,7 @@
     "knex": "^0.20.4",
     "knex-cleaner": "^1.3.0",
     "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "pg": "^7.15.1"
   },
@@ -23,12 +24,14 @@
     "supertest": "^4.0.2"
   },
   "jest": {
-    "testEnvirnoment": "node"
+    "testEnvironment": "node"
   },
   "scripts": {
     "server": "nodemon index.js",
     "start": "node index.js",
-    "test": "cross-env DB_ENV=testing jest --watchAll"
+    "test": "cross-env DB_ENV=testing jest --watchAll --runInBand",
+    "db:test:seed": "cross-env NODE_ENV=testing knex seed:run",
+    "db:test:migrate": "cross-env NODE_ENV=testing knex migrate:latest"
   },
   "repository": {
     "type": "git",
