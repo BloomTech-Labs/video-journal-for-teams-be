@@ -44,5 +44,8 @@ function insert(user) {
 function update(id, changes) {
     return db('users')
         .where({ id })
-        .update(changes);
+        .update(changes)
+        .then(count => {
+            return findById(id);
+        })
 }
