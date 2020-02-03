@@ -118,26 +118,27 @@ describe("User Data Routes", () => {
         expect(response.status).toEqual(400);
       })
     })
-  })
-  
-  describe("PUT /users/:id for updating a user", () => {
-    it("should return info updated message", async () => {
-        const username = "Bit_Wolf";
-        return await request(server)
-            .put("/api/users/1")
-            .send({ username: username })
-            .then(response => {
-                expect(response.body.message).toBe("Successfully updated user");
-            });
-    });
-    it("should return the updatedUser body", async () => {
-        const username = "Bit_Wolf";
-        return await request(server)
-            .put("/api/users/1")
-            .send({ username: username })
-            .then(response => {
-                expect(response.body.updatedUser.username).toBe("Bit_Wolf");
-            });
+    describe("PUT /users/:id for updating a user", () => {
+      it("should return info updated message", async () => {
+          const username = "Bit_Wolf";
+          return await request(server)
+              .put("/api/users/1")
+              .send({ username: username })
+              .set("authorization", token)
+              .then(response => {
+                  expect(response.body.message).toBe("Successfully updated user");
+              });
+      });
+      it("should return the updatedUser body", async () => {
+          const username = "Bit_Wolf";
+          return await request(server)
+              .put("/api/users/1")
+              .send({ username: username })
+              .set("authorization", token)
+              .then(response => {
+                  expect(response.body.updatedUser.username).toBe("Bit_Wolf");
+              });
+      })
     })
   })
 })
