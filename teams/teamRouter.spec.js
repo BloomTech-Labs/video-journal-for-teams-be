@@ -119,6 +119,55 @@ describe("Team Data Routes", () => {
         expect(Array.isArray(response.body)).toBe(true);
       });
     });
+    describe("POST /teams", () => {
+      it("should return status code 201", async () => {
+        const newTeam = {
+          "name": "New Team",
+          "description": "This is an awesome new team"
+        }
+
+        const response = await request(server)
+          .post("/api/teams/")
+          .set("authorization", token)
+          .send(newTeam);
+
+        expect(response.status).toEqual(201);
+      });
+
+      it("should return a properly formatted JSON object on success", async () => {
+        const newTeam = {
+          "name": "New Team",
+          "description": "This is an awesome new team"
+        }
+
+        const response = await request(server)
+          .post("/api/teams")
+          .set("authorization", token)
+          .send(newTeam);
+
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            id: expect.any(Number),
+            name: expect.any(String),
+            description: expect.any(String),
+            created_at: expect.any(String),
+            updated_at: expect.any(String)
+          })
+        )
+      })
+      it("should return status code 400 if there's missing data in the request", async () => {
+        const invalidTeam = {
+          "name": "New Team",
+        }
+
+        const response = await request(server)
+          .post("/api/teams/")
+          .set("authorization", token)
+          .send(invalidTeam);
+
+        expect(response.status).toEqual(400);
+      });
+    })
 
     describe("POST /teams/:id", () => {
 
