@@ -113,6 +113,32 @@ describe("Video Data Routes", () => {
 					.send(videoData)
 				expect(response.status).toEqual(201)
 			})
+
+			it("should be correct incoming JSON object", async () => {
+				const response = await request(server)
+					.post("/api/videos")
+					.set("authorization", token)
+
+				expect(videoData).toEqual(
+					expect.objectContaining({
+						title: expect.any(String),
+						owner_id: expect.any(Number),
+						description: expect.any(String),
+						created_at: expect.any(String),
+						updated_at: expect.any(String),
+						video_url: expect.any(String),
+						prompt_id: expect.any(Number)
+					})
+				)
+			})
+
+			it("should return an object.id as an integer after db storage", async () => {
+				const response = await request(server)
+					.post("/api/videos")
+					.set("authorization", token)
+					.send(videoData)
+				expect(Number.isInteger(response.body.id)).toBe(true);
+			})
 		})
 	})
 })
