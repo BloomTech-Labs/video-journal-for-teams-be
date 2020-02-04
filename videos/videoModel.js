@@ -17,14 +17,15 @@ function findById(video_id) {
         .where("videos.id", video_id)
         .first()
         .select(
-            "videos.owner_id",
-            "users.first_name",
-            "users.last_name",
-            "videos.title",
-            "videos.description",
+            "videos.id as video_id",
+            "videos.owner_id as owner_id",
+            "users.first_name as owner_first_name",
+            "users.last_name as owner_last_name",
+            "videos.title as video_title",
+            "videos.description as video_description",
             "videos.video_url",
             "videos.created_at",
-            "prompts.question"
+            "prompts.question as prompt_question"
         )
 }
 
