@@ -1,18 +1,12 @@
-🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline. Feel free to add your own flare to it.
-
-🚫 The numbers 1️⃣ through 3️⃣ next to each item represent the week that part of the docs needs to be comepleted by.  Make sure to delete the numbers by the end of Labs.
-
-🚫 Each student has a required minimum number of meaningful PRs each week per the rubric.  Contributing to docs does NOT count as a PR to meet your weekly requirements.
-
 # API Documentation
 
-#### 1️⃣ Backend delpoyed at [🚫name service here](🚫add URL here) <br>
+#### 1️⃣ Backend production deployment at heroku: https://video-journal.herokuapp.com/ <br>
+
+#### 1️⃣ Backend staging deployment at heroku: https://video-journal-staging.herokuapp.com/ <br>
 
 ## 1️⃣ Getting started
 
 To get the server running locally:
-
-🚫 adjust these scripts to match your project
 
 - Clone this repo
 - **yarn install** to install all required dependencies
@@ -30,43 +24,52 @@ To get the server running locally:
 
 ## 2️⃣ Endpoints
 
-🚫This is a placeholder, replace the endpoints, access controll, and descriptioin to match your project
+#### Auth Routes
 
-#### Organization Routes
-
-| Method | Endpoint                | Access Control | Description                                  |
-| ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | owners         | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | owners         | Delete an organization.                      |
+| Method | Endpoint                   | Access Control | Description                             |
+| ------ | -------------------------- | -------------- | --------------------------------------- |
+| POST   | `/api/auth/register`       | unrestricted   | Creates a new user and returns a token. |
+| POST   | `/api/auth/login/username` | unrestricted   | Returns a token.                        |
+| POST   | `/api/auth/login/email`    | unrestricted   | Returns a token.                        |
 
 #### User Routes
 
 | Method | Endpoint                | Access Control      | Description                                        |
 | ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/users/current`        | all users           | Returns info for the logged in user.               |
-| GET    | `/users/org/:userId`    | owners, supervisors | Returns all users for an organization.             |
-| GET    | `/users/:userId`        | owners, supervisors | Returns info for a single user.                    |
-| POST   | `/users/register/owner` | none                | Creates a new user as owner of a new organization. |
-| PUT    | `/users/:userId`        | owners, supervisors |                                                    |
-| DELETE | `/users/:userId`        | owners, supervisors |                                                    |
+| GET    | `/api/users/`           | restricted          | Returns all the users.                             |
+| GET    | `/api/users/:id`        | restricted          | Returns single user by id.                         |
+| GET    | `/api/users/:id/teams`  | restricted          | Returns all of the user's teams.                   |
+| GET    | `/api/users/:id/videos` | restricted          | Returns all of the user's videos.                  |
+| PUT    | `/api/users/:id`        | restricted          | Updates a user's information.                      |
+
+#### Team Routes
+
+| Method | Endpoint                | Access Control      | Description                                        |
+| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
+| GET    | `/api/teams/`           | restricted          | Returns all teams.                                 |
+| GET    | `/api/teams/:id`        | restricted          | Returns single team by id.                         |
+| GET    | `/api/teams/:id/users`  | restricted          | Returns team members by team id.                   |
+| POST   | `/api/teams/`           | restricted          | Creates a new team.                                |
+| POST   | `/api/teams/:id`        | restricted          | Adds a user to a team.                             |
+| PUT    | `/api/teams/:id`        | restricted          | Updates team information.                          |
+
+#### Video Routes
+
+| Method | Endpoint                | Access Control      | Description                                        |
+| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
+| GET    | `/api/videos/`          | restricted          | Returns all videos.                                |
+| GET    | `/api/videos/:id`       | restricted          | Returns single video by owner id, plus prompt.     |
 
 # Data Model
 
-🚫This is just an example. Replace this with your data model
-
-#### 2️⃣ ORGANIZATIONS
+#### ROLES
 
 ---
 
 ```
 {
-  id: UUID
-  name: STRING
-  industry: STRING
-  paid: BOOLEAN
-  customer_id: STRING
-  subscription_id: STRING
+  id: AUTO INCREMENT ID
+  name: STRING, NOT NULLABLE
 }
 ```
 
@@ -76,17 +79,85 @@ To get the server running locally:
 
 ```
 {
-  id: UUID
-  organization_id: UUID foreign key in ORGANIZATIONS table
-  first_name: STRING
-  last_name: STRING
-  role: STRING [ 'owner', 'supervisor', 'employee' ]
-  email: STRING
-  phone: STRING
-  cal_visit: BOOLEAN
-  emp_visit: BOOLEAN
-  emailpref: BOOLEAN
-  phonepref: BOOLEAN
+  id: AUTO INCREMENT ID
+  email: STRING, UNIQUE, NOT NULLABLE
+  username: STRING, UNIQUE, NOT NULLABLE
+  password: STRING, NOT NULLABLE
+  first_name: STRING, NOT NULLABLE
+  last_name: STRING, NOT NULLABLE
+}
+```
+
+#### TEAMS
+
+---
+
+```
+{
+  id: AUTO INCREMENT ID
+  name: STRING, NOT NULLABLE
+  description: STRING, NOT NULLABLE
+  created_at: TIME_STAMP, DEFAULTS_TO(knex.fn.now()), NOT NULLABLE
+  updated_at: TIME_STAMP, DEFAULTS_TO(knex.fn.now()), NOT NULLABLE
+}
+```
+
+#### TEAM_MEMBERS
+
+---
+
+```
+{
+  user_id: FOREIGN KEY
+  team_id: FOREIGN KEY
+  role_id: FOREIGN KEY
+}
+```
+
+#### PROMPTS
+
+---
+
+```
+{
+  id: AUTO INCREMENT ID
+  question: STRING, NOT NULLABLE
+  description: STRING
+  team_id: FOREIGN KEY
+  created_at: TIME_STAMP, DEFAULTS_TO(knex.fn.now()), NOT NULLABLE
+  updated_at: TIME_STAMP, DEFAULTS_TO(knex.fn.now()), NOT NULLABLE
+}
+```
+
+#### VIDEOS
+
+---
+
+```
+{
+  id: AUTO INCREMENT ID
+  owner_id: FOREIGN KEY
+  title: STRING, NOT NULLABLE
+  description: STRING
+  created_at: TIME_STAMP, DEFAULTS_TO(knex.fn.now()), NOT NULLABLE
+  updated_at: TIME_STAMP, DEFAULTS_TO(knex.fn.now()), NOT NULLABLE
+  video_url: STRING, NOT NULLABLE
+  prompt_id: FOREIGN KEY
+}
+```
+
+#### FEEDBACK
+
+---
+
+```
+{
+  id: AUTO INCREMENT ID
+  post: STRING
+  video_id: FOREIGN KEY
+  owner_id: FOREIGN KEY
+  created_at: TIME_STAMP, DEFAULTS_TO(knex.fn.now()), NOT NULLABLE
+  updated_at: TIME_STAMP, DEFAULTS_TO(knex.fn.now()), NOT NULLABLE
 }
 ```
 

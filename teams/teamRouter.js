@@ -4,7 +4,7 @@ const Teams = require("../teams/teamModel.js");
 
 const router = express.Router();
 
-const { validateTeamId } = require("../middleware/middleware");
+const { validateTeamId, validateTeamData } = require("../middleware/middleware");
 
 router.get("/", (req, res) => {
   Teams.find()
@@ -27,6 +27,18 @@ router.get("/:id/users", validateTeamId, (req, res) => {
   Teams.getUsersByTeamId(id)
     .then(users => res.status(200).json(users))
     .catch(err => res.status(500).json({message: "Could not get users for this team", error: err}))
+})
+
+router.post("/", validateTeamData, (req, res) => {
+  const { body } = req;
+
+  Teams.insert(body)
+  .then(team => {
+    // after creating team it adds the team creator to the team with team_manager role
+    Teams.insertUser({ user_id: req.user.id, role_id: 2, team_id: team[0].id})
+    .then(result => res.status(201).json(team[0]))
+  })
+  .catch(err => res.status(500).json({ message: "Could not create team." }))
 })
 
 // Add a user to a team

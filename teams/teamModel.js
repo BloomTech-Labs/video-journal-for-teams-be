@@ -4,6 +4,7 @@ module.exports = {
   find,
   findById,
   findByUserId,
+  insert,
   insertUser,
   update,
   getUsersByTeamId
@@ -20,6 +21,11 @@ function findById(id) {
     .from("teams")
     .where({ id: id })
     .first();
+}
+
+function insert(team) {
+  return db("teams")
+    .insert(team, ["id", "name", "description", "created_at", "updated_at"]);
 }
 
 function findByUserId(user_id) {

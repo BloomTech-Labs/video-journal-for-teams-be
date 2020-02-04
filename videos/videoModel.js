@@ -11,12 +11,23 @@ function find() {
 	return db("videos").select("*");
 }
 
-function findById(id) {
-	return db
-		.select("*")
-		.from("videos")
-		.where({ id: id })
-		.first();
+function findById(video_id) {
+    return db("videos")
+        .join("users", "videos.owner_id", "users.id")
+        .join("prompts", "videos.prompt_id", "prompts.id")
+        .where("videos.id", video_id)
+        .first()
+        .select(
+            "videos.id as video_id",
+            "videos.owner_id as owner_id",
+            "users.first_name as owner_first_name",
+            "users.last_name as owner_last_name",
+            "videos.title as video_title",
+            "videos.description as video_description",
+            "videos.video_url",
+            "videos.created_at",
+            "prompts.question as prompt_question"
+        )
 }
 
 function findByUserId(user_id) {
@@ -27,21 +38,5 @@ function findByUserId(user_id) {
 }
 
 function insert(vidObj) {
-	/* 
-	takes object in this form
-	{
-		"owner_id": 73,
-		"title": "Removal of Drainage Device from Peritoneum, Open Approach",
-		"description": "Removal of Drainage Device from Peritoneum, Open Approach",
-		"created_at": "2020-01-14 14:32:15",
-		"updated_at": "2019-01-24 03:09:02",
-		"video_url": "http://dummyimage.com/204x108.jpg/5fa2dd/ffffff",
-		"prompt_id": 6
-	}
-
-	returns the resulting videos.id
-	 */
 	return db("videos").insert(vidObj, "id");
 }
-
-function clg(...x) { console.log(...x) }
