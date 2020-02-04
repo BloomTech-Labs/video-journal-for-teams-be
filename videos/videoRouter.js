@@ -21,8 +21,25 @@ router.get('/:id', validateVideoId, (req, res) => {
 });
 
 router.post("/", (req, res) => {
-	// const { body } = req.body
-	clg(25, req.body)
+	/* 
+
+	req.body should be an object in this form
+	{
+		"owner_id": 73,
+		"title": "Removal of Drainage Device from Peritoneum, Open Approach",
+		"description": "Removal of Drainage Device from Peritoneum, Open Approach",
+		"created_at": "2020-01-14 14:32:15",
+		"updated_at": "2019-01-24 03:09:02",
+		"video_url": "http://dummyimage.com/204x108.jpg/5fa2dd/ffffff",
+		"prompt_id": 6
+	}
+
+	owner_id and prompt_id must be from the same team
+	owner_id DOES NOT need team admin permission
+	owner_id MUST be logged in and Authz Token in header
+
+	 */
+	
 	Videos.insert(req.body)
 		.then(video => res.status(201).json({ message: "Video creation successful.", id: video }))
 		.catch(err => res.status(500).json({ message: "Could not insert new video.", error: err }))

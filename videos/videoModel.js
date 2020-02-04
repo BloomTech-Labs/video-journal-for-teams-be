@@ -27,7 +27,20 @@ function findByUserId(user_id) {
 }
 
 function insert(vidObj) {
-	clg(30, vidObj)
+	/* 
+	takes object in this form
+	{
+		"owner_id": 73,
+		"title": "Removal of Drainage Device from Peritoneum, Open Approach",
+		"description": "Removal of Drainage Device from Peritoneum, Open Approach",
+		"created_at": "2020-01-14 14:32:15",
+		"updated_at": "2019-01-24 03:09:02",
+		"video_url": "http://dummyimage.com/204x108.jpg/5fa2dd/ffffff",
+		"prompt_id": 6
+	}
+
+	returns the resulting videos.id
+	 */
 	return db("videos").insert(vidObj, "id");
 }
 
