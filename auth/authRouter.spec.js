@@ -245,4 +245,78 @@ describe("Login/Register routes", () => {
       expect(response.status).toEqual(409);
     });
   });
+
+  // Checks if you can successfully make an authenticated request with the tokens returned from each auth endpoint
+
+  describe("auth endpoints should create valid tokens", () => {
+
+    it("authenticated request with register auth token should be successful", async () => {
+
+      const validSignup = {
+        email: "test3@email.com",
+        username: "testUser3",
+        password: "testPassword",
+        first_name: "Test",
+        last_name: "User"
+      };
+
+      return request(server)
+        .post("/api/auth/register")
+        .send(validSignup)
+        .then(res => {
+          const token = res.body.token
+
+          return request(server)
+          .get('/api/users')
+          .set("authorization", token)
+          .then(response => {
+            expect(response.status).toEqual(200);
+          })
+        })
+    });
+
+    it("authenticated request with email login auth token should be successful", async () => {
+      //To test valid signup scenario
+      const validUser = {
+        email: "test2@email.com",
+        password: "testPassword",
+      };
+
+      return request(server)
+        .post("/api/auth/login/email")
+        .send(validUser)
+        .then(res => {
+          const token = res.body.token
+
+          return request(server)
+          .get('/api/users')
+          .set("authorization", token)
+          .then(response => {
+            expect(response.status).toEqual(200);
+          })
+        })
+    });
+
+    it("authenticated request with username login auth token should be successful", async () => {
+      //To test valid signup scenario
+      const validUser = {
+        username: "testUser",
+        password: "testPassword",
+      };
+
+      return request(server)
+        .post("/api/auth/login/username")
+        .send(validUser)
+        .then(res => {
+          const token = res.body.token
+
+          return request(server)
+          .get('/api/users')
+          .set("authorization", token)
+          .then(response => {
+            expect(response.status).toEqual(200);
+          })
+        })
+      });
+    })
 });

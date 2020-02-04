@@ -23,7 +23,7 @@ router.post("/register", validateSignup, function(req, res) {
   //Create new user
   Users.insert(user)
     .then((userId) => {
-      user.id = userId;
+      user.id = userId[0];
       //Login newly created user
       res.status(201).json(loginSuccessBody(user));
     })
