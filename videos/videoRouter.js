@@ -41,7 +41,7 @@ router.post("/", (req, res) => {
 	 */
 	
 	Videos.insert(req.body)
-		.then(video => res.status(201).json({ message: "Video creation successful.", id: video }))
+		.then(video => res.status(201).json({ message: "Video creation successful.", id: video[0] }))
 		.catch(err => res.status(500).json({ message: "Could not insert new video.", error: err }))
 })
 
