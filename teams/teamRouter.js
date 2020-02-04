@@ -36,7 +36,7 @@ router.post("/", validateTeamData, (req, res) => {
   .then(team => {
     // after creating team it adds the team creator to the team with team_manager role
     Teams.insertUser({ user_id: req.user.id, role_id: 2, team_id: team[0].id})
-    .then(result => res.status(201).json(team))
+    .then(result => res.status(201).json(team[0]))
   })
   .catch(err => res.status(500).json({ message: "Could not create team." }))
 })
