@@ -26,6 +26,9 @@ function findByUserId(user_id) {
 		.where({ owner_id: user_id })
 }
 
-function insert(vid_id) {
-	return db("videos").insert(user, "id");
+function insert(vidObj) {
+	clg(30, vidObj)
+	return db("videos").insert(vidObj, "id");
 }
+
+function clg(...x) { console.log(...x) }
