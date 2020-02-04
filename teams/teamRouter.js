@@ -4,7 +4,7 @@ const Teams = require("../teams/teamModel.js");
 
 const router = express.Router();
 
-const { validateTeamId } = require("../middleware/middleware");
+const { validateTeamId, validateTeamData } = require("../middleware/middleware");
 
 router.get("/", (req, res) => {
   Teams.find()
@@ -29,8 +29,7 @@ router.get("/:id/users", validateTeamId, (req, res) => {
     .catch(err => res.status(500).json({message: "Could not get users for this team", error: err}))
 })
 
-router.post("/", (req, res) => {
-  console.log(req.user.id)
+router.post("/", validateTeamData, (req, res) => {
   const { body } = req;
 
   Teams.insert(body)
