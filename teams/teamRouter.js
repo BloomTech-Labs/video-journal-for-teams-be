@@ -33,9 +33,17 @@ router.get("/:id/users", validateTeamId, (req, res) => {
 router.post("/:id", validateTeamId, (req, res) => {
   const { body } = req
 
-  Teams.insertUser(body)
-    .then(count => res.status(201).json(count))
-    .catch(err => res.status(500).json({ message: "Could not add user to team", error: err }))
+  if(body.team_id && body.user_id && body.role_id){
+    Teams.insertUser(body)
+      .then(count => {
+        if (count.rowCount === 1) {
+          res.status(201).json(count)
+        }
+      })
+      .catch(err => res.status(500).json({ message: "Could not add user to team", error: err }))
+  } else {
+    res.status(400).json({message: "Must have team_id, user_id, and role_id"})
+  }
 })
 
 // Update team info

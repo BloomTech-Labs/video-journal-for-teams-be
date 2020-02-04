@@ -108,15 +108,47 @@ describe("Team Data Routes", () => {
 
         expect(response.status).toEqual(400);
       })
-    })
 
-    it("should return array of data", async () => {
-      const response = await request(server)
-        .get("/api/teams/1/users")
-        .set("authorization", token)
+      it("should return array of data", async () => {
+        const response = await request(server)
+          .get("/api/teams/1/users")
+          .set("authorization", token)
 
         expect(Array.isArray(response.body)).toBe(true);
+      })
     })
+
+    describe("POST /teams/:id", () => {
+      it("should return status code 201", async () => {
+        const userToAdd = {
+          "team_id": 1,
+          "user_id": 3,
+          "role_id": 1
+        }
+
+        const response = await request(server)
+          .post("/api/teams/1")
+          .set("authorization", token)
+          .send(userToAdd);
+
+        expect(response.status).toEqual(201);
+      });
+      
+      it("should return status code 400 for missing data", async () => {
+        const userToAdd = {
+          "team_id": 1,
+          "role_id": 1
+        }
+
+        const response = await request(server)
+          .post("/api/teams/1")
+          .set("authorization", token)
+          .send(userToAdd);
+
+        expect(response.status).toEqual(400);
+      });
+
+    })    
 
   })
 })
