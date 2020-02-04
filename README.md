@@ -146,6 +146,21 @@ To get the server running locally:
 }
 ```
 
+#### FEEDBACK
+
+---
+
+```
+{
+  id: AUTO INCREMENT ID
+  post: STRING
+  video_id: FOREIGN KEY
+  owner_id: FOREIGN KEY
+  created_at: TIME_STAMP, DEFAULTS_TO(knex.fn.now()), NOT NULLABLE
+  updated_at: TIME_STAMP, DEFAULTS_TO(knex.fn.now()), NOT NULLABLE
+}
+```
+
 ## 2️⃣ Actions
 
 🚫 This is an example, replace this with the actions that pertain to your backend
