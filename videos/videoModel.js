@@ -1,13 +1,14 @@
 const db = require("../database/dbConfig.js");
 
 module.exports = {
-    find,
-    findById,
-    findByUserId,
+	find,
+	findById,
+	findByUserId,
+	insert
 };
 
 function find() {
-    return db("videos").select("*");
+	return db("videos").select("*");
 }
 
 function findById(video_id) {
@@ -30,8 +31,12 @@ function findById(video_id) {
 }
 
 function findByUserId(user_id) {
-    return db
-        .select("*")
-        .from("videos")
-        .where({ owner_id: user_id })
+	return db
+		.select("*")
+		.from("videos")
+		.where({ owner_id: user_id })
+}
+
+function insert(vidObj) {
+	return db("videos").insert(vidObj, "id");
 }
