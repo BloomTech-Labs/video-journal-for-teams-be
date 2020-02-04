@@ -21,11 +21,13 @@ router.get('/:id', validateVideoId, (req, res) => {
 });
 
 router.post("/", (req, res) => {
-	const { id } = req.params
-
-	Videos.insert(id)
+	// const { body } = req.body
+	clg(25, req.body)
+	Videos.insert(req.body)
 		.then(video => res.status(201).json({ message: "Video creation successful.", id: video }))
 		.catch(err => res.status(500).json({ message: "Could not insert new video.", error: err }))
 })
 
 module.exports = router;
+
+function clg(...x) { console.log(...x) }
