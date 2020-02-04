@@ -1,18 +1,12 @@
-🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline. Feel free to add your own flare to it.
-
-🚫 The numbers 1️⃣ through 3️⃣ next to each item represent the week that part of the docs needs to be comepleted by.  Make sure to delete the numbers by the end of Labs.
-
-🚫 Each student has a required minimum number of meaningful PRs each week per the rubric.  Contributing to docs does NOT count as a PR to meet your weekly requirements.
-
 # API Documentation
 
-#### 1️⃣ Backend delpoyed at [🚫name service here](🚫add URL here) <br>
+#### 1️⃣ Backend production deployment at heroku: https://video-journal.herokuapp.com/ <br>
+
+#### 1️⃣ Backend staging deployment at heroku: https://video-journal-staging.herokuapp.com/ <br>
 
 ## 1️⃣ Getting started
 
 To get the server running locally:
-
-🚫 adjust these scripts to match your project
 
 - Clone this repo
 - **yarn install** to install all required dependencies
@@ -32,13 +26,13 @@ To get the server running locally:
 
 🚫This is a placeholder, replace the endpoints, access controll, and descriptioin to match your project
 
-#### Organization Routes
+#### Auth Routes
 
-| Method | Endpoint                | Access Control | Description                                  |
-| ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | owners         | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | owners         | Delete an organization.                      |
+| Method | Endpoint                   | Access Control | Description                          |
+| ------ | -------------------------- | -------------- | ------------------------------------ |
+| POST   | `/api/auth/register`       | unrestricted   | Adds a new user and returns a token. |
+| POST   | `/api/auth/login/username` | unrestricted   | Returns a token.                     |
+| POST   | `/api/auth/login/email`    | unrestricted   | Returns a token.                     |
 
 #### User Routes
 
