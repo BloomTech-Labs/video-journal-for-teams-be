@@ -29,6 +29,19 @@ router.get("/:id/users", validateTeamId, (req, res) => {
     .catch(err => res.status(500).json({message: "Could not get users for this team", error: err}))
 })
 
+router.post("/", (req, res) => {
+  console.log(req.user.id)
+  const { body } = req;
+
+  Teams.insert(body)
+  .then(team => {
+    // after creating team it adds the team creator to the team with team_manager role
+    Teams.insertUser({ user_id: req.user.id, role_id: 2, team_id: team[0].id})
+    .then(result => res.status(201).json(team))
+  })
+  .catch(err => res.status(500).json({ message: "Could not create team." }))
+})
+
 // Add a user to a team
 router.post("/:id", validateTeamId, (req, res) => {
   const { body } = req
