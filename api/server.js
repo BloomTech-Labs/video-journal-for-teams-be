@@ -9,6 +9,7 @@ const AuthRouter = require("../auth/authRouter.js");
 const UserRouter = require("../users/userRouter.js");
 const TeamRouter = require("../teams/teamRouter.js");
 const VideoRouter = require("../videos/videoRouter.js");
+const InviteRouter = require("../invites/inviteRouter.js");
 
 const server = express();
 
@@ -22,6 +23,7 @@ server.use("/api/auth", AuthRouter);
 server.use("/api/users", passport.authenticate("jwt", {session: false}), UserRouter);
 server.use("/api/teams", passport.authenticate("jwt", {session: false}), TeamRouter);
 server.use("/api/videos", passport.authenticate("jwt", {session: false}), VideoRouter);
+server.use("/api/invites", InviteRouter);
 
 server.get("/", (req, res) => {
   res.status(200).json({ api: "running" });
