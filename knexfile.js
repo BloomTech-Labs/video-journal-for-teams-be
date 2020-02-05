@@ -14,7 +14,7 @@ module.exports = {
   },
   staging: {
     client: "pg",
-    connection: process.env.DATABASE_URL_STAGING,
+    connection: process.env.DATABASE_URL,
     useNullAsDefault: true,
     migrations: {
       directory: "./database/migrations",
