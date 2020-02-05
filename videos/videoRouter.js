@@ -20,6 +20,14 @@ router.get('/:id', validateVideoId, (req, res) => {
 		.catch(err => res.status(500).json({ message: "Could not get video.", error: err }))
 });
 
+router.get("/:id/feedback", validateVideoId, (req, res) => {
+  const { id } = req.params
+
+  Videos.findFeedbackByVideoId(id)
+    .then(feedback => res.status(200).json(feedback))
+    .catch(err => res.status(500).json({ message: "Could not get feedback.", error: err}))
+});
+
 router.post("/", (req, res) => {
 	/* 
 

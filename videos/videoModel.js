@@ -3,7 +3,8 @@ const db = require("../database/dbConfig.js");
 module.exports = {
 	find,
 	findById,
-	findByUserId,
+  findByUserId,
+  findFeedbackByVideoId,
 	insert,
 	update
 };
@@ -35,6 +36,11 @@ function findByUserId(user_id) {
 		.select("*")
 		.from("videos")
 		.where({ owner_id: user_id })
+}
+
+function findFeedbackByVideoId(video_id) {
+  return db("feedback")
+    .where("feedback.video_id", video_id)
 }
 
 function insert(vidObj) {

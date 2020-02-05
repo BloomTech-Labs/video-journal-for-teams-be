@@ -36,7 +36,7 @@ function findByUserId(user_id) {
     .select("teams.id as id", "teams.name as name", "teams.description as description", "teams.created_at as created_at", "teams.updated_at as updated_at", "team_members.role_id as role_id")
 }
 
-// Inset user to a team
+// Insert user to a team
 function insertUser(data) {
   return db("team_members")
     .insert(data);
@@ -49,13 +49,14 @@ function update(id, changes) {
     .update(changes)
 }
 
-// Get users in a spcified team
+// Get users in a specified team
 function getUsersByTeamId(team_id) {
   return db("teams")
     .join("team_members", "teams.id", "team_members.team_id")
     .join("users", "users.id", "team_members.user_id")
     .where("team_members.team_id", team_id)
-    .select("teams.name as team_name", "users.id as user_id", "users.first_name", "users.last_name")
+    .select("teams.name as team_name", "users.id as user_id")
+    .columns(db.raw("users.first_name || ' ' || users.last_name as user_full_name"))
 }
 
 function getPromptsByTeamId(team_id) {

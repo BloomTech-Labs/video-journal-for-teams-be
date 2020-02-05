@@ -56,10 +56,11 @@ To get the server running locally:
 
 #### Video Routes
 
-| Method | Endpoint                | Access Control      | Description                                        |
-| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/api/videos/`          | restricted          | Returns all videos.                                |
-| GET    | `/api/videos/:id`       | restricted          | Returns single video by owner id, plus prompt.     |
+| Method | Endpoint                   | Access Control      | Description                                        |
+| ------ | -------------------------- | ------------------- | -------------------------------------------------- |
+| GET    | `/api/videos/`             | restricted          | Returns all videos.                                |
+| GET    | `/api/videos/:id`          | restricted          | Returns single video by owner id, plus prompt.     |
+| GET    | `/api/videos/:id/feedback` | restricted          | Returns feedback by video id.                      |
 
 # Data Model
 
