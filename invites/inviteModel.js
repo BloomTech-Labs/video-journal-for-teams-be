@@ -2,7 +2,9 @@ const db = require("../database/dbConfig.js");
 
 module.exports = {
 	findByCode,
-	findByTeam
+	findByTeam,
+	insert,
+	update
 };
 
 function findByCode(code) {
@@ -21,3 +23,16 @@ function findByTeam(team_id) {
 		.first();
 }
 
+function insert(code) {
+	return db("team_invite_link").insert(code, ["link", "expires_at"]);
+}
+
+function update(changes) {
+	const id = changes.id;
+	return db('team_invite_link')
+		.where({ id })
+		.update(changes)
+		.then(ct => {
+			return findByCode(changes.code);
+		})
+}
