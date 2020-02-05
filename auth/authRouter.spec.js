@@ -46,6 +46,7 @@ describe("Login/Register routes", () => {
       expect(response.body).toEqual(
         expect.objectContaining({
           user: {
+            id: expect.any(Number),
             email: expect.any(String),
             username: expect.any(String),
             first_name: expect.any(String),
@@ -118,6 +119,7 @@ describe("Login/Register routes", () => {
       expect(response.body).toEqual(
         expect.objectContaining({
           user: {
+            id: expect.any(Number),
             email: expect.any(String),
             username: expect.any(String),
             first_name: expect.any(String),
@@ -196,6 +198,7 @@ describe("Login/Register routes", () => {
       expect(response.body).toEqual(
         expect.objectContaining({
           user: {
+            id: expect.any(Number),
             email: expect.any(String),
             username: expect.any(String),
             first_name: expect.any(String),
