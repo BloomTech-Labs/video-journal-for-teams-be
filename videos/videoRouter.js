@@ -34,14 +34,32 @@ router.post("/", (req, res) => {
 		"prompt_id": 6
 	}
 
-	owner_id and prompt_id must be from the same team
-	owner_id DOES NOT need team admin permission
-	owner_id MUST be logged in and Authz Token in header
+	REQUIREMENTS:
+	* owner_id and prompt_id must be from the same team
+	* owner_id DOES NOT need team admin permission
+	* owner_id MUST be logged in and Authz Token in header
 
 	 */
-	
+
 	Videos.insert(req.body)
 		.then(video => res.status(201).json({ message: "Video creation successful.", id: video[0] }))
+		.catch(err => res.status(500).json({ message: "Could not insert new video.", error: err }))
+})
+
+router.put("/", (req, res) => {
+	/* 
+
+	req.body should be an object in the same form as router.POST
+
+	REQUIREMENTS:
+	* The JSON object MUST contain video.id 
+	* Same as router.post
+
+	 */
+	clg(59, req.body)
+	Videos.update(req.body)
+		// .then(data => clg(62, data))
+		.then(video => res.status(200).json({ message: "Video meta-data edit successful.", video: video }))
 		.catch(err => res.status(500).json({ message: "Could not insert new video.", error: err }))
 })
 
