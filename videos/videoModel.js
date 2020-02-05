@@ -4,7 +4,8 @@ module.exports = {
 	find,
 	findById,
 	findByUserId,
-	insert
+	insert,
+	update
 };
 
 function find() {
@@ -38,4 +39,14 @@ function findByUserId(user_id) {
 
 function insert(vidObj) {
 	return db("videos").insert(vidObj, "id");
+}
+
+function update(changes) {
+	const id = changes.id;
+	return db('videos')
+		.where({ id })
+		.update(changes)
+		.then(ct => {
+			return findById(id);
+		})
 }
