@@ -188,6 +188,32 @@ describe("Video Data Routes", () => {
 					.send(videoChangeData)
 				expect(typeof response.body).toBe("object");
 			})
+    })
+    
+    describe("GET /videos/:id/feedback", () => {
+			it("should return status code 200", async () => {
+				const response = await request(server)
+					.get("/api/videos/1/feedback")
+					.set("authorization", token)
+
+				expect(response.status).toEqual(200);
+			});
+
+			it("should return status code 400 if the team id is invalid", async () => {
+				const response = await request(server)
+					.get("/api/videos/150/feedback")
+					.set("authorization", token)
+
+				expect(response.status).toEqual(400);
+			})
+
+			it("should return a properly formatted JSON object on success", async () => {
+				const response = await request(server)
+					.get("/api/videos/1/feedback")
+					.set("authorization", token)
+
+          expect(Array.isArray(response.body)).toBe(true);
+			})
 		})
 	})
 })
