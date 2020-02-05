@@ -1,7 +1,8 @@
 const db = require("../database/dbConfig.js");
 
 module.exports = {
-	findByCode
+	findByCode,
+	findByTeam
 };
 
 function findByCode(code) {
@@ -11,3 +12,12 @@ function findByCode(code) {
 		.where({ link: code })
 		.first();
 }
+
+function findByTeam(team_id) {
+	return db
+		.select("*")
+		.from("team_invite_link")
+		.where({ team_id: team_id })
+		.first();
+}
+
