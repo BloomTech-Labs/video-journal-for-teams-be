@@ -37,7 +37,7 @@ router.get("/:code", (req, res) => {
 		.catch(err => res.status(500).json({ message: "Could not find that invite code.", error: err }))
 })
 
-router.get("/create/:teamid", (req, res) => {
+router.post("/", (req, res) => {
 
 	// #region docstring 
 	/*
@@ -58,32 +58,24 @@ router.get("/create/:teamid", (req, res) => {
 
 	*/
 	// #endregion 
-
-	const { teamid } = req.params
-
-	Invites.findByTeam(teamid)
+	
+	const { team_id, team_name } = req.body
+	
+	Invites.findByTeam(team_id)
 		.then(invite => {
-			// check expiration
 			const expires = Date.parse(invite.expires_at)
-
-			if (expires < Date.now()) {
-				clg("EXPIRED")
-				res.status(200).json({ message: "Code is EXPIRED", team_id: -2 })
-			}
-		})
-		.then(invite => {
-			// check isValid
-			if (invite.isValid === false) {
-				clg("INVALID")
+			const existing = 0;
+			if (expires > Date.now() && invite.isValid === true) {
+				clg("NOT EXPIRED && isValid")
+				res.status(200).json({ code: invite.link })
+			} else {
+				clg("EITHER EXPIRED or !isValid")
 				res.status(406).json({ message: "Code is INVALID", team_id: -1 })
 			}
 		})
 		.catch(err => {
-			/* 
-			THIS IS NOT ERROR TOWN.
-			if you got here, then 
-			 */
-			res.status(500).json({ message: "Could not find that invite code.", error: err })
+			gencode(team_name)
+			res.status(500).json({ message: "Invite does not exist for that team.", error: err })
 		})
 
 	// let team;
@@ -94,11 +86,11 @@ router.get("/create/:teamid", (req, res) => {
 	// 	.catch(err => res.status(500).json({ message: "Could not get team.", error: err }))
 
 
-	const genCode = (name) => {
+	function genCode (name) {
 		const adj = adjData[rand(adjData.length)];
 	}
 
-	const rand = (max) => {
+	function rand (max) {
 		return Math.floor(Math.random() * Math.floor(max));
 	}
 
