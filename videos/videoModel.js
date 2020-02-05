@@ -20,14 +20,13 @@ function findById(video_id) {
         .select(
             "videos.id",
             "videos.owner_id as owner_id",
-            "users.first_name as owner_first_name",
-            "users.last_name as owner_last_name",
             "videos.title as video_title",
             "videos.description as video_description",
             "videos.video_url",
             "videos.created_at",
             "prompts.question as prompt_question"
         )
+        .columns(db.raw("users.first_name || ' ' || users.last_name as owner_name"))
 }
 
 function findByUserId(user_id) {
