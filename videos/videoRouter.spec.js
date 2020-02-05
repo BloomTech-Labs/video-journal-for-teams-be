@@ -81,7 +81,7 @@ describe("Video Data Routes", () => {
 
 				expect(response.body).toEqual(
 					expect.objectContaining({
-              video_id: expect.any(Number),
+              id: expect.any(Number),
               owner_id: expect.any(Number),
               owner_first_name: expect.any(String),
               owner_last_name: expect.any(String),

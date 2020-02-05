@@ -18,7 +18,7 @@ function findById(video_id) {
         .where("videos.id", video_id)
         .first()
         .select(
-            "videos.id as video_id",
+            "videos.id",
             "videos.owner_id as owner_id",
             "users.first_name as owner_first_name",
             "users.last_name as owner_last_name",
