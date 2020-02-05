@@ -60,7 +60,7 @@ To get the server running locally:
 | ------ | -------------------------- | ------------------- | -------------------------------------------------- |
 | GET    | `/api/videos/`             | restricted          | Returns all videos.                                |
 | GET    | `/api/videos/:id`          | restricted          | Returns single video by owner id, plus prompt.     |
-| GET    | `/api/videos/:id/feedback` | restricted          | Returns feedback by video id.     |
+| GET    | `/api/videos/:id/feedback` | restricted          | Returns feedback by video id.                      |
 
 # Data Model
 
