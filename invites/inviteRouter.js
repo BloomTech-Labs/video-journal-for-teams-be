@@ -6,7 +6,6 @@ const Teams = require("../teams/teamModel.js");
 
 const router = express.Router();
 
-// clg(Teams.findById(13));
 router.get("/:code", (req, res) => {
 
 	/* 
@@ -58,39 +57,54 @@ router.post("/", (req, res) => {
 
 	*/
 	// #endregion 
-	
+
 	const { team_id, team_name } = req.body
-	
+
 	Invites.findByTeam(team_id)
 		.then(invite => {
 			const expires = Date.parse(invite.expires_at)
 			const existing = 0;
 			if (expires > Date.now() && invite.isValid === true) {
-				clg("NOT EXPIRED && isValid")
+				clg("A CODE EXISTS AND IS VIABLE")
 				res.status(200).json({ code: invite.link })
 			} else {
-				clg("EITHER EXPIRED or !isValid")
-				res.status(406).json({ message: "Code is INVALID", team_id: -1 })
+				/* 
+
+				THIS ELSE FOUND A NON-VIABLE CODE
+
+				It will generate, THEN UPDATE EXISTING and return a code.
+
+				 */
+				clg("A CODE EXISTS AND IS EITHER EXPIRED or !isValid")
+
+				genCode(team_name)
 			}
 		})
 		.catch(err => {
-			gencode(team_name)
-			res.status(500).json({ message: "Invite does not exist for that team.", error: err })
+			/* 
+
+			THIS CATCH IS A FAILURE TO FIND A VIABLE EXISTING CODE.
+
+			It will generate, THEN INSERT NEW, then return a code.
+
+			 */
+			
+			genCode(team_name)
+			res.status(500).json({ message: "Invite for that team either doesn't exist, is expired, or is invalid", error: err })
 		})
 
-	// let team;
-	// Teams.findById(id)
-	// 	.then(incoming => {
-	// 		clg(incoming.name)
-	// 	})
-	// 	.catch(err => res.status(500).json({ message: "Could not get team.", error: err }))
+	function genCode(team_name) {
+		let firstword = team_name.split("-")[0]
+		firstword = team_name.split(" ")[0];
 
+		// this is needed again as the first one may not catch it.
+		firstword = team_name.split("-")[0];
 
-	function genCode (name) {
-		const adj = adjData[rand(adjData.length)];
+		const newcode = greek[rand(greek.length)] + greek[rand(greek.length)] + greek[rand(greek.length)];
+		clg(87, `${firstword}-${newcode}`);
 	}
 
-	function rand (max) {
+	function rand(max) {
 		return Math.floor(Math.random() * Math.floor(max));
 	}
 
