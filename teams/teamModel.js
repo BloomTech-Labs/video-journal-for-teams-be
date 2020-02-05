@@ -7,7 +7,8 @@ module.exports = {
   insert,
   insertUser,
   update,
-  getUsersByTeamId
+  getUsersByTeamId,
+  getPromptsByTeamId
 };
 
 function find() {
@@ -55,4 +56,9 @@ function getUsersByTeamId(team_id) {
     .join("users", "users.id", "team_members.user_id")
     .where("team_members.team_id", team_id)
     .select("teams.name as team_name", "users.id as user_id", "users.first_name", "users.last_name")
+}
+
+function getPromptsByTeamId(team_id) {
+  return db("prompts")
+    .where("prompts.team_id", team_id)
 }

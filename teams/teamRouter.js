@@ -29,6 +29,14 @@ router.get("/:id/users", validateTeamId, (req, res) => {
     .catch(err => res.status(500).json({message: "Could not get users for this team", error: err}))
 })
 
+router.get("/:id/prompts", validateTeamId, (req, res) => {
+  const {id} = req.params
+
+  Teams.getPromptsByTeamId(id)
+    .then(users => res.status(200).json(users))
+    .catch(err => res.status(500).json({message: "Could not get prompts for this team", error: err}))
+})
+
 router.post("/", validateTeamData, (req, res) => {
   const { body } = req;
 
