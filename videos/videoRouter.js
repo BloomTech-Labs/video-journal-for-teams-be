@@ -56,7 +56,6 @@ router.put("/", (req, res) => {
 	* Same as router.post
 
 	 */
-	clg(59, req.body)
 	Videos.update(req.body)
 		// .then(data => clg(62, data))
 		.then(video => res.status(200).json({ message: "Video meta-data edit successful.", video: video }))

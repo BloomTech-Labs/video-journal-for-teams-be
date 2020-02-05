@@ -43,13 +43,11 @@ function insert(vidObj) {
 }
 
 function update(changes) {
-	clg(46, changes)
 	const id = changes.id;
 	return db('videos')
 		.where({ id })
 		.update(changes)
 		.then(ct => {
-			console.log(ct);
 			return findById(id);
 		})
 }

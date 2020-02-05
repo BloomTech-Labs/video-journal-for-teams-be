@@ -81,15 +81,15 @@ describe("Video Data Routes", () => {
 
 				expect(response.body).toEqual(
 					expect.objectContaining({
-              video_id: expect.any(Number),
-              owner_id: expect.any(Number),
-              owner_first_name: expect.any(String),
-              owner_last_name: expect.any(String),
-              video_title: expect.any(String),
-              video_description: expect.any(String),
-              video_url: expect.any(String),
-              created_at: expect.any(String),
-              prompt_question: expect.any(String)
+						video_id: expect.any(Number),
+						owner_id: expect.any(Number),
+						owner_first_name: expect.any(String),
+						owner_last_name: expect.any(String),
+						video_title: expect.any(String),
+						video_description: expect.any(String),
+						video_url: expect.any(String),
+						created_at: expect.any(String),
+						prompt_question: expect.any(String)
 					})
 				)
 			})
@@ -139,6 +139,55 @@ describe("Video Data Routes", () => {
 					.set("authorization", token)
 					.send(videoData)
 				expect(Number.isInteger(response.body.id)).toBe(true);
+			})
+		})
+
+		describe("PUT /videos", () => {
+			// data object to send
+			const videoChangeData = {
+				"id": 105,
+				"owner_id": 78,
+				"title": "Removal of Drainage Device from Peritoneum, Open Approach",
+				"description": "Removal of Drainage Device from Peritoneum, Open Approach",
+				"created_at": "2020-01-14 14:32:15",
+				"updated_at": "2019-01-24 03:09:02",
+				"video_url": "http://dummyimage.com/204x108.jpg/5fa2dd/ffffff",
+				"prompt_id": 22
+			}
+
+			it("should return status code 200", async () => {
+				const response = await request(server)
+					.put("/api/videos")
+					.set("authorization", token)
+					.send(videoChangeData)
+				expect(response.status).toEqual(200)
+			})
+
+			it("should be correct incoming JSON object", async () => {
+				const response = await request(server)
+					.post("/api/videos")
+					.set("authorization", token)
+
+				expect(videoChangeData).toEqual(
+					expect.objectContaining({
+						id: expect.any(Number),
+						title: expect.any(String),
+						owner_id: expect.any(Number),
+						description: expect.any(String),
+						created_at: expect.any(String),
+						updated_at: expect.any(String),
+						video_url: expect.any(String),
+						prompt_id: expect.any(Number)
+					})
+				)
+			})
+
+			it("should return an object after db storage", async () => {
+				const response = await request(server)
+					.post("/api/videos")
+					.set("authorization", token)
+					.send(videoChangeData)
+				expect(typeof response.body).toBe("object");
 			})
 		})
 	})
