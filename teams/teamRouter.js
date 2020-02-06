@@ -51,7 +51,8 @@ router.post("/", validateTeamData, (req, res) => {
 
 // Add a user to a team
 router.post("/:id/users", validateTeamId, (req, res) => {
-	const { body } = req;
+  const { id } = req.params;
+  const body = {...req.body, team_id: id}
 
 	if (body.team_id && body.user_id && body.role_id) {
 		Teams.insertUser(body)
