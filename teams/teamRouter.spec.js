@@ -260,5 +260,33 @@ describe("Team Data Routes", () => {
         expect(Array.isArray(response.body)).toBe(true);
       });
     });
+
+    describe("DELETE /teams/:id", () => {
+
+      it("Should return a 200 status code", async () => {
+        const user = {
+          user_id: 4
+        }
+
+        const response = await request(server)
+          .delete("/api/teams/1")
+          .set("authorization", token)
+          .send(user)
+
+          expect(response.status).toEqual(200)
+      })
+
+      it("Should return a 400 status code if no user id provided", async () => {
+        const user = {}
+
+        const response = await request(server)
+          .delete("/api/teams/1")
+          .set("authorization", token)
+          .send(user)
+
+        expect(response.status).toEqual(400)
+      })
+
+    });
   });
 });
