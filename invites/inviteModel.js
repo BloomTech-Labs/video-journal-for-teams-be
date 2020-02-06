@@ -28,6 +28,8 @@ function insert(code) {
 }
 
 function update(changes) {
+	clg(31,changes)
+
 	const id = changes.id;
 	return db('team_invite_link')
 		.where({ id })

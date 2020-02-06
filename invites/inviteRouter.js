@@ -58,50 +58,54 @@ router.post("/", (req, res) => {
 	*/
 	// #endregion 
 
-	const { team_id, team_name } = req.body
+	const { team_id, team_name } = req.body;
 
+	// generate a code ahead of time, and create the db object.
+	const newcode = genCode(team_name);
+	let dbsend = {
+		code: newcode,
+		id: null
+	}
+
+
+	// Invites.insertOrUpdate(team_id)
 	Invites.findByTeam(team_id)
 		.then(invite => {
 			const expires = Date.parse(invite.expires_at)
-			const existing = 0;
+
 			if (expires > Date.now() && invite.isValid === true) {
 				clg("A CODE EXISTS AND IS VIABLE")
 				res.status(200).json({ code: invite.link })
 			} else {
 				/* 
-
-				THIS ELSE FOUND A NON-VIABLE CODE
-
-				It will generate, THEN UPDATE EXISTING and return a code.
-
+				THIS FOUND A NON-VIABLE CODE
+				It will generate, THEN UPDATE EXISTING in the db and return a code.
 				 */
 				clg("A CODE EXISTS AND IS EITHER EXPIRED or !isValid")
-
-				const dbsend = {
-					code: genCode(team_name),
-					id: invite.id
-				}
-				Invites.update(dbsend)
+			}
+		})
+		.then(() => {
+			clg(87, dbsend)
+			Invites.update(dbsend)
 				.then(updated => {
-					clg(86,updated)
+					clg(94, updated)
 				})
 				.catch(err => {
 					clg(err)
 				})
-			}
+			res.status(200).json({ code: newcode })
 		})
 		.catch(err => {
 			/* 
-
 			THIS CATCH IS A FAILURE TO FIND A VIABLE EXISTING CODE.
-
 			It will generate, THEN INSERT NEW, then return a code.
-
 			 */
-			
-			genCode(team_name)
+
+			clg(103, genCode(team_name))
 			res.status(500).json({ message: "Invite for that team either doesn't exist, is expired, or is invalid", error: err })
 		})
+
+
 
 	function genCode(team_name) {
 		// generate a new code using the first part of name and 3 greek characters
@@ -112,7 +116,8 @@ router.post("/", (req, res) => {
 		firstword = team_name.split("-")[0];
 
 		const newcode = greek[rand(greek.length)] + greek[rand(greek.length)] + greek[rand(greek.length)];
-		clg(87, `${firstword}-${newcode}`);
+		clg(118, `${firstword}-${newcode}`);
+		return `${firstword}-${newcode}`;
 	}
 
 	function rand(max) {
