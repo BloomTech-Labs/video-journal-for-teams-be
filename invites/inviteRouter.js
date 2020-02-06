@@ -68,7 +68,7 @@ router.post("/", (req, res) => {
 	}
 
 
-	// Invites.insertOrUpdate(team_id)
+	// Invites.determineCode(team_id)
 	Invites.findByTeam(team_id)
 		.then(invite => {
 			const expires = Date.parse(invite.expires_at)

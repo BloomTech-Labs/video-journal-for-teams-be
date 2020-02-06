@@ -38,3 +38,15 @@ function update(changes) {
 			return findByCode(changes.code);
 		})
 }
+
+function determineCode(changes) {
+	clg(31,changes)
+
+	const id = changes.id;
+	return db('team_invite_link')
+		.where({ id })
+		.update(changes)
+		.then(ct => {
+			return findByCode(changes.code);
+		})
+}
