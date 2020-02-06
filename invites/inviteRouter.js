@@ -62,30 +62,24 @@ router.post("/", (req, res) => {
 
 	// generate a code ahead of time, and create the db object.
 	const newcode = genCode(team_name);
-	let dbsend = {
-		code: newcode,
-		id: null
-	}
 
+	const dbsend = {team_id, team_name, newcode: newcode}
 
-	// Invites.determineCode(team_id)
-	Invites.findByTeam(team_id)
+	Invites.determineCode(dbsend)
 		.then(invite => {
-			const expires = Date.parse(invite.expires_at)
+			clg(68,invite)
+			// const expires = Date.parse(invite.expires_at)
 
-			if (expires > Date.now() && invite.isValid === true) {
-				clg("A CODE EXISTS AND IS VIABLE")
-				res.status(200).json({ code: invite.link })
-			} else {
-				/* 
-				THIS FOUND A NON-VIABLE CODE
-				It will generate, THEN UPDATE EXISTING in the db and return a code.
-				 */
-				clg("A CODE EXISTS AND IS EITHER EXPIRED or !isValid")
-			}
-		})
-		.then(() => {
-			clg(87, dbsend)
+			// if (expires > Date.now() && invite.isValid === true) {
+			// 	clg("A CODE EXISTS AND IS VIABLE")
+			// 	res.status(200).json({ code: invite.link })
+			// } else {
+			// 	/* 
+			// 	THIS FOUND A NON-VIABLE CODE
+			// 	It will generate, THEN UPDATE EXISTING in the db and return a code.
+			// 	 */
+			// 	clg("A CODE EXISTS AND IS EITHER EXPIRED or !isValid")
+			// }
 			Invites.update(dbsend)
 				.then(updated => {
 					clg(94, updated)
@@ -95,16 +89,17 @@ router.post("/", (req, res) => {
 				})
 			res.status(200).json({ code: newcode })
 		})
+		.then((incoming) => {
+		})
 		.catch(err => {
 			/* 
 			THIS CATCH IS A FAILURE TO FIND A VIABLE EXISTING CODE.
 			It will generate, THEN INSERT NEW, then return a code.
 			 */
 
-			clg(103, genCode(team_name))
+			clg(103,"\n\n")
 			res.status(500).json({ message: "Invite for that team either doesn't exist, is expired, or is invalid", error: err })
 		})
-
 
 
 	function genCode(team_name) {
