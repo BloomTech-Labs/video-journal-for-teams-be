@@ -23,26 +23,40 @@ function findByTeam(team_id) {
 		.first();
 }
 
-function insert(code) {
-	return db("team_invite_link").insert(code, ["link", "expires_at"]);
+function insert(insertion) {
+	clg(27, insertion)
+	const {team_id, newcode} = insertion;
+	return db("team_invite_link")
+		.insert({
+			team_id,
+			link: newcode,
+			isValid: true,
+			created_at: new Date(Date.now()),
+			expires_at: expiration()
+		})
+		.then(() => {
+			return findByCode(newcode)
+		})
 }
 
 function update(changes) {
-	clg(31, changes)
-	clg(32, new Date(Date.now()));
-
-	const validtime = 86400000; // 1 day in ms
 	const {team_id, newcode} = changes;
 	return db('team_invite_link')
 		.where({ team_id })
 		.update({ 
 			link: newcode,
-			expires_at: new Date(Date.now() + validtime),
+			expires_at: expiration(),
 			isValid: true
 		})
 		.then(() => {
 			return findByCode(newcode);
 		})
+}
+
+function expiration() {
+	// const validtime = 86400000; // 1 day in ms
+	const validtime = 5000; // 5s in ms
+	return new Date(Date.now() + validtime)
 }
 
 function clg(...x) { console.log(...x) }

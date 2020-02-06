@@ -67,13 +67,13 @@ router.post("/", (req, res) => {
 
 	Invites.findByTeam(team_id)
 		.then(invite => {
-			clg(68, invite)
+			clg(70, invite)
 			const expires = Date.parse(invite.expires_at)
 
 			if (expires > Date.now() && invite.isValid === true) {
 				clg("A CODE EXISTS AND IS VIABLE")
 				res.status(200).json(invite)
-			} else {
+			} else if (expires < Date.now() || invite.isValid === false) {
 				/* 
 				THIS FOUND A NON-VIABLE CODE
 				It will use the generated code to
@@ -83,7 +83,7 @@ router.post("/", (req, res) => {
 				Invites.update(dbsend)
 					.then(updated => {
 						clg(85, updated)
-						res.status(200).json({ code: updated })
+						res.status(200).json(updated)
 					})
 					.catch(err => {
 						clg(89, err)
@@ -101,8 +101,22 @@ router.post("/", (req, res) => {
 			INSERT NEW in the db then return the code.
 			 */
 
-			clg(103, "\n\n")
-			res.status(500).json({ message: "Invite for that team either doesn't exist, is expired, or is invalid", error: err })
+			Invites.insert(dbsend)
+			.then(inserted => {
+				clg(85, inserted)
+				res.status(200).json(inserted)
+			})
+			.catch(err => {
+				clg(89, err)
+				// res.status(500).json({
+				// 	message: "TEAM DID NOT HAVE AN INVITE CODE.",
+				// 	error: `Insert new invite code error: ${err}`
+				// })
+			})
+
+			res.status(500).json({
+				message: "Either that team doesn't exist, or the Invite code is expired or invalid.",
+				error: err })
 		})
 
 
@@ -115,7 +129,7 @@ router.post("/", (req, res) => {
 		firstword = team_name.split("-")[0];
 
 		const newcode = greek[rand(greek.length)] + greek[rand(greek.length)] + greek[rand(greek.length)];
-		clg(118, `${firstword}-${newcode}`);
+		// clg(118, `${firstword}-${newcode}`);
 		return `${firstword}-${newcode}`;
 	}
 
