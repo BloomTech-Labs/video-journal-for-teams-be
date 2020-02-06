@@ -273,7 +273,7 @@ describe("Team Data Routes", () => {
           .set("authorization", token)
           .send(user)
 
-          expect(response.status).toEqual(200)
+        expect(response.status).toEqual(200)
       })
 
       it("Should return a 400 status code if no user id provided", async () => {

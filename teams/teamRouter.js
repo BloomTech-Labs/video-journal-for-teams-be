@@ -7,99 +7,99 @@ const router = express.Router();
 const { validateTeamId, validateTeamData } = require("../middleware/middleware");
 
 router.get("/", (req, res) => {
-  Teams.find()
-    .then(teams => res.status(200).json(teams))
-    .catch(err => res.status(500).json({ message: "Could not get teams.", error: err }))
+	Teams.find()
+		.then(teams => res.status(200).json(teams))
+		.catch(err => res.status(500).json({ message: "Could not get teams.", error: err }))
 })
 
 router.get("/:id", validateTeamId, (req, res) => {
-  const { id } = req.params
+	const { id } = req.params
 
-  Teams.findById(id)
-    .then(team => res.status(200).json(team))
-    .catch(err => res.status(500).json({ message: "Could not get team.", error: err }))
+	Teams.findById(id)
+		.then(team => res.status(200).json(team))
+		.catch(err => res.status(500).json({ message: "Could not get team.", error: err }))
 })
 
 // Get users in a team
 router.get("/:id/users", validateTeamId, (req, res) => {
-  const { id } = req.params
+	const { id } = req.params
 
-  Teams.getUsersByTeamId(id)
-    .then(users => res.status(200).json(users))
-    .catch(err => res.status(500).json({ message: "Could not get users for this team", error: err }))
+	Teams.getUsersByTeamId(id)
+		.then(users => res.status(200).json(users))
+		.catch(err => res.status(500).json({ message: "Could not get users for this team", error: err }))
 })
 
 router.get("/:id/prompts", validateTeamId, (req, res) => {
-  const { id } = req.params
+	const { id } = req.params
 
-  Teams.getPromptsByTeamId(id)
-    .then(users => res.status(200).json(users))
-    .catch(err => res.status(500).json({ message: "Could not get prompts for this team", error: err }))
+	Teams.getPromptsByTeamId(id)
+		.then(users => res.status(200).json(users))
+		.catch(err => res.status(500).json({ message: "Could not get prompts for this team", error: err }))
 })
 
 router.post("/", validateTeamData, (req, res) => {
-  const { body } = req;
+	const { body } = req;
 
-  Teams.insert(body)
-    .then(team => {
-      // after creating team it adds the team creator to the team with team_manager role
-      Teams.insertUser({ user_id: req.user.id, role_id: 2, team_id: team[0].id })
-        .then(result => res.status(201).json(team[0]))
-    })
-    .catch(err => res.status(500).json({ message: "Could not create team." }))
+	Teams.insert(body)
+		.then(team => {
+			// after creating team it adds the team creator to the team with team_manager role
+			Teams.insertUser({ user_id: req.user.id, role_id: 2, team_id: team[0].id })
+				.then(result => res.status(201).json(team[0]))
+		})
+		.catch(err => res.status(500).json({ message: "Could not create team." }))
 })
 
 // Add a user to a team
 router.post("/:id", validateTeamId, (req, res) => {
-  const { body } = req;
+	const { body } = req;
 
-  if (body.team_id && body.user_id && body.role_id) {
-    Teams.insertUser(body)
-      .then(count => {
-        if (count.rowCount === 1) {
-          res.status(201).json(count)
-        }
-      })
-      .catch(err => {
-        res.status(500).json({ message: "Could not add user to team", error: err })
-      })
-  } else {
-    res.status(400).json({ message: "Must have team_id, user_id, and role_id" })
-  }
+	if (body.team_id && body.user_id && body.role_id) {
+		Teams.insertUser(body)
+			.then(count => {
+				if (count.rowCount === 1) {
+					res.status(201).json(count)
+				}
+			})
+			.catch(err => {
+				res.status(500).json({ message: "Could not add user to team", error: err })
+			})
+	} else {
+		res.status(400).json({ message: "Must have team_id, user_id, and role_id" })
+	}
 })
 
 // Delete a user from a team
 router.delete("/:id", validateTeamId, (req, res) => {
-  const teamId = req.params.id;
-  const userId = req.body.user_id;
+	const teamId = req.params.id;
+	const userId = req.body.user_id;
 
-  if(userId) {
-    Teams.remove(userId, teamId)
-      .then(removed => {
-        res.status(200).json(removed);
-      })
-      .catch(err => {
-        res.status(500).json({ message: "Could not delete user", error: err });
-      })
-  } else {
-    res.status(400).json({message: "Please enter a user id to delete", error: err});
-  }
+	if (userId) {
+		Teams.remove(userId, teamId)
+			.then(removed => {
+				res.status(200).json(removed);
+			})
+			.catch(err => {
+				res.status(500).json({ message: "Could not delete user", error: err });
+			})
+	} else {
+		res.status(400).json({ message: "Please enter a user id to delete", error: err });
+	}
 })
 
 // Update team info
 router.put("/:id", validateTeamId, (req, res) => {
-  const updates = { ...req.body, updated_at: new Date(Date.now()).toISOString() }
-  const { id } = req.params
+	const updates = { ...req.body, updated_at: new Date(Date.now()).toISOString() }
+	const { id } = req.params
 
-  Teams.update(id, updates)
-    .then(count => {
-      if (count > 0) {
-        res.status(200).json(count)
-      } else {
-        res.status(404).json({ message: 'That team id is not available for update.' })
-      }
-    })
-    .catch(err => res.status(500).json({ message: "Could not update team information", error: err }))
+	Teams.update(id, updates)
+		.then(count => {
+			if (count > 0) {
+				res.status(200).json(count)
+			} else {
+				res.status(404).json({ message: 'That team id is not available for update.' })
+			}
+		})
+		.catch(err => res.status(500).json({ message: "Could not update team information", error: err }))
 })
 
 module.exports = router;
