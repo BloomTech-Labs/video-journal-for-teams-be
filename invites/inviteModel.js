@@ -4,8 +4,7 @@ module.exports = {
 	findByCode,
 	findByTeam,
 	insert,
-	update,
-	determineCode
+	update
 };
 
 function findByCode(code) {
@@ -30,28 +29,20 @@ function insert(code) {
 
 function update(changes) {
 	clg(31, changes)
-	return
-	const id = changes.id;
-	// return db('team_invite_link')
-	// 	.where({ id })
-	// 	.update(changes)
-	// 	.then(ct => {
-	// 		return findByCode(changes.code);
-	// 	})
-}
+	clg(32, new Date(Date.now()));
 
-function determineCode(changes) {
-	const {team_id, team_name, newcode} = changes;
-	clg(45,team_id)
-	const gett = findByTeam(team_id);
-	return (gett)
-	const id = changes.id;
-	// return db('team_invite_link')
-	// 	.where({ id })
-	// 	.update(changes)
-	// 	.then(ct => {
-	// 		return findByCode(changes.code);
-	// 	})
+	const validtime = 86400000; // 1 day in ms
+	const {team_id, newcode} = changes;
+	return db('team_invite_link')
+		.where({ team_id })
+		.update({ 
+			link: newcode,
+			expires_at: new Date(Date.now() + validtime),
+			isValid: true
+		})
+		.then(() => {
+			return findByCode(newcode);
+		})
 }
 
 function clg(...x) { console.log(...x) }

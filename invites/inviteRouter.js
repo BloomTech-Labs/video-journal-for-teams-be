@@ -63,41 +63,45 @@ router.post("/", (req, res) => {
 	// generate a code ahead of time, and create the db object.
 	const newcode = genCode(team_name);
 
-	const dbsend = {team_id, team_name, newcode: newcode}
+	const dbsend = { team_id, newcode: newcode }
 
-	Invites.determineCode(dbsend)
+	Invites.findByTeam(team_id)
 		.then(invite => {
-			clg(68,invite)
-			// const expires = Date.parse(invite.expires_at)
+			clg(68, invite)
+			const expires = Date.parse(invite.expires_at)
 
-			// if (expires > Date.now() && invite.isValid === true) {
-			// 	clg("A CODE EXISTS AND IS VIABLE")
-			// 	res.status(200).json({ code: invite.link })
-			// } else {
-			// 	/* 
-			// 	THIS FOUND A NON-VIABLE CODE
-			// 	It will generate, THEN UPDATE EXISTING in the db and return a code.
-			// 	 */
-			// 	clg("A CODE EXISTS AND IS EITHER EXPIRED or !isValid")
-			// }
-			Invites.update(dbsend)
-				.then(updated => {
-					clg(94, updated)
-				})
-				.catch(err => {
-					clg(err)
-				})
-			res.status(200).json({ code: newcode })
-		})
-		.then((incoming) => {
+			if (expires > Date.now() && invite.isValid === true) {
+				clg("A CODE EXISTS AND IS VIABLE")
+				res.status(200).json(invite)
+			} else {
+				/* 
+				THIS FOUND A NON-VIABLE CODE
+				It will use the generated code to
+				UPDATE EXISTING in the db and return the code.
+				 */
+				clg("A CODE EXISTS AND IS EITHER EXPIRED or !isValid")
+				Invites.update(dbsend)
+					.then(updated => {
+						clg(85, updated)
+						res.status(200).json({ code: updated })
+					})
+					.catch(err => {
+						clg(89, err)
+						res.status(500).json({
+							message: "A CODE EXISTS AND IS EITHER EXPIRED or !isValid",
+							error: `Update existing error: ${err}`
+						})
+					})
+			}
 		})
 		.catch(err => {
 			/* 
-			THIS CATCH IS A FAILURE TO FIND A VIABLE EXISTING CODE.
-			It will generate, THEN INSERT NEW, then return a code.
+			THIS CATCH IS A FAILURE TO FIND AN EXISTING, VIABLE CODE.
+			It will use the generated code to
+			INSERT NEW in the db then return the code.
 			 */
 
-			clg(103,"\n\n")
+			clg(103, "\n\n")
 			res.status(500).json({ message: "Invite for that team either doesn't exist, is expired, or is invalid", error: err })
 		})
 
