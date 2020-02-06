@@ -53,6 +53,8 @@ To get the server running locally:
 | POST   | `/api/teams/`           | restricted          | Creates a new team.                                |
 | POST   | `/api/teams/:id`        | restricted          | Adds a user to a team.                             |
 | PUT    | `/api/teams/:id`        | restricted          | Updates team information.                          |
+| DELETE | `/api/teams/:id`        | restricted          | Deletes a user from a team.
+    |
 
 #### Video Routes
 
