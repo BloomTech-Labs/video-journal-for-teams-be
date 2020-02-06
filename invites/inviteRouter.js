@@ -70,10 +70,13 @@ router.post("/", (req, res) => {
 			clg(70, invite)
 			const expires = Date.parse(invite.expires_at)
 
+			if (invite === undefined) {clg("invite undef")}
+
 			if (expires > Date.now() && invite.isValid === true) {
 				clg("A CODE EXISTS AND IS VIABLE")
 				res.status(200).json(invite)
-			} else if (expires < Date.now() || invite.isValid === false) {
+			}
+			if (expires < Date.now() || invite.isValid === false) {
 				/* 
 				THIS FOUND A NON-VIABLE CODE
 				It will use the generated code to
@@ -88,8 +91,8 @@ router.post("/", (req, res) => {
 					.catch(err => {
 						clg(89, err)
 						res.status(500).json({
-							message: "A CODE EXISTS AND IS EITHER EXPIRED or !isValid",
-							error: `Update existing error: ${err}`
+							message: "Update existing invite code error",
+							error: `${err}`
 						})
 					})
 			}
@@ -103,20 +106,18 @@ router.post("/", (req, res) => {
 
 			Invites.insert(dbsend)
 			.then(inserted => {
-				clg(85, inserted)
+				clg(109, inserted)
 				res.status(200).json(inserted)
 			})
 			.catch(err => {
-				clg(89, err)
-				// res.status(500).json({
-				// 	message: "TEAM DID NOT HAVE AN INVITE CODE.",
-				// 	error: `Insert new invite code error: ${err}`
-				// })
+				clg(113, err)
+				res.status(500).json({
+					message: "Insert new invite code error: ",
+					error: `error:${err}`
+				})
 			})
 
-			res.status(500).json({
-				message: "Either that team doesn't exist, or the Invite code is expired or invalid.",
-				error: err })
+			clg(120,"Bottom of Invites/POST: \nThat team invitation doesn't exist. One will be made and sent.")
 		})
 
 
