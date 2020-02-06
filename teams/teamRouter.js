@@ -76,7 +76,12 @@ router.delete("/:id/users", validateTeamId, (req, res) => {
 	if (userId) {
 		Teams.remove(userId, teamId)
 			.then(count => {
-				res.status(200).json({count: count, message: "User has been removed successfully."});
+				if(count > 0) {
+					res.status(200).json({ count: count, message: "User has been removed successfully." });
+				} else {
+					res.status(404).json({ count: count, message: "User not found in team." });
+				}
+				
 			})
 			.catch(err => {
 				res.status(500).json({ message: "Could not delete user", error: err });
