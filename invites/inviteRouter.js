@@ -70,23 +70,27 @@ router.post("/", (req, res) => {
 			clg(70, invite)
 			const expires = Date.parse(invite.expires_at)
 
-			if (invite === undefined) {clg("invite undef")}
+			if (invite === undefined) { clg("invite undef") }
 
 			if (expires > Date.now() && invite.isValid === true) {
+				/* 
+					THIS FOUND A VIABLE CODE
+					It will do nothing but return the existing code.
+				 */
 				clg("A CODE EXISTS AND IS VIABLE")
-				res.status(200).json(invite)
+				res.status(200).json({ msg: "Existing, valid invite code", ...invite })
 			}
 			if (expires < Date.now() || invite.isValid === false) {
 				/* 
-				THIS FOUND A NON-VIABLE CODE
-				It will use the generated code to
-				UPDATE EXISTING in the db and return the code.
+					THIS FOUND A NON-VIABLE CODE
+					It will use the generated code to
+					UPDATE EXISTING in the db and return the code.
 				 */
 				clg("A CODE EXISTS AND IS EITHER EXPIRED or !isValid")
 				Invites.update(dbsend)
 					.then(updated => {
 						clg(85, updated)
-						res.status(200).json(updated)
+						res.status(200).json({ msg: "Update of expired or invalid successful", ...updated })
 					})
 					.catch(err => {
 						clg(89, err)
@@ -99,25 +103,24 @@ router.post("/", (req, res) => {
 		})
 		.catch(err => {
 			/* 
-			THIS CATCH IS A FAILURE TO FIND AN EXISTING, VIABLE CODE.
-			It will use the generated code to
-			INSERT NEW in the db then return the code.
+				THIS CATCH IS A FAILURE TO FIND AN EXISTING, VIABLE CODE.
+				It will use the generated code to
+				INSERT NEW in the db then return the code.
 			 */
-
 			Invites.insert(dbsend)
-			.then(inserted => {
-				clg(109, inserted)
-				res.status(200).json(inserted)
-			})
-			.catch(err => {
-				clg(113, err)
-				res.status(500).json({
-					message: "Insert new invite code error: ",
-					error: `error:${err}`
+				.then(inserted => {
+					clg(109, inserted)
+					res.status(200).json({ msg: "Creation successful", ...inserted })
 				})
-			})
+				.catch(err => {
+					clg(113, err)
+					res.status(500).json({
+						message: "Insert new invite code error: ",
+						error: `error:${err}`
+					})
+				})
 
-			clg(120,"Bottom of Invites/POST: \nThat team invitation doesn't exist. One will be made and sent.")
+			clg(120, "Bottom of Invites/POST: \nThat team invitation doesn't exist. One will be made and sent.")
 		})
 
 
