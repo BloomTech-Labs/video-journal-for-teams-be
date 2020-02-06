@@ -73,13 +73,17 @@ router.delete("/:id", validateTeamId, (req, res) => {
   const teamId = req.params.id;
   const userId = req.body.user_id;
 
-  Teams.remove(userId, teamId)
-    .then(removed => {
-      res.status(200).json(removed);
-    })
-    .catch(err => {
-      res.status(500).json({ message: "Could not delete user", error: err });
-    })
+  if(userId) {
+    Teams.remove(userId, teamId)
+      .then(removed => {
+        res.status(200).json(removed);
+      })
+      .catch(err => {
+        res.status(500).json({ message: "Could not delete user", error: err });
+      })
+  } else {
+    res.status(400).json({message: "Please enter a user id to delete", error: err});
+  }
 })
 
 // Update team info
