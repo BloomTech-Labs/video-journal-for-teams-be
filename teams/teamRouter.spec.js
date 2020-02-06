@@ -169,7 +169,7 @@ describe("Team Data Routes", () => {
       });
     })
 
-    describe("POST /teams/:id", () => {
+    describe("POST /teams/:id/users", () => {
 
       it("should return status code 201", async () => {
         const userToAdd = {
@@ -179,7 +179,7 @@ describe("Team Data Routes", () => {
         }
 
         const response = await request(server)
-          .post("/api/teams/1")
+          .post("/api/teams/1/users")
           .set("authorization", token)
           .send(userToAdd);
 
@@ -193,7 +193,7 @@ describe("Team Data Routes", () => {
         }
 
         const response = await request(server)
-          .post("/api/teams/1")
+          .post("/api/teams/1/users")
           .set("authorization", token)
           .send(userToAdd);
 
@@ -261,7 +261,7 @@ describe("Team Data Routes", () => {
       });
     });
 
-    describe("DELETE /teams/:id", () => {
+    describe("DELETE /teams/:id/users", () => {
 
       it("Should return a 200 status code", async () => {
         const user = {
@@ -269,7 +269,7 @@ describe("Team Data Routes", () => {
         }
 
         const response = await request(server)
-          .delete("/api/teams/1")
+          .delete("/api/teams/1/users")
           .set("authorization", token)
           .send(user)
 
@@ -280,7 +280,7 @@ describe("Team Data Routes", () => {
         const user = {}
 
         const response = await request(server)
-          .delete("/api/teams/1")
+          .delete("/api/teams/1/users")
           .set("authorization", token)
           .send(user)
 

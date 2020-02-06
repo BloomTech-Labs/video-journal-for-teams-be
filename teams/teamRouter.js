@@ -50,7 +50,7 @@ router.post("/", validateTeamData, (req, res) => {
 })
 
 // Add a user to a team
-router.post("/:id", validateTeamId, (req, res) => {
+router.post("/:id/users", validateTeamId, (req, res) => {
 	const { body } = req;
 
 	if (body.team_id && body.user_id && body.role_id) {
@@ -69,7 +69,7 @@ router.post("/:id", validateTeamId, (req, res) => {
 })
 
 // Delete a user from a team
-router.delete("/:id", validateTeamId, (req, res) => {
+router.delete("/:id/users", validateTeamId, (req, res) => {
 	const teamId = req.params.id;
 	const userId = req.body.user_id;
 
