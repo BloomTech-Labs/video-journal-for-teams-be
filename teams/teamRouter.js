@@ -38,7 +38,7 @@ router.get("/:id/prompts", validateTeamId, (req, res) => {
 		.catch(err => res.status(500).json({ message: "Could not get prompts for this team", error: err }))
 })
 
-// GET team videos
+// GET team videos sorted by prompt id
 router.get("/:id/videos", validateTeamId, (req, res) => {
 	const { id } = req.params
 
