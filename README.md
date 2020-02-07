@@ -73,7 +73,11 @@ To get the server running locally:
 | GET    | `/api/invites/:code`			| open | Returns team_id. -1==Invalid, -2==Expired 
 | POST   | `/api/invites/`          | open | Returns Invite object with a simple status message .
 
-#### Invitiation 
+#### Avatar Routes
+
+| Method | Endpoint                   | Access Control      | Description                                        |
+| ------ | -------------------------- | ------------------- | -------------------------------------------------- |
+| GET    | `/api/avatars/`			      | open                | Returns public avatars.
 
 ---
 # Data Model
@@ -189,6 +193,17 @@ To get the server running locally:
 	isValid: BOOL
 	created_at: TIMESTAMP
 	expires_at: TIMESTAMP.
+}
+```
+
+#### AVATARS
+
+---
+
+```
+{
+	id: AUTO INCREMENT ID
+	src: STRING
 }
 ```
 
