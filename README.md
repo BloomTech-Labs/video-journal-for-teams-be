@@ -44,17 +44,17 @@ To get the server running locally:
 
 #### Team Routes
 
-| Method | Endpoint                | Access Control      | Description                                        |
-| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/api/teams/`           | restricted          | Returns all teams.                                 |
-| GET    | `/api/teams/:id`        | restricted          | Returns single team by id.                         |
-| GET    | `/api/teams/:id/users`  | restricted          | Returns team members by team id.                   |
-| GET    | `/api/teams/:id/prompts`| restricted          | Returns prompts by team id.                        |
-| GET    | `/api/teams/:id/videos` | restricted          | Returns videos by team id.                         |
-| POST   | `/api/teams/`           | restricted          | Creates a new team.                                |
-| POST   | `/api/teams/:id/users`  | restricted          | Adds a user to a team.                             |
-| PUT    | `/api/teams/:id`        | restricted          | Updates team information.                          |
-| DELETE | `/api/teams/:id/users`  | restricted          | Deletes a user from a team.                        |
+| Method | Endpoint                | Access Control      | Description                                          |
+| ------ | ----------------------- | ------------------- | ---------------------------------------------------- |
+| GET    | `/api/teams/`           | restricted          | Returns all teams.                                   |
+| GET    | `/api/teams/:id`        | restricted          | Returns single team by id.                           |
+| GET    | `/api/teams/:id/users`  | restricted          | Returns team members by team id.                     |
+| GET    | `/api/teams/:id/prompts`| restricted          | Returns prompts by team id.                          |
+| GET    | `/api/teams/:id/videos` | restricted          | Returns prompts with nested videos array by team id. |
+| POST   | `/api/teams/`           | restricted          | Creates a new team.                                  |
+| POST   | `/api/teams/:id/users`  | restricted          | Adds a user to a team.                               |
+| PUT    | `/api/teams/:id`        | restricted          | Updates team information.                            |
+| DELETE | `/api/teams/:id/users`  | restricted          | Deletes a user from a team.                          |
 
 #### Video Routes
 
