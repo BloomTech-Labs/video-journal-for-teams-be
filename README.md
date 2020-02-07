@@ -61,9 +61,21 @@ To get the server running locally:
 | Method | Endpoint                   | Access Control      | Description                                        |
 | ------ | -------------------------- | ------------------- | -------------------------------------------------- |
 | GET    | `/api/videos/`             | restricted          | Returns all videos.                                |
+| POST    | `/api/videos/`            | restricted          | Adds a new video.                                |
+| PUT    | `/api/videos/`             | restricted          | Updates info on and existing video. |
 | GET    | `/api/videos/:id`          | restricted          | Returns single video by owner id, plus prompt.     |
 | GET    | `/api/videos/:id/feedback` | restricted          | Returns feedback by video id.                      |
 
+#### Invitation Routes
+
+| Method | Endpoint                   | Access Control      | Description                                        |
+| ------ | -------------------------- | ------------------- | -------------------------------------------------- |
+| GET    | `/api/invites/:code`			| open | Returns team_id. -1==Invalid, -2==Expired 
+| POST   | `/api/invites/`          | open | Returns Invite object with a simple status message .
+
+#### Invitiation 
+
+---
 # Data Model
 
 #### ROLES
@@ -162,6 +174,21 @@ To get the server running locally:
   owner_id: FOREIGN KEY
   created_at: TIME_STAMP, DEFAULTS_TO(knex.fn.now()), NOT NULLABLE
   updated_at: TIME_STAMP, DEFAULTS_TO(knex.fn.now()), NOT NULLABLE
+}
+```
+
+#### INVITATION CODE
+
+---
+
+```
+{
+	id: AUTO INCREMENT ID
+	team_id: FOREIGN KEY
+	link: STRING
+	isValid: BOOL
+	created_at: TIMESTAMP
+	expires_at: TIMESTAMP.
 }
 ```
 

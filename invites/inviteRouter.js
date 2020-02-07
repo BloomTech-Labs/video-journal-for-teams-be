@@ -41,20 +41,42 @@ router.post("/", (req, res) => {
 	// #region docstring 
 	/*
 
-	:teamid			team_id for invite generation (team_invite_link.team_id)
+	REQUIRES: 
+		req.body should be an object in this form: 
+		{
+			"team_id": 14,
+			"team_name": "McClure-Terry"
+		}
 
-	IF table team_invite_link:
-	* .team_id exists 
-	* if so, .isValid === true
-	* if so, .expires_at has not passed
-	THEN 
-	* respond to API with existing .link
+	WHAT IT DOES: 
+		IF table team_invite_link:
+		* .team_id exists 
+		* if .expires_at has not passed AND .isValid === true
+		THEN 
+		* respond to API with existing .link
 
-	ELSE
-	* generate code
-	* send to db
-	* respond to API with generated .link
+		ELSE
+		* if invite exists
+			* update the record with a new code, isValid, new expiration
+		* if no invite exists
+			* create new record
+		
+		IN ALL CASES respond with a full data object:
+		{
+			msg: [readable info]
+			id: 14,
+			team_id: 14,
+			link: 'McClure-UpsilonAlphaAlpha',
+			isValid: true,
+			created_at: 2020-01-14T03:49:04.000Z,
+			expires_at: 2020-02-06T18:29:10.188Z
+		}
 
+	INVITE CODE GENERATION:
+		* Breaks the team name on dashes and spaces
+		* Uses the first element remaining from team name
+		* Generates 3 greek letters
+		* Creates a single word: McClure-ThetaPhiTau
 	*/
 	// #endregion 
 
