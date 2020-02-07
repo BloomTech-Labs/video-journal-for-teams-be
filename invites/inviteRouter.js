@@ -60,6 +60,10 @@ router.post("/", (req, res) => {
 
 	const { team_id, team_name } = req.body;
 
+	if (!team_id || !team_name) {
+		res.status(400).json({ msg: "Malformed incoming data" })
+	}
+
 	// generate a code ahead of time, and create the db object.
 	const newcode = genCode(team_name);
 
@@ -67,7 +71,6 @@ router.post("/", (req, res) => {
 
 	Invites.findByTeam(team_id)
 		.then(invite => {
-			clg(70, invite)
 			const expires = Date.parse(invite.expires_at)
 
 			if (invite === undefined) { clg("invite undef") }
@@ -113,14 +116,18 @@ router.post("/", (req, res) => {
 					res.status(200).json({ msg: "Creation successful", ...inserted })
 				})
 				.catch(err => {
-					clg(113, err)
-					res.status(500).json({
-						message: "Insert new invite code error: ",
-						error: `error:${err}`
-					})
+					// clg(113, err.detail)
+					if (err.detail.includes("not present in table \"teams\"")) {
+						res.status(400).json({ msg: err.detail })
+					} else {
+						res.status(500).json({
+							message: "Insert new invite code error: ",
+							error: err
+						})
+					}
 				})
 
-			clg(120, "Bottom of Invites/POST: \nThat team invitation doesn't exist. One will be made and sent.")
+			// clg(120, "Bottom of Invites/POST: \nThat team invitation doesn't exist. One will be made and sent.")
 		})
 
 
