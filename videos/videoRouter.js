@@ -1,35 +1,52 @@
-const express = require('express');
+const express = require("express");
 
-const Videos = require('../videos/videoModel.js');
+const Videos = require("../videos/videoModel.js");
 
 const router = express.Router();
 
-const { validateVideoId } = require("../middleware/middleware");
+const { validateVideoId, validateFeedback } = require("../middleware/middleware");
 
 router.get("/", (req, res) => {
-	Videos.find()
-		.then(videos => res.status(200).json(videos))
-		.catch(err => res.status(500).json({ message: "Could not get videos.", error: err }));
+  Videos.find()
+    .then((videos) => res.status(200).json(videos))
+    .catch((err) => res.status(500).json({ message: "Could not get videos.", error: err }));
 });
 
-router.get('/:id', validateVideoId, (req, res) => {
-	const { id } = req.params
+router.get("/:id", validateVideoId, (req, res) => {
+  const { id } = req.params;
 
-	Videos.findById(id)
-		.then(video => res.status(200).json(video))
-		.catch(err => res.status(500).json({ message: "Could not get video.", error: err }))
+  Videos.findById(id)
+    .then((video) => res.status(200).json(video))
+    .catch((err) => res.status(500).json({ message: "Could not get video.", error: err }));
 });
 
 router.get("/:id/feedback", validateVideoId, (req, res) => {
-  const { id } = req.params
+  const { id } = req.params;
 
   Videos.findFeedbackByVideoId(id)
-    .then(feedback => res.status(200).json(feedback))
-    .catch(err => res.status(500).json({ message: "Could not get feedback.", error: err}))
+    .then((feedback) => res.status(200).json(feedback))
+    .catch((err) => res.status(500).json({ message: "Could not get feedback.", error: err }));
+});
+
+router.post("/:id/feedback", validateVideoId, validateFeedback, (req, res) => {
+  const { id } = req.params;
+  req.feedback.video_id = id;
+
+  Videos.insertFeedback(req.feedback)
+    .then((feedbackId) => {
+      res.status(201).json(feedbackId);
+    })
+    .catch((err) => {
+      if (err.code === "23503") {
+        res.status(422).json({ message: "Owner id does not exist", error: err });
+      } else {
+        res.status(500).json({ message: "Could not add feedback.", error: err });
+      }
+    });
 });
 
 router.post("/", (req, res) => {
-	/* 
+  /* 
 
 	req.body should be an object in this form
 	{
@@ -49,13 +66,13 @@ router.post("/", (req, res) => {
 
 	 */
 
-	Videos.insert(req.body)
-		.then(video => res.status(201).json({ message: "Video creation successful.", id: video[0] }))
-		.catch(err => res.status(500).json({ message: "Could not insert new video.", error: err }))
-})
+  Videos.insert(req.body)
+    .then((video) => res.status(201).json({ message: "Video creation successful.", id: video[0] }))
+    .catch((err) => res.status(500).json({ message: "Could not insert new video.", error: err }));
+});
 
 router.put("/", (req, res) => {
-	/* 
+  /* 
 
 	req.body should be an object in the same form as router.POST
 
@@ -64,12 +81,14 @@ router.put("/", (req, res) => {
 	* Same as router.post
 
 	 */
-	Videos.update(req.body)
-		// .then(data => clg(62, data))
-		.then(video => res.status(200).json({ message: "Video meta-data edit successful.", video: video }))
-		.catch(err => res.status(500).json({ message: "Could not insert new video.", error: err }))
-})
+  Videos.update(req.body)
+    // .then(data => clg(62, data))
+    .then((video) => res.status(200).json({ message: "Video meta-data edit successful.", video: video }))
+    .catch((err) => res.status(500).json({ message: "Could not insert new video.", error: err }));
+});
 
 module.exports = router;
 
-function clg(...x) { console.log(...x) }
+function clg(...x) {
+  console.log(...x);
+}
