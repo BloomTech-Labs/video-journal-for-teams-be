@@ -69,9 +69,9 @@ router.post("/:id/users", validateTeamId, (req, res) => {
 })
 
 // Delete a user from a team
-router.delete("/:id/users", validateTeamId, (req, res) => {
+router.delete("/:id/users/:user_id", validateTeamId, (req, res) => {
 	const teamId = req.params.id;
-	const userId = req.body.user_id;
+	const userId = req.params.user_id;
 
 	if (userId) {
 		Teams.remove(userId, teamId)
