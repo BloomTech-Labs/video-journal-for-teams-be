@@ -79,14 +79,19 @@ router.post("/:id/users", validateTeamId, (req, res) => {
 })
 
 // Delete a user from a team
-router.delete("/:id/users", validateTeamId, (req, res) => {
+router.delete("/:id/users/:user_id", validateTeamId, (req, res) => {
 	const teamId = req.params.id;
-	const userId = req.body.user_id;
+	const userId = req.params.user_id;
 
 	if (userId) {
 		Teams.remove(userId, teamId)
-			.then(removed => {
-				res.status(200).json(removed);
+			.then(count => {
+				if(count > 0) {
+					res.status(200).json({ count: count, message: "User has been removed successfully." });
+				} else {
+					res.status(404).json({ count: count, message: "User not found in team." });
+				}
+				
 			})
 			.catch(err => {
 				res.status(500).json({ message: "Could not delete user", error: err });
