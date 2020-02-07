@@ -47,6 +47,15 @@ router.get("/:id/videos", validateTeamId, (req, res) => {
 		.catch(err => res.status(500).json({ message: "Could not get videos for this team", error: err }))
 })
 
+// POST new prompt
+router.post("/prompt", validateTeamData, (req, res) => {
+	const { body } = req;
+
+	Teams.insertPrompt(body)
+		.then(prompt => { res.status(201).json(prompt))
+		.catch(err => res.status(500).json({ message: "Could not create prompt.", err: err }))
+})
+
 router.post("/", validateTeamData, (req, res) => {
 	const { body } = req;
 
@@ -61,8 +70,8 @@ router.post("/", validateTeamData, (req, res) => {
 
 // Add a user to a team
 router.post("/:id/users", validateTeamId, (req, res) => {
-  const { id } = req.params;
-  const body = {...req.body, team_id: id}
+	const { id } = req.params;
+	const body = { ...req.body, team_id: id }
 
 	if (body.team_id && body.user_id && body.role_id) {
 		Teams.insertUser(body)
@@ -87,12 +96,12 @@ router.delete("/:id/users/:user_id", validateTeamId, (req, res) => {
 	if (userId) {
 		Teams.remove(userId, teamId)
 			.then(count => {
-				if(count > 0) {
+				if (count > 0) {
 					res.status(200).json({ count: count, message: "User has been removed successfully." });
 				} else {
 					res.status(404).json({ count: count, message: "User not found in team." });
 				}
-				
+
 			})
 			.catch(err => {
 				res.status(500).json({ message: "Could not delete user", error: err });

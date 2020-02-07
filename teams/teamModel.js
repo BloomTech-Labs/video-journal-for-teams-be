@@ -5,6 +5,7 @@ module.exports = {
   findById,
   findByUserId,
   insert,
+  insertPrompt,
   insertUser,
   update,
   remove,
@@ -29,6 +30,12 @@ function findById(id) {
 function insert(team) {
   return db("teams")
     .insert(team, ["id", "name", "description", "created_at", "updated_at"]);
+}
+
+// Insert prompt
+function insertPrompt(prompt) {
+  return db("prompts")
+    .insert(prompt, ["id", "question", "description", "team_id", "created_at", "updated_at"]);
 }
 
 function findByUserId(userId) {
