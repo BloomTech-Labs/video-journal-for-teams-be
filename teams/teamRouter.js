@@ -81,8 +81,6 @@ router.delete("/:id/users", validateTeamId, (req, res) => {
 			.catch(err => {
 				res.status(500).json({ message: "Could not delete user", error: err });
 			})
-	} else {
-		res.status(400).json({ message: "Please enter a user id to delete", error: err });
 	}
 })
 
