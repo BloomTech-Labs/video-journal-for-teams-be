@@ -291,27 +291,23 @@ describe("Team Data Routes", () => {
     describe("DELETE /teams/:id/users", () => {
 
       it("Should return a 200 status code", async () => {
-        const user = {
-          user_id: 4
-        }
+        const user_id = 15
 
         const response = await request(server)
-          .delete("/api/teams/1/users")
+          .delete(`/api/teams/1/users/${user_id}`)
           .set("authorization", token)
-          .send(user)
 
         expect(response.status).toEqual(200)
       })
 
-      it("Should return a 400 status code if no user id provided", async () => {
-        const user = {}
+      it("Should return a 404 status code if the user does not belong to team", async () => {
+        const user = 1
 
         const response = await request(server)
-          .delete("/api/teams/1/users")
+          .delete(`/api/teams/1/users/${user}`)
           .set("authorization", token)
-          .send(user)
 
-        expect(response.status).toEqual(400)
+        expect(response.status).toEqual(404)
       })
 
     });
