@@ -48,11 +48,16 @@ router.get("/:id/videos", validateTeamId, (req, res) => {
 })
 
 // POST new prompt
-router.post("/prompt", validateTeamData, (req, res) => {
+router.post("/:id/prompts", validateTeamId, (req, res) => {
 	const { body } = req;
-
-	Teams.insertPrompt(body)
-		.then(prompt => { res.status(201).json(prompt))
+	const {id} = req.params;
+	const promptdata = {
+		...body,
+		team_id: id
+	}
+	
+	Teams.insertPrompt(promptdata)
+		.then(prompt => { res.status(201).json(prompt)})
 		.catch(err => res.status(500).json({ message: "Could not create prompt.", err: err }))
 })
 
