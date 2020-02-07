@@ -3,6 +3,7 @@ const validateSignup = require("./validateSignup");
 const validateUserId = require("./validateUserId");
 const validateTeamId = require("./validateTeamId");
 const validateVideoId = require("./validateVideoId");
+const validateFeedback = require("./validateFeedback");
 const validateTeamData = require("./validateTeamData");
 
 module.exports = {
@@ -11,5 +12,6 @@ module.exports = {
   validateSignup,
   validateTeamId,
   validateVideoId,
-  validateTeamData
+  validateFeedback,
+  validateTeamData,
 };
