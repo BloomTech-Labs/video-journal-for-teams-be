@@ -50,20 +50,39 @@ To get the server running locally:
 | GET    | `/api/teams/:id`        | restricted          | Returns single team by id.                         |
 | GET    | `/api/teams/:id/users`  | restricted          | Returns team members by team id.                   |
 | GET    | `/api/teams/:id/prompts`| restricted          | Returns prompts by team id.                        |
+| GET    | `/api/teams/:id/videos` | restricted          | Returns videos by team id.                         |
 | POST   | `/api/teams/`           | restricted          | Creates a new team.                                |
+<<<<<<< HEAD
 | POST   | `/api/teams/:id/users`  | restricted          | Adds a user to a team.                            |
 | PUT    | `/api/teams/:id`        | restricted          | Updates team information.                         |
-| DELETE | `/api/teams/:id/users`  | restricted          | Deletes a user from a team.
+| DELETE | `/api/teams/:id/users/:user_id`  | restricted          | Deletes a user from a team.
    |
+=======
+| POST   | `/api/teams/:id/users`  | restricted          | Adds a user to a team.                             |
+| PUT    | `/api/teams/:id`        | restricted          | Updates team information.                          |
+| DELETE | `/api/teams/:id/users`  | restricted          | Deletes a user from a team.                        |
+>>>>>>> 80d7c9e02c78f387930fea9873ddc31cc4354202
 
 #### Video Routes
 
 | Method | Endpoint                   | Access Control      | Description                                        |
 | ------ | -------------------------- | ------------------- | -------------------------------------------------- |
 | GET    | `/api/videos/`             | restricted          | Returns all videos.                                |
+| POST    | `/api/videos/`            | restricted          | Adds a new video.                                |
+| PUT    | `/api/videos/`             | restricted          | Updates info on and existing video. |
 | GET    | `/api/videos/:id`          | restricted          | Returns single video by owner id, plus prompt.     |
 | GET    | `/api/videos/:id/feedback` | restricted          | Returns feedback by video id.                      |
 
+#### Invitation Routes
+
+| Method | Endpoint                   | Access Control      | Description                                        |
+| ------ | -------------------------- | ------------------- | -------------------------------------------------- |
+| GET    | `/api/invites/:code`			| open | Returns team_id. -1==Invalid, -2==Expired 
+| POST   | `/api/invites/`          | open | Returns Invite object with a simple status message .
+
+#### Invitiation 
+
+---
 # Data Model
 
 #### ROLES
@@ -162,6 +181,21 @@ To get the server running locally:
   owner_id: FOREIGN KEY
   created_at: TIME_STAMP, DEFAULTS_TO(knex.fn.now()), NOT NULLABLE
   updated_at: TIME_STAMP, DEFAULTS_TO(knex.fn.now()), NOT NULLABLE
+}
+```
+
+#### INVITATION CODE
+
+---
+
+```
+{
+	id: AUTO INCREMENT ID
+	team_id: FOREIGN KEY
+	link: STRING
+	isValid: BOOL
+	created_at: TIMESTAMP
+	expires_at: TIMESTAMP.
 }
 ```
 

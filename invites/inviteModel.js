@@ -24,7 +24,6 @@ function findByTeam(team_id) {
 }
 
 function insert(insertion) {
-	clg(27, insertion)
 	const {team_id, newcode} = insertion;
 	return db("team_invite_link")
 		.insert({
@@ -53,6 +52,8 @@ function update(changes) {
 		})
 }
 
+
+// Utility Function
 function expiration() {
 	// const validtime = 86400000; // 1 day in ms
 	const validtime = 15000; // 5s in ms

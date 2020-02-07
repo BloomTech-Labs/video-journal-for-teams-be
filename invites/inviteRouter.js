@@ -41,24 +41,50 @@ router.post("/", (req, res) => {
 	// #region docstring 
 	/*
 
-	:teamid			team_id for invite generation (team_invite_link.team_id)
+	REQUIRES: 
+		req.body should be an object in this form: 
+		{
+			"team_id": 14,
+			"team_name": "McClure-Terry"
+		}
 
-	IF table team_invite_link:
-	* .team_id exists 
-	* if so, .isValid === true
-	* if so, .expires_at has not passed
-	THEN 
-	* respond to API with existing .link
+	WHAT IT DOES: 
+		IF table team_invite_link:
+		* .team_id exists 
+		* if .expires_at has not passed AND .isValid === true
+		THEN 
+		* respond to API with existing .link
 
-	ELSE
-	* generate code
-	* send to db
-	* respond to API with generated .link
+		ELSE
+		* if invite exists
+			* update the record with a new code, isValid, new expiration
+		* if no invite exists
+			* create new record
+		
+		IN ALL CASES respond with a full data object:
+		{
+			msg: [readable info]
+			id: 14,
+			team_id: 14,
+			link: 'McClure-UpsilonAlphaAlpha',
+			isValid: true,
+			created_at: 2020-01-14T03:49:04.000Z,
+			expires_at: 2020-02-06T18:29:10.188Z
+		}
 
+	INVITE CODE GENERATION:
+		* Breaks the team name on dashes and spaces
+		* Uses the first element remaining from team name
+		* Generates 3 greek letters
+		* Creates a single word: McClure-ThetaPhiTau
 	*/
 	// #endregion 
 
 	const { team_id, team_name } = req.body;
+
+	if (!team_id || !team_name) {
+		res.status(400).json({ msg: "Malformed incoming data" })
+	}
 
 	// generate a code ahead of time, and create the db object.
 	const newcode = genCode(team_name);
@@ -67,7 +93,6 @@ router.post("/", (req, res) => {
 
 	Invites.findByTeam(team_id)
 		.then(invite => {
-			clg(70, invite)
 			const expires = Date.parse(invite.expires_at)
 
 			if (invite === undefined) { clg("invite undef") }
@@ -113,14 +138,18 @@ router.post("/", (req, res) => {
 					res.status(200).json({ msg: "Creation successful", ...inserted })
 				})
 				.catch(err => {
-					clg(113, err)
-					res.status(500).json({
-						message: "Insert new invite code error: ",
-						error: `error:${err}`
-					})
+					// clg(113, err.detail)
+					if (err.detail.includes("not present in table \"teams\"")) {
+						res.status(400).json({ msg: err.detail })
+					} else {
+						res.status(500).json({
+							message: "Insert new invite code error: ",
+							error: err
+						})
+					}
 				})
 
-			clg(120, "Bottom of Invites/POST: \nThat team invitation doesn't exist. One will be made and sent.")
+			// clg(120, "Bottom of Invites/POST: \nThat team invitation doesn't exist. One will be made and sent.")
 		})
 
 
