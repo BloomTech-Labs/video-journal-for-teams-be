@@ -24,7 +24,6 @@ function findByTeam(team_id) {
 }
 
 function insert(insertion) {
-	clg(27, insertion)
 	const {team_id, newcode} = insertion;
 	return db("team_invite_link")
 		.insert({
