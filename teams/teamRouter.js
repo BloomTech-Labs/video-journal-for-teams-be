@@ -29,12 +29,22 @@ router.get("/:id/users", validateTeamId, (req, res) => {
 		.catch(err => res.status(500).json({ message: "Could not get users for this team", error: err }))
 })
 
+// GET prompts created for a team
 router.get("/:id/prompts", validateTeamId, (req, res) => {
 	const { id } = req.params
 
 	Teams.getPromptsByTeamId(id)
-		.then(users => res.status(200).json(users))
+		.then(prompts => res.status(200).json(prompts))
 		.catch(err => res.status(500).json({ message: "Could not get prompts for this team", error: err }))
+})
+
+// GET team videos sorted by prompt id
+router.get("/:id/videos", validateTeamId, (req, res) => {
+	const { id } = req.params
+
+	Teams.getVideosByTeamId(id)
+		.then(videos => res.status(200).json(videos))
+		.catch(err => res.status(500).json({ message: "Could not get videos for this team", error: err }))
 })
 
 router.post("/", validateTeamData, (req, res) => {

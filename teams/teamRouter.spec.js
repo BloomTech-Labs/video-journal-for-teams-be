@@ -261,6 +261,33 @@ describe("Team Data Routes", () => {
       });
     });
 
+    describe("GET /teams/:id/videos", () => {
+
+      it("should return status code 200", async () => {
+        const response = await request(server)
+          .get("/api/teams/1/prompts")
+          .set("authorization", token)
+
+        expect(response.status).toEqual(200);
+      });
+
+      it("should return status code 400 if the team id is invalid", async () => {
+        const response = await request(server)
+          .get("/api/teams/150/videos")
+          .set("authorization", token)
+
+        expect(response.status).toEqual(400);
+      });
+
+      it("should return array of data", async () => {
+        const response = await request(server)
+          .get("/api/teams/1/videos")
+          .set("authorization", token)
+
+        expect(Array.isArray(response.body)).toBe(true);
+      });
+    });
+
     describe("DELETE /teams/:id/users", () => {
 
       it("Should return a 200 status code", async () => {
