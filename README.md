@@ -1,5 +1,10 @@
 # Video Journal For Teams Backend
 
+## Code Climate
+[![Maintainability](https://api.codeclimate.com/v1/badges/d1601cb84ad12ad579f2/maintainability)](https://codeclimate.com/github/Lambda-School-Labs/video-journal-for-teams-be/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/d1601cb84ad12ad579f2/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/video-journal-for-teams-be/test_coverage)
+
+
 ## Test Coverage via Jest
 
 ![coverage:statements](coverage/badge-statements.svg)

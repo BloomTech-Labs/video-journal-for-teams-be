@@ -46,7 +46,7 @@ router.put('/:id', validateUserId, (req, res) => {
 	const changes = req.body;
 
 	Users.update(id, changes)
-		.then(updatedUser => res.status(202).json({ message: "Successfully updated user", updatedUser }))
+		.then(updatedUser => res.status(200).json({ message: "Successfully updated user", updatedUser }))
 		.catch(err => res.status(500).json({ message: "Could not get user.", error: err }))
 });
 
