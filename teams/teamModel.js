@@ -46,12 +46,6 @@ function findByUserId(userId) {
 		.select("teams.id as id", "teams.name as name", "teams.description as description", "teams.created_at as created_at", "teams.updated_at as updated_at", "team_members.role_id as role_id")
 }
 
-// Insert user to a team
-function insertUser(data) {
-	return db("team_members")
-		.insert(data);
-}
-
 function remove(userId, teamId) {
 	// delete from team_members where user_id = 2 and team_id = 1;
 	return db("team_members")
