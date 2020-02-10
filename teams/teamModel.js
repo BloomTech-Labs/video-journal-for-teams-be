@@ -80,11 +80,13 @@ function getUsersByTeamId(teamId) {
 		.columns(db.raw("users.first_name || ' ' || users.last_name as user_full_name"))
 }
 
+// GET a team's prompts
 function getPromptsByTeamId(teamId) {
 	return db("prompts")
 		.where("prompts.team_id", teamId)
 }
 
+// GET a team's videos
 function getVideosByTeamId(teamId) {
 	return db("videos")
 		.join("prompts", "videos.prompt_id", "prompts.id")
@@ -92,11 +94,11 @@ function getVideosByTeamId(teamId) {
 		.where("prompts.team_id", teamId)
 		.orderBy("prompts.id")
 		.select(
+			"prompts.id as prompt_id",
 			"videos.id as video_id",
 			"videos.video_url as video_url",
 			"videos.title as title",
 			"videos.created_at as created_at",
-			"prompts.id as prompt_id"
 		)
 		.columns(db.raw("users.first_name || ' ' || users.last_name as user_full_name"))
 }
