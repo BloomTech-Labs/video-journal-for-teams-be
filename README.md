@@ -1,3 +1,12 @@
+# Video Journal For Teams Backend
+
+## Test Coverage via Jest
+
+![coverage:statements](coverage/badge-statements.svg)
+![coverage:branches](coverage/badge-branches.svg)
+![coverage:functions](coverage/badge-functions.svg)
+![coverage:lines](coverage/badge-lines.svg)
+
 # API Documentation
 
 #### 1️⃣ Backend production deployment at heroku: https://video-journal.herokuapp.com/ <br>
@@ -17,10 +26,10 @@ To get the server running locally:
 
 🚫 Why did you choose this framework?
 
--    Point One
--    Point Two
--    Point Three
--    Point Four
+- Point One
+- Point Two
+- Point Three
+- Point Four
 
 ## 2️⃣ Endpoints
 
@@ -34,54 +43,55 @@ To get the server running locally:
 
 #### User Routes
 
-| No. | Method | Endpoint                | Access Control      | Description                                        |
-| --- | ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| 4.  | GET    | `/api/users/`           | restricted          | Returns all the users.                             |
-| 5.  | GET    | `/api/users/:id`        | restricted          | Returns single user by id.                         |
-| 6.  | GET    | `/api/users/:id/teams`  | restricted          | Returns all of the user's teams.                   |
-| 7.  | GET    | `/api/users/:id/videos` | restricted          | Returns all of the user's videos.                  |
-| 8.  | PUT    | `/api/users/:id`        | restricted          | Updates a user's information.                      |
+| No. | Method | Endpoint                | Access Control | Description                       |
+| --- | ------ | ----------------------- | -------------- | --------------------------------- |
+| 4.  | GET    | `/api/users/`           | restricted     | Returns all the users.            |
+| 5.  | GET    | `/api/users/:id`        | restricted     | Returns single user by id.        |
+| 6.  | GET    | `/api/users/:id/teams`  | restricted     | Returns all of the user's teams.  |
+| 7.  | GET    | `/api/users/:id/videos` | restricted     | Returns all of the user's videos. |
+| 8.  | PUT    | `/api/users/:id`        | restricted     | Updates a user's information.     |
 
 #### Team Routes
 
-| No. | Method | Endpoint                         | Access Control      | Description                                          |
-| --- | ------ | -------------------------------- | ------------------- | ---------------------------------------------------- |
-| 9.  | GET    | `/api/teams/`                    | restricted          | Returns all teams.                                   |
-| 10. | GET    | `/api/teams/:id`                 | restricted          | Returns single team by id.                           |
-| 11. | GET    | `/api/teams/:id/users`           | restricted          | Returns team members by team id.                     |
-| 12. | GET    | `/api/teams/:id/prompts`         | restricted          | Returns prompts by team id.                          |
-| 13. | GET    | `/api/teams/:id/videos`          | restricted          | Returns prompts with nested videos array by team id. |
-| 14. | POST   | `/api/teams/:id/prompts`         | restricted          | Creates a new team prompts.                          |
-| 15. | POST   | `/api/teams/`                    | restricted          | Creates a new team.                                  |
-| 16. | POST   | `/api/teams/:id/users`           | restricted          | Adds a user to a team.                               |
-| 17. | PUT    | `/api/teams/:id`                 | restricted          | Updates team information.                            |
-| 18. | DELETE | `/api/teams/:id/users/:user_id`  | restricted          | Deletes a user from a team.                          |
+| No. | Method | Endpoint                        | Access Control | Description                                          |
+| --- | ------ | ------------------------------- | -------------- | ---------------------------------------------------- |
+| 9.  | GET    | `/api/teams/`                   | restricted     | Returns all teams.                                   |
+| 10. | GET    | `/api/teams/:id`                | restricted     | Returns single team by id.                           |
+| 11. | GET    | `/api/teams/:id/users`          | restricted     | Returns team members by team id.                     |
+| 12. | GET    | `/api/teams/:id/prompts`        | restricted     | Returns prompts by team id.                          |
+| 13. | GET    | `/api/teams/:id/videos`         | restricted     | Returns prompts with nested videos array by team id. |
+| 14. | POST   | `/api/teams/:id/prompts`        | restricted     | Creates a new team prompts.                          |
+| 15. | POST   | `/api/teams/`                   | restricted     | Creates a new team.                                  |
+| 16. | POST   | `/api/teams/:id/users`          | restricted     | Adds a user to a team.                               |
+| 17. | PUT    | `/api/teams/:id`                | restricted     | Updates team information.                            |
+| 18. | DELETE | `/api/teams/:id/users/:user_id` | restricted     | Deletes a user from a team.                          |
 
 #### Video Routes
 
-| No. | Method | Endpoint                   | Access Control      | Description                                        |
-| --- | ------ | -------------------------- | ------------------- | -------------------------------------------------- |
-| 19. | GET    | `/api/videos/`             | restricted          | Returns all videos.                                |
-| 20. | GET    | `/api/videos/:id`          | restricted          | Returns single video by owner id, plus prompt.     |
-| 21. | GET    | `/api/videos/:id/feedback` | restricted          | Returns feedback by video id.                      |
-| 22. | POST   | `/api/videos/feedback`     | restricted          | Adds new feedback to a video.                      |
-| 23. | POST   | `/api/videos/`             | restricted          | Adds a new video.                                  |
-| 24. | PUT    | `/api/videos/`             | restricted          | Updates info on and existing video.                |
+| No. | Method | Endpoint                   | Access Control | Description                                    |
+| --- | ------ | -------------------------- | -------------- | ---------------------------------------------- |
+| 19. | GET    | `/api/videos/`             | restricted     | Returns all videos.                            |
+| 20. | GET    | `/api/videos/:id`          | restricted     | Returns single video by owner id, plus prompt. |
+| 21. | GET    | `/api/videos/:id/feedback` | restricted     | Returns feedback by video id.                  |
+| 22. | POST   | `/api/videos/feedback`     | restricted     | Adds new feedback to a video.                  |
+| 23. | POST   | `/api/videos/`             | restricted     | Adds a new video.                              |
+| 24. | PUT    | `/api/videos/`             | restricted     | Updates info on and existing video.            |
 
 #### Invitation Routes
 
-| No. | Method | Endpoint                   | Access Control      | Description                                        |
-| --- | ------ | -------------------------- | ------------------- | -------------------------------------------------- |
-| 25. | GET    | `/api/invites/:code`	    | open                | Returns team_id. -1==Invalid, -2==Expired          |
-| 26. | POST   | `/api/invites/`            | open                | Returns Invite object with a simple status message |
+| No. | Method | Endpoint             | Access Control | Description                                        |
+| --- | ------ | -------------------- | -------------- | -------------------------------------------------- |
+| 25. | GET    | `/api/invites/:code` | open           | Returns team_id. -1==Invalid, -2==Expired          |
+| 26. | POST   | `/api/invites/`      | open           | Returns Invite object with a simple status message |
 
 #### Avatar Routes
 
-| No. | Method | Endpoint                   | Access Control      | Description                                        |
-| --- | ------ | -------------------------- | ------------------- | -------------------------------------------------- |
-| 27. | GET    | `/api/avatars/`		    | open                | Returns public avatars.                            |
+| No. | Method | Endpoint        | Access Control | Description             |
+| --- | ------ | --------------- | -------------- | ----------------------- |
+| 27. | GET    | `/api/avatars/` | open           | Returns public avatars. |
 
 ---
+
 # Data Model
 
 #### ROLES
@@ -242,13 +252,13 @@ In order for the app to function correctly, the user must set up their own envir
 create a .env file that includes the following:
 
 🚫 These are just examples, replace them with the specifics for your app
-    
-    *  STAGING_DB - optional development db for using functionality not available in SQLite
-    *  NODE_ENV - set to "development" until ready for "production"
-    *  JWT_SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-*=+)') for i in range(50)])
-    *  SENDGRID_API_KEY - this is generated in your Sendgrid account
-    *  stripe_secret - this is generated in the Stripe dashboard
-    
+
+_ STAGING_DB - optional development db for using functionality not available in SQLite
+_ NODE\*ENV - set to "development" until ready for "production"
+
+- JWT*SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-_=+)') for i in range(50)])
+  _ SENDGRID_API_KEY - this is generated in your Sendgrid account \* stripe_secret - this is generated in the Stripe dashboard
+
 ## Contributing
 
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
@@ -257,11 +267,12 @@ Please note we have a [code of conduct](./code_of_conduct.md). Please follow it 
 
 ### Issue/Bug Request
 
- **If you are having an issue with the existing project code, please submit a bug report under the following guidelines:**
- - Check first to see if your issue has already been reported.
- - Check to see if the issue has recently been fixed by attempting to reproduce the issue using the latest master branch in the repository.
- - Create a live example of the problem.
- - Submit a detailed bug report including your environment & browser, steps to reproduce the issue, actual and expected outcomes,  where you believe the issue is originating from, and any potential solutions you have considered.
+**If you are having an issue with the existing project code, please submit a bug report under the following guidelines:**
+
+- Check first to see if your issue has already been reported.
+- Check to see if the issue has recently been fixed by attempting to reproduce the issue using the latest master branch in the repository.
+- Create a live example of the problem.
+- Submit a detailed bug report including your environment & browser, steps to reproduce the issue, actual and expected outcomes, where you believe the issue is originating from, and any potential solutions you have considered.
 
 ### Feature Requests
 
