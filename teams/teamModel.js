@@ -6,7 +6,6 @@ module.exports = {
 	findByUserId,
 	insert,
 	insertPrompt,
-	insertUser,
 	update,
 	remove,
 	getUsersByTeamId,
