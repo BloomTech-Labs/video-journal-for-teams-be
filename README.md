@@ -61,34 +61,33 @@ To get the server running locally:
 | 12. | GET    | `/api/teams/:id/prompts`        | restricted     | Returns prompts by team id.                          |
 | 13. | GET    | `/api/teams/:id/videos`         | restricted     | Returns prompts with nested videos array by team id. |
 | 14. | POST   | `/api/teams/:id/prompts`        | restricted     | Creates a new team prompts.                          |
-| 15. | POST   | `/api/teams/`                   | restricted     | Creates a new team.                                  |
-| 16. | POST   | `/api/teams/:id/users`          | restricted     | Adds a user to a team.                               |
-| 17. | PUT    | `/api/teams/:id`                | restricted     | Updates team information.                            |
-| 18. | DELETE | `/api/teams/:id/users/:user_id` | restricted     | Deletes a user from a team.                          |
+| 15. | POST   | `/api/teams/`                   | restricted     | Creates a new team.                              |
+| 16. | PUT    | `/api/teams/:id`                | restricted     | Updates team information.                            |
+| 17. | DELETE | `/api/teams/:id/users/:user_id` | restricted     | Deletes a user from a team.                          |
 
 #### Video Routes
 
 | No. | Method | Endpoint                   | Access Control | Description                                    |
 | --- | ------ | -------------------------- | -------------- | ---------------------------------------------- |
-| 19. | GET    | `/api/videos/`             | restricted     | Returns all videos.                            |
-| 20. | GET    | `/api/videos/:id`          | restricted     | Returns single video by owner id, plus prompt. |
-| 21. | GET    | `/api/videos/:id/feedback` | restricted     | Returns feedback by video id.                  |
-| 22. | POST   | `/api/videos/feedback`     | restricted     | Adds new feedback to a video.                  |
-| 23. | POST   | `/api/videos/`             | restricted     | Adds a new video.                              |
-| 24. | PUT    | `/api/videos/`             | restricted     | Updates info on and existing video.            |
+| 18. | GET    | `/api/videos/`             | restricted     | Returns all videos.                            |
+| 19. | GET    | `/api/videos/:id`          | restricted     | Returns single video by owner id, plus prompt. |
+| 20. | GET    | `/api/videos/:id/feedback` | restricted     | Returns feedback by video id.                  |
+| 21. | POST   | `/api/videos/feedback`     | restricted     | Adds new feedback to a video.                  |
+| 22. | POST   | `/api/videos/`             | restricted     | Adds a new video.                              |
+| 23. | PUT    | `/api/videos/`             | restricted     | Updates info on and existing video.            |
 
 #### Invitation Routes
 
 | No. | Method | Endpoint             | Access Control | Description                                        |
 | --- | ------ | -------------------- | -------------- | -------------------------------------------------- |
-| 25. | GET    | `/api/invites/:code` | open           | Returns team_id. -1==Invalid, -2==Expired          |
-| 26. | POST   | `/api/invites/`      | open           | Returns Invite object with a simple status message |
+| 24. | GET    | `/api/invites/:code` | open           | Returns team_id. -1==Invalid, -2==Expired          |
+| 25. | POST   | `/api/invites/`      | open           | Returns Invite object with a simple status message |
 
 #### Avatar Routes
 
 | No. | Method | Endpoint        | Access Control | Description             |
 | --- | ------ | --------------- | -------------- | ----------------------- |
-| 27. | GET    | `/api/avatars/` | open           | Returns public avatars. |
+| 26. | GET    | `/api/avatars/` | open           | Returns public avatars. |
 
 ---
 
