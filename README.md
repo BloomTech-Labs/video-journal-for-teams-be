@@ -26,58 +26,60 @@ To get the server running locally:
 
 #### Auth Routes
 
-| Method | Endpoint                   | Access Control | Description                             |
-| ------ | -------------------------- | -------------- | --------------------------------------- |
-| POST   | `/api/auth/register`       | unrestricted   | Creates a new user and returns a token. |
-| POST   | `/api/auth/login/username` | unrestricted   | Returns a token.                        |
-| POST   | `/api/auth/login/email`    | unrestricted   | Returns a token.                        |
+| No. | Method | Endpoint                   | Access Control | Description                             |
+| --- | ------ | -------------------------- | -------------- | --------------------------------------- |
+| 1.  | POST   | `/api/auth/login/email`    | unrestricted   | Returns a token.                        |
+| 2.  | POST   | `/api/auth/login/username` | unrestricted   | Returns a token.                        |
+| 3.  | POST   | `/api/auth/register`       | unrestricted   | Creates a new user and returns a token. |
 
 #### User Routes
 
-| Method | Endpoint                | Access Control      | Description                                        |
-| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/api/users/`           | restricted          | Returns all the users.                             |
-| GET    | `/api/users/:id`        | restricted          | Returns single user by id.                         |
-| GET    | `/api/users/:id/teams`  | restricted          | Returns all of the user's teams.                   |
-| GET    | `/api/users/:id/videos` | restricted          | Returns all of the user's videos.                  |
-| PUT    | `/api/users/:id`        | restricted          | Updates a user's information.                      |
+| No. | Method | Endpoint                | Access Control      | Description                                        |
+| --- | ------ | ----------------------- | ------------------- | -------------------------------------------------- |
+| 4.  | GET    | `/api/users/`           | restricted          | Returns all the users.                             |
+| 5.  | GET    | `/api/users/:id`        | restricted          | Returns single user by id.                         |
+| 6.  | GET    | `/api/users/:id/teams`  | restricted          | Returns all of the user's teams.                   |
+| 7.  | GET    | `/api/users/:id/videos` | restricted          | Returns all of the user's videos.                  |
+| 8.  | PUT    | `/api/users/:id`        | restricted          | Updates a user's information.                      |
 
 #### Team Routes
 
-| Method | Endpoint                | Access Control      | Description                                          |
-| ------ | ----------------------- | ------------------- | ---------------------------------------------------- |
-| GET    | `/api/teams/`           | restricted          | Returns all teams.                                   |
-| GET    | `/api/teams/:id`        | restricted          | Returns single team by id.                           |
-| GET    | `/api/teams/:id/users`  | restricted          | Returns team members by team id.                     |
-| GET    | `/api/teams/:id/prompts`| restricted          | Returns prompts by team id.                          |
-| GET    | `/api/teams/:id/videos` | restricted          | Returns prompts with nested videos array by team id. |
-| POST   | `/api/teams/`           | restricted          | Creates a new team.                                  |
-| POST   | `/api/teams/:id/users`  | restricted          | Adds a user to a team.                               |
-| PUT    | `/api/teams/:id`        | restricted          | Updates team information.                            |
-| DELETE | `/api/teams/:id/users`  | restricted          | Deletes a user from a team.                          |
+| No. | Method | Endpoint                         | Access Control      | Description                                          |
+| --- | ------ | -------------------------------- | ------------------- | ---------------------------------------------------- |
+| 9.  | GET    | `/api/teams/`                    | restricted          | Returns all teams.                                   |
+| 10. | GET    | `/api/teams/:id`                 | restricted          | Returns single team by id.                           |
+| 11. | GET    | `/api/teams/:id/users`           | restricted          | Returns team members by team id.                     |
+| 12. | GET    | `/api/teams/:id/prompts`         | restricted          | Returns prompts by team id.                          |
+| 13. | GET    | `/api/teams/:id/videos`          | restricted          | Returns prompts with nested videos array by team id. |
+| 14. | POST   | `/api/teams/:id/prompts`         | restricted          | Creates a new team prompts.                          |
+| 15. | POST   | `/api/teams/`                    | restricted          | Creates a new team.                                  |
+| 16. | POST   | `/api/teams/:id/users`           | restricted          | Adds a user to a team.                               |
+| 17. | PUT    | `/api/teams/:id`                 | restricted          | Updates team information.                            |
+| 18. | DELETE | `/api/teams/:id/users/:user_id`  | restricted          | Deletes a user from a team.                          |
 
 #### Video Routes
 
-| Method | Endpoint                   | Access Control      | Description                                        |
-| ------ | -------------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/api/videos/`             | restricted          | Returns all videos.                                |
-| POST    | `/api/videos/`            | restricted          | Adds a new video.                                |
-| PUT    | `/api/videos/`             | restricted          | Updates info on and existing video. |
-| GET    | `/api/videos/:id`          | restricted          | Returns single video by owner id, plus prompt.     |
-| GET    | `/api/videos/:id/feedback` | restricted          | Returns feedback by video id.                      |
+| No. | Method | Endpoint                   | Access Control      | Description                                        |
+| --- | ------ | -------------------------- | ------------------- | -------------------------------------------------- |
+| 19. | GET    | `/api/videos/`             | restricted          | Returns all videos.                                |
+| 20. | GET    | `/api/videos/:id`          | restricted          | Returns single video by owner id, plus prompt.     |
+| 21. | GET    | `/api/videos/:id/feedback` | restricted          | Returns feedback by video id.                      |
+| 22. | POST   | `/api/videos/feedback`     | restricted          | Adds new feedback to a video.                      |
+| 23. | POST   | `/api/videos/`             | restricted          | Adds a new video.                                  |
+| 24. | PUT    | `/api/videos/`             | restricted          | Updates info on and existing video.                |
 
 #### Invitation Routes
 
-| Method | Endpoint                   | Access Control      | Description                                        |
-| ------ | -------------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/api/invites/:code`			| open | Returns team_id. -1==Invalid, -2==Expired 
-| POST   | `/api/invites/`          | open | Returns Invite object with a simple status message .
+| No. | Method | Endpoint                   | Access Control      | Description                                        |
+| --- | ------ | -------------------------- | ------------------- | -------------------------------------------------- |
+| 25. | GET    | `/api/invites/:code`	    | open                | Returns team_id. -1==Invalid, -2==Expired          |
+| 26. | POST   | `/api/invites/`            | open                | Returns Invite object with a simple status message |
 
 #### Avatar Routes
 
-| Method | Endpoint                   | Access Control      | Description                                        |
-| ------ | -------------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/api/avatars/`			      | open                | Returns public avatars.
+| No. | Method | Endpoint                   | Access Control      | Description                                        |
+| --- | ------ | -------------------------- | ------------------- | -------------------------------------------------- |
+| 27. | GET    | `/api/avatars/`		    | open                | Returns public avatars.                            |
 
 ---
 # Data Model
