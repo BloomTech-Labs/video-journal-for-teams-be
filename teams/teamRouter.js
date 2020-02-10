@@ -4,7 +4,8 @@ const Teams = require("../teams/teamModel.js");
 
 const router = express.Router();
 
-const { validateTeamId, validateTeamData } = require("../middleware/middleware");
+const { validateTeamId, validateTeamData, validateMembership } = require("../middleware/middleware");
+const { isTeamLead } = require("../utils/utils");
 
 // 9. Fetch all teams
 router.get("/", (req, res) => {
@@ -58,18 +59,24 @@ router.get("/:id/videos", validateTeamId, async (req, res) => {
 });
 
 // 14. Add a new team prompt
-router.post("/:id/prompts", validateTeamId, (req, res) => {
+router.post("/:id/prompts", validateTeamId, validateMembership, (req, res) => {
 	const { body } = req;
 	const { id } = req.params;
 	const promptdata = {
 		...body,
-		team_id: id
-	}
+		team_id: id,
+	};
 
-	Teams.insertPrompt(promptdata)
-		.then(prompt => { res.status(201).json(prompt) })
-		.catch(err => res.status(500).json({ message: "Could not create prompt.", err: err }))
-})
+	if (isTeamLead(req.user.role)) {
+		Teams.insertPrompt(promptdata)
+			.then((prompt) => {
+				res.status(201).json(prompt);
+			})
+			.catch((err) => res.status(500).json({ message: "Could not create prompt.", err: err }));
+	} else {
+		res.status(403).json({ message: "Permission denied." });
+	}
+});
 
 // 15. Add a new team
 router.post("/", validateTeamData, (req, res) => {
@@ -85,7 +92,27 @@ router.post("/", validateTeamData, (req, res) => {
 		.catch((err) => res.status(500).json({ message: "Could not create team." }));
 });
 
-// 16. Delete a user from a team
+// 16. Add a user to a team
+router.post("/:id/users", validateTeamId, (req, res) => {
+	const { id } = req.params;
+	const body = { ...req.body, team_id: id };
+
+	if (body.team_id && body.user_id && body.role_id) {
+		Teams.insertUser(body)
+			.then((count) => {
+				if (count.rowCount === 1) {
+					res.status(201).json(count);
+				}
+			})
+			.catch((err) => {
+				res.status(500).json({ message: "Could not add user to team", error: err });
+			});
+	} else {
+		res.status(400).json({ message: "Must have team_id, user_id, and role_id" });
+	}
+});
+
+// 17. Delete a user from a team
 router.delete("/:id/users/:user_id", validateTeamId, (req, res) => {
 	const teamId = req.params.id;
 	const userId = req.params.user_id;
@@ -108,19 +135,15 @@ router.put("/:id", validateTeamId, (req, res) => {
 	const updates = { ...req.body, updated_at: new Date(Date.now()).toISOString() };
 	const { id } = req.params;
 
-	if (updates.name || updates.description) {
-		Teams.update(id, updates)
-			.then((count) => {
-				if (count > 0) {
-					res.status(200).json(count);
-				} else {
-					res.status(404).json({ message: "That team id is not available for update." });
-				}
-			})
-			.catch((err) => res.status(500).json({ message: "Could not update team information", error: err }));
-	} else {
-		res.status(400).json({ message: "Must have a team name or description." })
-	}
+	Teams.update(id, updates)
+		.then((count) => {
+			if (count > 0) {
+				res.status(200).json(count);
+			} else {
+				res.status(404).json({ message: "That team id is not available for update." });
+			}
+		})
+		.catch((err) => res.status(500).json({ message: "Could not update team information", error: err }));
 });
 
 module.exports = router;
