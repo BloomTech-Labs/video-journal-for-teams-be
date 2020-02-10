@@ -55,6 +55,20 @@ router.get("/:id/videos", validateTeamId, async (req, res) => {
   }
 });
 
+// POST new prompt
+router.post("/:id/prompts", validateTeamId, (req, res) => {
+	const { body } = req;
+	const {id} = req.params;
+	const promptdata = {
+		...body,
+		team_id: id
+	}
+	
+	Teams.insertPrompt(promptdata)
+		.then(prompt => { res.status(201).json(prompt)})
+		.catch(err => res.status(500).json({ message: "Could not create prompt.", err: err }))
+})
+
 router.post("/", validateTeamData, (req, res) => {
   const { body } = req;
 
@@ -70,23 +84,23 @@ router.post("/", validateTeamData, (req, res) => {
 
 // Add a user to a team
 router.post("/:id/users", validateTeamId, (req, res) => {
-  const { id } = req.params;
-  const body = { ...req.body, team_id: id };
+	const { id } = req.params;
+	const body = { ...req.body, team_id: id }
 
-  if (body.team_id && body.user_id && body.role_id) {
-    Teams.insertUser(body)
-      .then((count) => {
-        if (count.rowCount === 1) {
-          res.status(201).json(count);
-        }
-      })
-      .catch((err) => {
-        res.status(500).json({ message: "Could not add user to team", error: err });
-      });
-  } else {
-    res.status(500).json({ message: "Could not get videos for this team" });
-  }
-});
+	if (body.team_id && body.user_id && body.role_id) {
+		Teams.insertUser(body)
+			.then(count => {
+				if (count.rowCount === 1) {
+					res.status(201).json(count)
+				}
+			})
+			.catch(err => {
+				res.status(500).json({ message: "Could not add user to team", error: err })
+			})
+	} else {
+		res.status(400).json({ message: "Must have team_id, user_id, and role_id" })
+	}
+})
 
 // Delete a user from a team
 router.delete("/:id/users/:user_id", validateTeamId, (req, res) => {
@@ -104,59 +118,6 @@ router.delete("/:id/users/:user_id", validateTeamId, (req, res) => {
       })
       .catch((err) => res.status(500).json({ message: "Could not create team." }));
   }
-});
-
-// Add a user to a team
-router.post("/:id/users", validateTeamId, (req, res) => {
-  const { body } = req;
-
-  if (body.team_id && body.user_id && body.role_id) {
-    Teams.insertUser(body)
-      .then((count) => {
-        if (count.rowCount === 1) {
-          res.status(201).json(count);
-        }
-      })
-      .catch((err) => {
-        res.status(500).json({ message: "Could not add user to team", error: err });
-      });
-  } else {
-    res.status(400).json({ message: "Must have team_id, user_id, and role_id" });
-  }
-});
-
-// Delete a user from a team
-router.delete("/:id/users", validateTeamId, (req, res) => {
-  const teamId = req.params.id;
-  const userId = req.body.user_id;
-
-  if (userId) {
-    Teams.remove(userId, teamId)
-      .then((removed) => {
-        res.status(200).json(removed);
-      })
-      .catch((err) => {
-        res.status(500).json({ message: "Could not delete user", error: err });
-      });
-  } else {
-    res.status(400).json({ message: "Please enter a user id to delete", error: err });
-  }
-});
-
-// Update team info
-router.put("/:id", validateTeamId, (req, res) => {
-  const updates = { ...req.body, updated_at: new Date(Date.now()).toISOString() };
-  const { id } = req.params;
-
-  Teams.update(id, updates)
-    .then((count) => {
-      if (count > 0) {
-        res.status(200).json(count);
-      } else {
-        res.status(404).json({ message: "That team id is not available for update." });
-      }
-    })
-    .catch((err) => res.status(500).json({ message: "Could not update team information", error: err }));
 });
 
 // Update team info
