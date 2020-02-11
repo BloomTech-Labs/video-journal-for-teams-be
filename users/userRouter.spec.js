@@ -86,7 +86,6 @@ describe("User Data Routes", () => {
               id: expect.any(Number),
               email: expect.any(String),
               username: expect.any(String),
-              password: expect.any(String),
               first_name: expect.any(String),
               last_name: expect.any(String)
             })
