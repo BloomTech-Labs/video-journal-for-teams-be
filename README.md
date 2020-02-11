@@ -46,9 +46,6 @@ To get the server running locally:
 | 2.  | POST   | `/api/auth/login/username` | unrestricted   | Returns a token.                        |
 | 3.  | POST   | `/api/auth/register`       | unrestricted   | Creates a new user and returns a token. |
 
-#### Required POST data 
-
-
 ### User Routes
 
 | No. | Method | Endpoint                | Access Control | Description                       |
