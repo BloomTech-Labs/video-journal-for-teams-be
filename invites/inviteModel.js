@@ -55,8 +55,8 @@ function update(changes) {
 
 // Utility Function
 function expiration() {
-	// const validtime = 86400000; // 1 day in ms
-	const validtime = 15000; // 5s in ms
+	const validtime = 86400000; // 1 day in ms
+	// const validtime = 15000; // 5s in ms
 	return new Date(Date.now() + validtime)
 }
 
