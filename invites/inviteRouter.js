@@ -104,7 +104,6 @@ router.post("/", (req, res) => {
 					THIS FOUND A VIABLE CODE
 					It will do nothing but return the existing code.
 				 */
-				clg("A CODE EXISTS AND IS VIABLE")
 				res.status(200).json({ msg: "Existing, valid invite code", ...invite })
 			}
 			if (expires < Date.now() || invite.isValid === false) {
@@ -157,19 +156,14 @@ router.post("/", (req, res) => {
 
 	function genCode(team_name) {
 		// generate a new code using the first part of name and 3 greek characters
-		let firstword = team_name.split("-")[0]
-		firstword = team_name.split(" ")[0];
-
-		// this is needed again as the first one may not catch it.
-		firstword = team_name.split("-")[0];
-
+		let cull = team_name.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"")
+		firstword = cull.split(" ")[0];
 		const newcode = greek[rand(greek.length)] + greek[rand(greek.length)] + greek[rand(greek.length)];
-		// clg(118, `${firstword}-${newcode}`);
 		return `${firstword}-${newcode}`;
 	}
 
 	function rand(max) {
-		// generat a random number from 0 to "max" argument
+		// generate a random number from 0 to "max" argument
 		return Math.floor(Math.random() * Math.floor(max));
 	}
 
