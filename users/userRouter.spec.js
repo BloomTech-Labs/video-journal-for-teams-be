@@ -23,6 +23,7 @@ describe("User Data Routes", () => {
 		});
 	});
 
+
 	describe("Authenticated routes", () => {
 		let token;
 
@@ -44,6 +45,7 @@ describe("User Data Routes", () => {
 					.get("/api/users")
 					.set("authorization", token);
 
+
 				expect(response.status).toEqual(200);
 			});
 
@@ -51,10 +53,10 @@ describe("User Data Routes", () => {
 				const response = await request(server)
 					.get("/api/users")
 					.set("authorization", token);
-
 				expect(Array.isArray(response.body)).toBe(true);
 			});
 		});
+
 
 		describe("GET /users/:id", () => {
 			it("should return status code 200", async () => {
@@ -69,7 +71,6 @@ describe("User Data Routes", () => {
 				const response = await request(server)
 					.get("/api/users/150")
 					.set("authorization", token);
-
 				expect(response.status).toEqual(400);
 			});
 
@@ -77,7 +78,7 @@ describe("User Data Routes", () => {
 				const response = await request(server)
 					.get("/api/users/1")
 					.set("authorization", token);
-
+        
 				expect(response.body).toEqual(
 					expect.objectContaining({
 						id: expect.any(Number),
@@ -114,6 +115,7 @@ describe("User Data Routes", () => {
 				expect(response.status).toEqual(400);
 			});
 		});
+
 		describe("PUT /users/:id for updating a user", () => {
 			it("should return info updated message", async () => {
 				const username = "Bit_Wolf";
@@ -125,6 +127,7 @@ describe("User Data Routes", () => {
 						expect(response.body.message).toBe("Successfully updated user");
 					});
 			});
+      
 			it("should return the updatedUser body", async () => {
 				const username = "Bit_Wolf";
 				return await request(server)
