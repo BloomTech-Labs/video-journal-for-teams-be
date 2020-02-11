@@ -144,12 +144,6 @@ router.put("/:id", validateTeamId, (req, res) => {
 					res.status(404).json({ message: "That team id is not available for update." });
 				}
 			})
-<<<<<<< HEAD
-=======
-			.catch((err) => res.status(500).json({ message: "Could not update team information", error: err }));
-	} else {
-		res.status(400).json({ message: "Must have a team name or description to update." });
->>>>>>> ea287801b1eb56d252c1b20b3e2a6bda00a28f99
 	}
 
 });
