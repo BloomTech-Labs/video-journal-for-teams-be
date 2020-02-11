@@ -30,8 +30,8 @@ describe("Team Data Routes", () => {
 			return request(server)
 				.post("/api/auth/login/username")
 				.send({
-					username: "fwilloughley0",
-					password: "4OTUUVDkYT",
+					username: "ostalleyf",
+					password: "Nx1XqfzS6X",
 				})
 				.then((res) => {
 					token = res.body.token;

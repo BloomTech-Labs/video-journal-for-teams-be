@@ -17,12 +17,12 @@ afterAll(async () => {
 describe("User Data Routes", () => {
 	describe("GET /users", () => {
 		it("should return status code 401 without a token", async () => {
-			const response = await request(server)
-				.get("/api/users")
+			const response = await request(server).get("/api/users");
 
 			expect(response.status).toEqual(401);
 		});
-	})
+	});
+
 
 	describe("Authenticated routes", () => {
 		let token;
@@ -34,18 +34,17 @@ describe("User Data Routes", () => {
 					username: "fwilloughley0",
 					password: "4OTUUVDkYT",
 				})
-				.then(res => {
-					token = res.body.token
-				})
+				.then((res) => {
+					token = res.body.token;
+				});
 		});
 
 		describe("GET /users/", () => {
-
 			it("should return status code 200", async () => {
-
 				const response = await request(server)
 					.get("/api/users")
-					.set("authorization", token)
+					.set("authorization", token);
+
 
 				expect(response.status).toEqual(200);
 			});
@@ -53,17 +52,17 @@ describe("User Data Routes", () => {
 			it("should return an array", async () => {
 				const response = await request(server)
 					.get("/api/users")
-					.set("authorization", token)
-
+					.set("authorization", token);
 				expect(Array.isArray(response.body)).toBe(true);
 			});
-		})
+		});
+
 
 		describe("GET /users/:id", () => {
 			it("should return status code 200", async () => {
 				const response = await request(server)
 					.get("/api/users/1")
-					.set("authorization", token)
+					.set("authorization", token);
 
 				expect(response.status).toEqual(200);
 			});
@@ -71,33 +70,32 @@ describe("User Data Routes", () => {
 			it("should return status code 400 if the user id is invalid", async () => {
 				const response = await request(server)
 					.get("/api/users/150")
-					.set("authorization", token)
-
+					.set("authorization", token);
 				expect(response.status).toEqual(400);
-			})
+			});
 
 			it("should return a properly formatted JSON object on success", async () => {
 				const response = await request(server)
 					.get("/api/users/1")
-					.set("authorization", token)
-
+					.set("authorization", token);
+        
 				expect(response.body).toEqual(
 					expect.objectContaining({
 						id: expect.any(Number),
 						email: expect.any(String),
 						username: expect.any(String),
 						first_name: expect.any(String),
-						last_name: expect.any(String)
+						last_name: expect.any(String),
 					})
 				);
 			});
-		})
+		});
 
 		describe("GET /users/:id/teams", () => {
 			it("should return status code 200", async () => {
 				const response = await request(server)
 					.get("/api/users/1/teams")
-					.set("authorization", token)
+					.set("authorization", token);
 
 				expect(response.status).toEqual(200);
 			});
@@ -105,18 +103,19 @@ describe("User Data Routes", () => {
 			it("should return an array", async () => {
 				const response = await request(server)
 					.get("/api/users/1/teams")
-					.set("authorization", token)
+					.set("authorization", token);
 
 				expect(Array.isArray(response.body)).toBe(true);
 			});
 			it("should return status code 400 if the user id is invalid", async () => {
 				const response = await request(server)
 					.get("/api/users/150/teams")
-					.set("authorization", token)
+					.set("authorization", token);
 
 				expect(response.status).toEqual(400);
-			})
-		})
+			});
+		});
+
 		describe("PUT /users/:id for updating a user", () => {
 			it("should return info updated message", async () => {
 				const username = "Bit_Wolf";
@@ -124,20 +123,21 @@ describe("User Data Routes", () => {
 					.put("/api/users/1")
 					.send({ username: username })
 					.set("authorization", token)
-					.then(response => {
+					.then((response) => {
 						expect(response.body.message).toBe("Successfully updated user");
 					});
 			});
+      
 			it("should return the updatedUser body", async () => {
 				const username = "Bit_Wolf";
 				return await request(server)
 					.put("/api/users/1")
 					.send({ username: username })
 					.set("authorization", token)
-					.then(response => {
+					.then((response) => {
 						expect(response.body.updatedUser.username).toBe("Bit_Wolf");
 					});
-			})
-		})
-	})
-})
+			});
+		});
+	});
+});
