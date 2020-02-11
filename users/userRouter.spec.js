@@ -23,7 +23,6 @@ describe("User Data Routes", () => {
 		});
 	});
 
-
 	describe("Authenticated routes", () => {
 		let token;
 
@@ -45,7 +44,6 @@ describe("User Data Routes", () => {
 					.get("/api/users")
 					.set("authorization", token);
 
-
 				expect(response.status).toEqual(200);
 			});
 
@@ -57,7 +55,6 @@ describe("User Data Routes", () => {
 			});
 		});
 
-
 		describe("GET /users/:id", () => {
 			it("should return status code 200", async () => {
 				const response = await request(server)
@@ -67,18 +64,18 @@ describe("User Data Routes", () => {
 				expect(response.status).toEqual(200);
 			});
 
-			it("should return status code 400 if the user id is invalid", async () => {
+			it("should return status code 404 if the user id is invalid", async () => {
 				const response = await request(server)
 					.get("/api/users/150")
 					.set("authorization", token);
-				expect(response.status).toEqual(400);
+				expect(response.status).toEqual(404);
 			});
 
 			it("should return a properly formatted JSON object on success", async () => {
 				const response = await request(server)
 					.get("/api/users/1")
 					.set("authorization", token);
-        
+
 				expect(response.body).toEqual(
 					expect.objectContaining({
 						id: expect.any(Number),
@@ -107,12 +104,12 @@ describe("User Data Routes", () => {
 
 				expect(Array.isArray(response.body)).toBe(true);
 			});
-			it("should return status code 400 if the user id is invalid", async () => {
+			it("should return status code 404 if the user id is invalid", async () => {
 				const response = await request(server)
 					.get("/api/users/150/teams")
 					.set("authorization", token);
 
-				expect(response.status).toEqual(400);
+				expect(response.status).toEqual(404);
 			});
 		});
 
@@ -127,7 +124,7 @@ describe("User Data Routes", () => {
 						expect(response.body.message).toBe("Successfully updated user");
 					});
 			});
-      
+
 			it("should return the updatedUser body", async () => {
 				const username = "Bit_Wolf";
 				return await request(server)
