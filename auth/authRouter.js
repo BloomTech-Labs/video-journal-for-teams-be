@@ -1,5 +1,6 @@
 const express = require("express");
 const Users = require("../users/userModel");
+const Avatars = require("../avatars/avatarModel");
 const passport = require("passport");
 const bcrypt = require("bcrypt");
 const router = express.Router();
@@ -7,21 +8,33 @@ const router = express.Router();
 const { signToken, validateSignup } = require("../middleware/middleware");
 
 // 1. Login with email
-router.post("/login/email", passport.authenticate("email-login", { session: false }), function (req, res) {
+router.post("/login/email", passport.authenticate("email-login", { session: false }), function(req, res) {
 	res.status(200).json(loginSuccessBody(req.user));
 });
 
 // 2. Login with username
-router.post("/login/username", passport.authenticate("username-login", { session: false }), function (req, res) {
+router.post("/login/username", passport.authenticate("username-login", { session: false }), function(req, res) {
 	res.status(200).json(loginSuccessBody(req.user));
 });
 
 // 3. register new user
-router.post("/register", validateSignup, function (req, res) {
+router.post("/register", validateSignup, async function(req, res) {
 	const user = req.user;
 
 	//Hash user password before storing in database
 	user.password = bcrypt.hashSync(user.password, 8);
+
+	//Pick a random avatar and assign it to new user
+	const avatar = await Avatars.find()
+		.then((avatars) => {
+			const index = Math.floor(Math.random() * (avatars.length - 1));
+			return avatars[index].src;
+		})
+		.catch((err) => {
+			res.status(500).json({ message: "Could not assign avatar to user." });
+		});
+
+	user.avatar = avatar;
 
 	//Create new user
 	Users.insert(user)
@@ -34,7 +47,7 @@ router.post("/register", validateSignup, function (req, res) {
 			if (err.code === "23505") {
 				res.status(409).json({ error: "Account already exists" });
 			} else {
-				console.log(err)
+				console.log(err);
 				res.status(500).json(err);
 			}
 		});
@@ -51,7 +64,8 @@ function loginSuccessBody(user) {
 			email: user.email,
 			username: user.username,
 			first_name: user.first_name,
-			last_name: user.last_name
+			last_name: user.last_name,
+			avatar: user.avatar,
 		},
 		token: token,
 	};
