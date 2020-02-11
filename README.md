@@ -38,7 +38,7 @@ To get the server running locally:
 
 ## 2️⃣ Endpoints
 
-#### Auth Routes
+### Auth Routes
 
 | No. | Method | Endpoint                   | Access Control | Description                             |
 | --- | ------ | -------------------------- | -------------- | --------------------------------------- |
@@ -46,7 +46,7 @@ To get the server running locally:
 | 2.  | POST   | `/api/auth/login/username` | unrestricted   | Returns a token.                        |
 | 3.  | POST   | `/api/auth/register`       | unrestricted   | Creates a new user and returns a token. |
 
-#### User Routes
+### User Routes
 
 | No. | Method | Endpoint                | Access Control | Description                       |
 | --- | ------ | ----------------------- | -------------- | --------------------------------- |
@@ -56,7 +56,7 @@ To get the server running locally:
 | 7.  | GET    | `/api/users/:id/videos` | restricted     | Returns all of the user's videos. |
 | 8.  | PUT    | `/api/users/:id`        | restricted     | Updates a user's information.     |
 
-#### Team Routes
+### Team Routes
 
 | No. | Method | Endpoint                        | Access Control | Description                                          |
 | --- | ------ | ------------------------------- | -------------- | ---------------------------------------------------- |
@@ -71,7 +71,7 @@ To get the server running locally:
 | 17. | PUT    | `/api/teams/:id`                | restricted     | Updates team information.                            |
 | 18. | DELETE | `/api/teams/:id/users/:user_id` | restricted     | Deletes a user from a team.                          |
 
-#### Video Routes
+### Video Routes
 
 | No. | Method | Endpoint                   | Access Control | Description                                    |
 | --- | ------ | -------------------------- | -------------- | ---------------------------------------------- |
@@ -82,14 +82,14 @@ To get the server running locally:
 | 23. | POST   | `/api/videos/`             | restricted     | Adds a new video.                              |
 | 24. | PUT    | `/api/videos/`             | restricted     | Updates info on and existing video.            |
 
-#### Invitation Routes
+### Invitation Routes
 
 | No. | Method | Endpoint             | Access Control | Description                                        |
 | --- | ------ | -------------------- | -------------- | -------------------------------------------------- |
 | 25. | GET    | `/api/invites/:code` | open           | Returns team_id. -1==Invalid, -2==Expired          |
 | 26. | POST   | `/api/invites/`      | open           | Returns Invite object with a simple status message |
 
-#### Avatar Routes
+### Avatar Routes
 
 | No. | Method | Endpoint        | Access Control | Description             |
 | --- | ------ | --------------- | -------------- | ----------------------- |
