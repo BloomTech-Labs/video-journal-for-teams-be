@@ -229,22 +229,22 @@ describe("Team Data Routes", () => {
 				description: "Describe a description",
 			};
 
+
 			it("should return 201", async () => {
 				const response = await request(server)
-					.post("/api/teams/1/prompts")
+					.post("/api/teams/20/prompts")
 					.set("authorization", token)
 					.send(goodPrompt);
-
 				expect(response.status).toEqual(201);
 			});
 
 			it("should return 500 if the incoming body is malformed", async () => {
 				const response = await request(server)
-					.post("/api/teams/1/prompts")
+					.post("/api/teams/20/prompts")
 					.set("authorization", token)
 					.send(badPrompt);
 
-				expect(response.status).toEqual(500);
+				expect(response.status).toEqual(400);
 			});
 
 			it("should return array of data", async () => {
