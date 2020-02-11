@@ -19,17 +19,25 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.0",
+    "insomnia-documenter": "^0.3.2",
     "jest": "^25.1.0",
     "nodemon": "^2.0.2",
     "supertest": "^4.0.2"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "coverageReporters": [
+      "json-summary",
+      "text",
+      "lcov"
+    ]
   },
   "scripts": {
     "server": "nodemon index.js",
     "start": "node index.js",
     "test": "cross-env DB_ENV=testing jest --watchAll --runInBand",
+    "test:coverage": "cross-env DB_ENV=testing jest --watchAll --verbose --runInBand --coverage",
+    "test:badges": "yarn test:coverage && jest-coverage-badges",
     "db:test:seed": "cross-env NODE_ENV=testing knex seed:run",
     "db:test:migrate": "cross-env NODE_ENV=testing knex migrate:latest"
   },
