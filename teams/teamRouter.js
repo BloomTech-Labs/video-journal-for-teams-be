@@ -135,15 +135,20 @@ router.put("/:id", validateTeamId, (req, res) => {
 	const updates = { ...req.body, updated_at: new Date(Date.now()).toISOString() };
 	const { id } = req.params;
 
-	Teams.update(id, updates)
-		.then((count) => {
-			if (count > 0) {
-				res.status(200).json(count);
-			} else {
-				res.status(404).json({ message: "That team id is not available for update." });
-			}
-		})
-		.catch((err) => res.status(500).json({ message: "Could not update team information", error: err }));
+	if (updates.name || updates.description) {
+		Teams.update(id, updates)
+			.then((count) => {
+				if (count > 0) {
+					res.status(200).json(count);
+				} else {
+					res.status(404).json({ message: "That team id is not available for update." });
+				}
+			})
+			.catch((err) => res.status(500).json({ message: "Could not update team information", error: err }));
+	} else {
+		res.status(400).json({ message: "Must have a team name or description to update." });
+	}
+
 });
 
 module.exports = router;
