@@ -62,17 +62,22 @@ router.get("/:id/videos", validateTeamId, async (req, res) => {
 router.post("/:id/prompts", validateTeamId, validateMembership, (req, res) => {
 	const { body } = req;
 	const { id } = req.params;
+
 	const promptdata = {
 		...body,
 		team_id: id,
 	};
 
 	if (isTeamLead(req.user.role)) {
-		Teams.insertPrompt(promptdata)
-			.then((prompt) => {
-				res.status(201).json(prompt);
-			})
-			.catch((err) => res.status(500).json({ message: "Could not create prompt.", err: err }));
+		if (!body.question || !body.description) {
+			res.status(400).json({ message: "Bad question or description." });
+		} else {
+			Teams.insertPrompt(promptdata)
+				.then((prompt) => {
+					res.status(201).json(prompt);
+				})
+				.catch((err) => res.status(500).json({ message: "Could not create prompt.", err: err }));
+		}
 	} else {
 		res.status(403).json({ message: "Permission denied." });
 	}
