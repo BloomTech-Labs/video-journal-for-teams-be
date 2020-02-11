@@ -5,6 +5,7 @@ const validateTeamId = require("./validateTeamId");
 const validateVideoId = require("./validateVideoId");
 const validateFeedback = require("./validateFeedback");
 const validateTeamData = require("./validateTeamData");
+const validateMembership = require("./validateMembership");
 
 module.exports = {
   signToken,
@@ -14,4 +15,5 @@ module.exports = {
   validateVideoId,
   validateFeedback,
   validateTeamData,
+  validateMembership,
 };
