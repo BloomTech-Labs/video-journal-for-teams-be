@@ -34,7 +34,7 @@
             env:
     
     					# An environment variable, the value is a GitHub repo secret
-              CC_TEST_REPORTER_ID: ${{ secrets.CodeClimateReporterId }}
+              CC_TEST_REPORTER_ID: d973dd4b479d0d8587fe9f8b52548143194a6f283415bd7f52cf9646dcfe79f5
             with:
     					# Run our `coverage` command from our `package.json`
               coverageCommand: npm run coverage
