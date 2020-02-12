@@ -16,11 +16,7 @@ router.get("/", (req, res) => {
 
 // 10. Fetch team by id
 router.get("/:id", validateTeamId, (req, res) => {
-	const { id } = req.params;
-
-	Teams.findById(id)
-		.then((team) => res.status(200).json(team))
-		.catch((err) => res.status(500).json({ message: "Could not get team.", error: err }));
+	res.status(200).json(req.team);
 });
 
 // 11. Fetch users in a team
@@ -153,7 +149,6 @@ router.put("/:id", validateTeamId, (req, res) => {
 	} else {
 		res.status(400).json({ message: "Must have a team name or description to update." });
 	}
-
 });
 
 module.exports = router;

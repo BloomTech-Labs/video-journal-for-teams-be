@@ -64,12 +64,12 @@ describe("Team Data Routes", () => {
 				expect(response.status).toEqual(200);
 			});
 
-			it("should return status code 400 if the team id is invalid", async () => {
+			it("should return status code 404 if the team id is invalid", async () => {
 				const response = await request(server)
 					.get("/api/teams/150")
 					.set("authorization", token);
 
-				expect(response.status).toEqual(400);
+				expect(response.status).toEqual(404);
 			});
 
 			it("should return a properly formatted JSON object on success", async () => {
@@ -98,12 +98,12 @@ describe("Team Data Routes", () => {
 				expect(response.status).toEqual(200);
 			});
 
-			it("should return status code 400 if the team id is invalid", async () => {
+			it("should return status code 404 if the team id is invalid", async () => {
 				const response = await request(server)
 					.get("/api/teams/150/users")
 					.set("authorization", token);
 
-				expect(response.status).toEqual(400);
+				expect(response.status).toEqual(404);
 			});
 
 			it("should return array of data", async () => {
@@ -203,12 +203,12 @@ describe("Team Data Routes", () => {
 				expect(response.status).toEqual(200);
 			});
 
-			it("should return status code 400 if the team id is invalid", async () => {
+			it("should return status code 404 if the team id is invalid", async () => {
 				const response = await request(server)
 					.get("/api/teams/150/prompts")
 					.set("authorization", token);
 
-				expect(response.status).toEqual(400);
+				expect(response.status).toEqual(404);
 			});
 
 			it("should return array of data", async () => {
@@ -228,7 +228,6 @@ describe("Team Data Routes", () => {
 				// "question": "This is the question",
 				description: "Describe a description",
 			};
-
 
 			it("should return 201", async () => {
 				const response = await request(server)
@@ -264,12 +263,12 @@ describe("Team Data Routes", () => {
 				expect(response.status).toEqual(200);
 			});
 
-			it("should return status code 400 if the team id is invalid", async () => {
+			it("should return status code 404 if the team id is invalid", async () => {
 				const response = await request(server)
 					.get("/api/teams/150/videos")
 					.set("authorization", token);
 
-				expect(response.status).toEqual(400);
+				expect(response.status).toEqual(404);
 			});
 
 			it("should return array of data", async () => {
