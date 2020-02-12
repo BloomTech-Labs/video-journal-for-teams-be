@@ -1,0 +1,8 @@
+{
+	"exclude_patterns": [
+		"public/",
+		"/public/",
+		"**/public/",
+		"**/node_modules/"
+	]
+}

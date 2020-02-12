@@ -1,0 +1,8 @@
+exclude_patterns:
+- "tests/"
+- "spec/"
+- "public/"
+- "/public/"
+- "**/public/"
+- "**/vendor/"
+- "**/node_modules/"
