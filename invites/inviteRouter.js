@@ -25,7 +25,7 @@ router.get("/:code", (req, res) => {
 
 			if (expires < Date.now()) {
 				clg("EXPIRED")
-				res.status(200).json({ message: "Code is EXPIRED", team_id: -2 })
+				res.status(403).json({ message: "Code is EXPIRED", team_id: -2 })
 			} else if (invite.isValid === false) {
 				clg("INVALID")
 				res.status(406).json({ message: "Code is INVALID", team_id: -1 })
