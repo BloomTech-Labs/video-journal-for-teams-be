@@ -13,6 +13,7 @@ module.exports = {
 	getUsersByTeamId,
 	getPromptsByTeamId,
 	getVideosByTeamId,
+	switchRole,
 };
 
 function find() {
@@ -111,4 +112,14 @@ function getVideosByTeamId(teamId) {
 			"videos.created_at as created_at"
 		)
 		.columns(db.raw("users.first_name || ' ' || users.last_name as user_full_name"));
+}
+
+function switchRole(teamId, userId, roleId) {
+	return db("team_members")
+		.where({ team_id: teamId, user_id: userId })
+		.update({ role_id: roleId })
+		.then((count) => {
+			return db("team_members")
+				.where({ user_id: userId, team_id: teamId })
+		})
 }
