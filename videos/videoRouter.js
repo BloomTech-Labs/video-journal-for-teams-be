@@ -1,8 +1,9 @@
 const express = require("express");
+const router = express.Router();
 
 const Videos = require("../videos/videoModel.js");
-
-const router = express.Router();
+const multer  = require('multer')
+const upload = multer({ dest: './uploads/' })
 
 const { validateVideoId, validateFeedback } = require("../middleware/middleware");
 
@@ -50,7 +51,7 @@ router.post("/:id/feedback", validateVideoId, validateFeedback, (req, res) => {
 });
 
 // 23. Add a new video
-router.post("/", (req, res) => {
+router.post("/", upload.single(`${Date.now()}.vid`), (req, res) => {
 	/* 
   
 	  req.body should be an object in this form
