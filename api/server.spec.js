@@ -1,36 +1,47 @@
-const request = require('supertest'); 
+const request = require("supertest");
 
-const server = require('./server.js');
+const server = require("../api/server");
 
-describe('server.js', () => {
-  describe("environment", function() {
-    it("should set environment to testing", function() {
-      expect(process.env.DB_ENV).toBe("testing");
-    });
-  });
+const db = require("../database/dbConfig");
 
-  describe('index route', () => {
-    it('should return an OK status code from the index route', async () => {
-      const expectedStatusCode = 200;
+//Clear and seed testing database
+beforeAll(async () => {
+	await db.seed.run();
+});
 
-      const response = await request(server).get('/');
+//Close worker connection thread
+afterAll(async () => {
+	await db.destroy();
+});
 
-      expect(response.status).toEqual(expectedStatusCode);
+describe("server.js", () => {
+	describe("environment", function() {
+		it("should set environment to testing", function() {
+			expect(process.env.DB_ENV).toBe("testing");
+		});
+	});
 
-    });
+	describe("index route", () => {
+		it("should return an OK status code from the index route", async () => {
+			const expectedStatusCode = 200;
 
-    it('should return a JSON object from the index route', async () => {
-      const expectedBody = { api: 'running' };
+			const response = await request(server).get("/");
 
-      const response = await request(server).get('/');
+			expect(response.status).toEqual(expectedStatusCode);
+		});
 
-      expect(response.body).toEqual(expectedBody);
-    });
+		it("should return a JSON object from the index route", async () => {
+			const expectedBody = { api: "running" };
 
-    it('should return a JSON object from the index route', async () => {
-      const response = await request(server).get('/');
+			const response = await request(server).get("/");
 
-      expect(response.type).toEqual('application/json');
-    });
-  });
+			expect(response.body).toEqual(expectedBody);
+		});
+
+		it("should return a JSON object from the index route", async () => {
+			const response = await request(server).get("/");
+
+			expect(response.type).toEqual("application/json");
+		});
+	});
 });
