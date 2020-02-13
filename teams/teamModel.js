@@ -121,5 +121,6 @@ function switchRole(teamId, userId, roleId) {
 		.then((count) => {
 			return db("team_members")
 				.where({ user_id: userId, team_id: teamId })
+				.first()
 		})
 }

@@ -157,11 +157,13 @@ router.put("/:id/users/:user_id/role", validateTeamId, (req, res) => {
 	const userId = req.params.user_id;
 	const { role_id } = req.body;
 
-	if (!role_id && (role_id !== 1 || role_id !== 2)) {
-		res.status(400).json({ message: "invalid role request" })
+	if (!role_id) {
+		res.status(400).json({ message: "Missing role id." })
+	} else if (role_id !== 1 && role_id !== 2) {
+		res.status(406).json({ message: "Unable to accept role id, must be 1 or 2." })
 	} else {
 		Teams.switchRole(teamId, userId, role_id)
-			.then((updatedRole) => res.status(200).json({ message: "Successfully updated user role", updatedRole }))
+			.then((updatedRole) => res.status(200).json({ message: "Successfully updated user role.", updatedRole }))
 			.catch((err) => res.status(500).json({ message: "Could not get user.", error: err }));
 	}
 });

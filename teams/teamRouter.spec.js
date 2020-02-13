@@ -301,5 +301,40 @@ describe("Team Data Routes", () => {
 				expect(response.status).toEqual(404);
 			});
 		});
+
+		describe("PUT /teams/:id/users/:user_id/role for updating a user's team role", () => {
+			it("should return successful message", async () => {
+				return await request(server)
+					.put("/api/teams/20/users/1/role")
+					.send({ role_id: 1 })
+					.set("authorization", token)
+					.then((response) => {
+						expect(response.status).toEqual(200)
+						expect(response.body.message).toBe("Successfully updated user role.");
+					});
+			});
+
+			it("should return missing role id message", async () => {
+				return await request(server)
+					.put("/api/teams/20/users/1/role")
+					.send()
+					.set("authorization", token)
+					.then((response) => {
+						expect(response.status).toEqual(400)
+						expect(response.body.message).toBe("Missing role id.");
+					});
+			});
+
+			it("should unacceptable message", async () => {
+				return await request(server)
+					.put("/api/teams/20/users/1/role")
+					.send({ role_id: 42 })
+					.set("authorization", token)
+					.then((response) => {
+						expect(response.status).toEqual(406)
+						expect(response.body.message).toBe("Unable to accept role id, must be 1 or 2.");
+					});
+			});
+		});
 	});
 });
