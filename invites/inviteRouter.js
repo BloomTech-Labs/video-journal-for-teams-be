@@ -6,7 +6,7 @@ const Teams = require("../teams/teamModel.js");
 
 const router = express.Router();
 
-// 25. Fetch invitation code
+// 1. Fetch invitation code
 router.get("/:code", (req, res) => {
 
 	/* 
@@ -37,7 +37,7 @@ router.get("/:code", (req, res) => {
 		.catch(err => res.status(500).json({ message: "Could not find that invite code.", error: err }))
 })
 
-// 26. Returns invite object
+// 2. Returns invite object
 router.post("/", (req, res) => {
 
 	// #region docstring 
@@ -156,7 +156,7 @@ router.post("/", (req, res) => {
 
 	function genCode(team_name) {
 		// generate a new code using the first part of name and 3 greek characters
-		let cull = team_name.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"")
+		let cull = team_name.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
 		firstword = cull.split(" ")[0];
 		const newcode = greek[rand(greek.length)] + greek[rand(greek.length)] + greek[rand(greek.length)];
 		return `${firstword}-${newcode}`;
