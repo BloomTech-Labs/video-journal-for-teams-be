@@ -5,6 +5,7 @@ const Videos = require("../videos/videoModel.js");
 
 const { validateVideoId, validateFeedback } = require("../middleware/middleware");
 
+
 const tempfile = `TEMP-${Date.now()}`
 const multer = require('multer')
 const storage = multer.diskStorage({
@@ -19,14 +20,14 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 
-// 19. Fetch all videos
+// 1. Fetch all videos
 router.get("/", (req, res) => {
 	Videos.find()
 		.then((videos) => res.status(200).json(videos))
 		.catch((err) => res.status(500).json({ message: "Could not get videos.", error: err }));
 });
 
-// 20. Fetch video by id
+// 2. Fetch video by id
 router.get("/:id", validateVideoId, (req, res) => {
 	const { id } = req.params;
 
@@ -35,7 +36,7 @@ router.get("/:id", validateVideoId, (req, res) => {
 		.catch((err) => res.status(500).json({ message: "Could not get video.", error: err }));
 });
 
-// 21. Fetch feedback by video id
+// 3. Fetch feedback by video id
 router.get("/:id/feedback", validateVideoId, (req, res) => {
 	const { id } = req.params;
 
@@ -44,7 +45,7 @@ router.get("/:id/feedback", validateVideoId, (req, res) => {
 		.catch((err) => res.status(500).json({ message: "Could not get feedback.", error: err }));
 });
 
-// 22. Add video feedback
+// 4. Add video feedback
 router.post("/:id/feedback", validateVideoId, validateFeedback, (req, res) => {
 	const { id } = req.params;
 	req.feedback.video_id = id;
@@ -62,22 +63,21 @@ router.post("/:id/feedback", validateVideoId, validateFeedback, (req, res) => {
 		});
 });
 
-// 23. Add a new video
+// 5. Add a new video
 router.post("/", upload.single("alpacafile"), (req, res) => {
 	/* 
-
-	req.body should be an object in this form
-	{
-		"owner_id": 73,
-		"title": "Removal of Drainage Device from Peritoneum, Open Approach",
-		"description": "Removal of Drainage Device from Peritoneum, Open Approach",
-		"created_at": "2020-01-14 14:32:15",
-		"updated_at": "2019-01-24 03:09:02",
-		"video_url": "http://dummyimage.com/204x108.jpg/5fa2dd/ffffff",
-		"prompt_id": 6
-	}
-
-	REQUIREMENTS:
+	  req.body should be an object in this form
+	  {
+		  "owner_id": 73,
+		  "title": "Removal of Drainage Device from Peritoneum, Open Approach",
+		  "description": "Removal of Drainage Device from Peritoneum, Open Approach",
+		  "created_at": "2020-01-14 14:32:15",
+		  "updated_at": "2019-01-24 03:09:02",
+		  "video_url": "http://dummyimage.com/204x108.jpg/5fa2dd/ffffff",
+		  "prompt_id": 6
+	  }
+  
+	  REQUIREMENTS:
 	  * owner_id and prompt_id must be from the same team
 	  * owner_id DOES NOT need team admin permission
 	  * owner_id MUST be logged in and Authz Token in header
@@ -98,7 +98,7 @@ router.post("/", upload.single("alpacafile"), (req, res) => {
 			.catch((err) => res.status(500).json({ message: "Could not insert new video.", error: err }));
 });
 
-// 24. Update a video
+// 6. Update a video
 router.put("/", (req, res) => {
 	/* 
   
@@ -110,13 +110,8 @@ router.put("/", (req, res) => {
   
 	   */
 	Videos.update(req.body)
-		// .then(data => clg(62, data))
 		.then((video) => res.status(200).json({ message: "Video meta-data edit successful.", video: video }))
 		.catch((err) => res.status(500).json({ message: "Could not insert new video.", error: err }));
 });
 
 module.exports = router;
-
-function clg(...x) {
-	console.log(...x);
-}
