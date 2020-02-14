@@ -30,6 +30,11 @@ server.use("/api/avatars", AvatarRouter);
 
 server.use("/public", express.static(path.join(__dirname, "../public")));
 
+server.use(function (err, req, res, next) {
+	console.log('This is the invalid field ->', err.field)
+	next(err)
+  })
+
 server.get("/", (req, res) => {
   res.status(200).json({ api: "running" });
 });

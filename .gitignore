@@ -110,3 +110,6 @@ package-lock.json
 
 # Prettier :(
 .prettierrc
+
+# Uploads directory for temp video files
+uploads/
