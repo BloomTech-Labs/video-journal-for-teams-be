@@ -50,49 +50,50 @@ To get the server running locally:
 
 | No. | Method | Endpoint                | Access Control | Description                       |
 | --- | ------ | ----------------------- | -------------- | --------------------------------- |
-| 4.  | GET    | `/api/users/`           | restricted     | Returns all the users.            |
-| 5.  | GET    | `/api/users/:id`        | restricted     | Returns single user by id.        |
-| 6.  | GET    | `/api/users/:id/teams`  | restricted     | Returns all of the user's teams.  |
-| 7.  | GET    | `/api/users/:id/videos` | restricted     | Returns all of the user's videos. |
-| 8.  | PUT    | `/api/users/:id`        | restricted     | Updates a user's information.     |
+| 1.  | GET    | `/api/users/`           | restricted     | Returns all the users.            |
+| 2.  | GET    | `/api/users/:id`        | restricted     | Returns single user by id.        |
+| 3.  | GET    | `/api/users/:id/teams`  | restricted     | Returns all of the user's teams.  |
+| 4.  | GET    | `/api/users/:id/videos` | restricted     | Returns all of the user's videos. |
+| 5.  | PUT    | `/api/users/:id`        | restricted     | Updates a user's information.     |
 
 ### Team Routes
 
-| No. | Method | Endpoint                        | Access Control | Description                                          |
-| --- | ------ | ------------------------------- | -------------- | ---------------------------------------------------- |
-| 9.  | GET    | `/api/teams/`                   | restricted     | Returns all teams.                                   |
-| 10. | GET    | `/api/teams/:id`                | restricted     | Returns single team by id.                           |
-| 11. | GET    | `/api/teams/:id/users`          | restricted     | Returns team members by team id.                     |
-| 12. | GET    | `/api/teams/:id/prompts`        | restricted     | Returns prompts by team id.                          |
-| 13. | GET    | `/api/teams/:id/videos`         | restricted     | Returns prompts with nested videos array by team id. |
-| 14. | POST   | `/api/teams/:id/prompts`        | restricted     | Creates a new team prompts.                          |
-| 15. | POST   | `/api/teams/`                   | restricted     | Creates a new team.                              |
-| 16. | PUT    | `/api/teams/:id`                | restricted     | Updates team information.                            |
-| 17. | DELETE | `/api/teams/:id/users/:user_id` | restricted     | Deletes a user from a team.                          |
+| No. | Method | Endpoint                            | Access Control | Description                                          |
+| --- | ------ | ----------------------------------- | -------------- | ---------------------------------------------------- |
+| 1.  | GET    | `/api/teams/`                       | restricted     | Returns all teams.                                   |
+| 2.  | GET    | `/api/teams/:id`                    | restricted     | Returns single team by id.                           |
+| 3.  | GET    | `/api/teams/:id/users`              | restricted     | Returns team members by team id.                     |
+| 4.  | GET    | `/api/teams/:id/prompts`            | restricted     | Returns prompts by team id.                          |
+| 5.  | GET    | `/api/teams/:id/videos`             | restricted     | Returns prompts with nested videos array by team id. |
+| 6.  | POST   | `/api/teams/:id/prompts`            | restricted     | Creates a new team prompts.                          |
+| 7.  | POST   | `/api/teams/`                       | restricted     | Creates a new team.                                  |
+| 8.  | PUT    | `/api/teams/:id`                    | restricted     | Updates team information.                            |
+| 9.  | DELETE | `/api/teams/:id/users/:user_id`     | restricted     | Deletes a user from a team.                          |
+| 10. | PUT    | `/api/teams/:id/users/:user_id/role`| restricted     | Deletes a user from a team.                          |
 
 ### Video Routes
 
 | No. | Method | Endpoint                   | Access Control | Description                                    |
 | --- | ------ | -------------------------- | -------------- | ---------------------------------------------- |
-| 18. | GET    | `/api/videos/`             | restricted     | Returns all videos.                            |
-| 19. | GET    | `/api/videos/:id`          | restricted     | Returns single video by owner id, plus prompt. |
-| 20. | GET    | `/api/videos/:id/feedback` | restricted     | Returns feedback by video id.                  |
-| 21. | POST   | `/api/videos/feedback`     | restricted     | Adds new feedback to a video.                  |
-| 22. | POST   | `/api/videos/`             | restricted     | Adds a new video.                              |
-| 23. | PUT    | `/api/videos/`             | restricted     | Updates info on and existing video.            |
+| 1.  | GET    | `/api/videos/`             | restricted     | Returns all videos.                            |
+| 2.  | GET    | `/api/videos/:id`          | restricted     | Returns single video by owner id, plus prompt. |
+| 3.  | GET    | `/api/videos/:id/feedback` | restricted     | Returns feedback by video id.                  |
+| 4.  | POST   | `/api/videos/feedback`     | restricted     | Adds new feedback to a video.                  |
+| 5.  | POST   | `/api/videos/`             | restricted     | Adds a new video.                              |
+| 6.  | PUT    | `/api/videos/`             | restricted     | Updates info on and existing video.            |
 
 ### Invitation Routes
 
 | No. | Method | Endpoint             | Access Control | Description                                        |
 | --- | ------ | -------------------- | -------------- | -------------------------------------------------- |
-| 24. | GET    | `/api/invites/:code` | open           | Returns team_id. -1==Invalid, -2==Expired          |
-| 25. | POST   | `/api/invites/`      | open           | Returns Invite object with a simple status message |
+| 1.  | GET    | `/api/invites/:code` | open           | Returns team_id. -1==Invalid, -2==Expired          |
+| 2.  | POST   | `/api/invites/`      | open           | Returns Invite object with a simple status message |
 
 ### Avatar Routes
 
 | No. | Method | Endpoint        | Access Control | Description             |
 | --- | ------ | --------------- | -------------- | ----------------------- |
-| 26. | GET    | `/api/avatars/` | open           | Returns public avatars. |
+| 1.  | GET    | `/api/avatars/` | open           | Returns public avatars. |
 
 ---
 
