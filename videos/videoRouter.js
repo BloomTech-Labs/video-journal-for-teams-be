@@ -2,10 +2,20 @@ const express = require("express");
 const router = express.Router();
 
 const Videos = require("../videos/videoModel.js");
-const multer  = require('multer')
-const upload = multer({ dest: './uploads/' })
 
 const { validateVideoId, validateFeedback } = require("../middleware/middleware");
+
+const multer = require('multer')
+const multerStorage = multer.diskStorage({
+	destination: (req, file, cb) => {
+		cb(null, './uploads/')
+	},
+	filename: (req, file, cb) => {
+		cb(null, `TEMP-${Date.now()}`)
+	}
+})
+const multerUp = multer({ storage: multerStorage })
+
 
 // 19. Fetch all videos
 router.get("/", (req, res) => {
@@ -51,7 +61,7 @@ router.post("/:id/feedback", validateVideoId, validateFeedback, (req, res) => {
 });
 
 // 23. Add a new video
-router.post("/", upload.single(`${Date.now()}.vid`), (req, res) => {
+router.post("/", multerUp.single(`tempfile`), (req, res) => {
 	/* 
   
 	  req.body should be an object in this form
@@ -70,11 +80,20 @@ router.post("/", upload.single(`${Date.now()}.vid`), (req, res) => {
 	  * owner_id DOES NOT need team admin permission
 	  * owner_id MUST be logged in and Authz Token in header
   
-	   */
+	*/
 
-	Videos.insert(req.body)
-		.then((video) => res.status(201).json({ message: "Video creation successful.", id: video[0] }))
-		.catch((err) => res.status(500).json({ message: "Could not insert new video.", error: err }));
+	if (!req.file) {
+		clg(86,"no file")
+	} else {
+		clg(88, "FILE FOUND")
+	}
+
+	let vidData = req.body
+	vidData.video_url =
+
+		Videos.insert(req.body)
+			.then((video) => res.status(201).json({ message: "Video creation successful.", id: video[0] }))
+			.catch((err) => res.status(500).json({ message: "Could not insert new video.", error: err }));
 });
 
 // 24. Update a video
