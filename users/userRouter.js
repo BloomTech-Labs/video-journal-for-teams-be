@@ -6,19 +6,19 @@ const router = express.Router();
 
 const { validateUserId } = require("../middleware/middleware");
 
-// 4. Fetch all users
+// 1. Fetch all users
 router.get("/", (req, res) => {
 	Users.find()
 		.then((users) => res.status(200).json(users))
 		.catch((err) => res.status(500).json({ message: "Could not get users.", error: err }));
 });
 
-// 5. Fetch user by id
+// 2. Fetch user by id
 router.get("/:id", validateUserId, (req, res) => {
 	res.status(200).json(req.validatedUser);
 });
 
-// 6. Fetch a user's teams
+// 3. Fetch a user's teams
 router.get("/:id/teams", validateUserId, (req, res) => {
 	const { id } = req.params;
 
@@ -27,7 +27,7 @@ router.get("/:id/teams", validateUserId, (req, res) => {
 		.catch((err) => res.status(500).json({ message: "Could not get teams for user.", error: err }));
 });
 
-// 7. Fetch at user's videos
+// 4. Fetch at user's videos
 router.get("/:id/videos", validateUserId, (req, res) => {
 	const { id } = req.params;
 
@@ -36,7 +36,7 @@ router.get("/:id/videos", validateUserId, (req, res) => {
 		.catch((err) => res.status(500).json({ message: "Could not get videos for user.", error: err }));
 });
 
-// 8. Update a user's info
+// 5. Update a user's info
 router.put("/:id", validateUserId, (req, res) => {
 	const { id } = req.params;
 	const changes = req.body;
