@@ -5,16 +5,18 @@ const Videos = require("../videos/videoModel.js");
 
 const { validateVideoId, validateFeedback } = require("../middleware/middleware");
 
+const tempfile = `TEMP-${Date.now()}`
 const multer = require('multer')
-const multerStorage = multer.diskStorage({
+const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
+		console.log(11, cb)
 		cb(null, './uploads/')
 	},
 	filename: (req, file, cb) => {
-		cb(null, `TEMP-${Date.now()}`)
+		cb(null, tempfile)
 	}
 })
-const multerUp = multer({ storage: multerStorage })
+const upload = multer({ storage: storage })
 
 
 // 19. Fetch all videos
@@ -61,31 +63,31 @@ router.post("/:id/feedback", validateVideoId, validateFeedback, (req, res) => {
 });
 
 // 23. Add a new video
-router.post("/", multerUp.single(`tempfile`), (req, res) => {
+router.post("/", upload.single("alpacafile"), (req, res) => {
 	/* 
-  
-	  req.body should be an object in this form
-	  {
-		  "owner_id": 73,
-		  "title": "Removal of Drainage Device from Peritoneum, Open Approach",
-		  "description": "Removal of Drainage Device from Peritoneum, Open Approach",
-		  "created_at": "2020-01-14 14:32:15",
-		  "updated_at": "2019-01-24 03:09:02",
-		  "video_url": "http://dummyimage.com/204x108.jpg/5fa2dd/ffffff",
-		  "prompt_id": 6
-	  }
-  
-	  REQUIREMENTS:
+
+	req.body should be an object in this form
+	{
+		"owner_id": 73,
+		"title": "Removal of Drainage Device from Peritoneum, Open Approach",
+		"description": "Removal of Drainage Device from Peritoneum, Open Approach",
+		"created_at": "2020-01-14 14:32:15",
+		"updated_at": "2019-01-24 03:09:02",
+		"video_url": "http://dummyimage.com/204x108.jpg/5fa2dd/ffffff",
+		"prompt_id": 6
+	}
+
+	REQUIREMENTS:
 	  * owner_id and prompt_id must be from the same team
 	  * owner_id DOES NOT need team admin permission
 	  * owner_id MUST be logged in and Authz Token in header
   
 	*/
-
+	clg(req.file);
 	if (!req.file) {
-		clg(86,"no file")
+		clg(86, "no file")
 	} else {
-		clg(88, "FILE FOUND")
+		clg(88, "FILE FOUND", req.file)
 	}
 
 	let vidData = req.body
