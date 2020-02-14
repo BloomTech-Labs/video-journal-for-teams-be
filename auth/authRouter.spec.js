@@ -51,7 +51,7 @@ describe("Login/Register routes", () => {
 						username: expect.any(String),
 						first_name: expect.any(String),
 						last_name: expect.any(String),
-						avatar: expect.any(String),
+						avatar: null,
 					},
 					token: expect.any(String),
 				})
@@ -125,7 +125,7 @@ describe("Login/Register routes", () => {
 						username: expect.any(String),
 						first_name: expect.any(String),
 						last_name: expect.any(String),
-						avatar: expect.any(String),
+						avatar: null,
 					},
 					token: expect.any(String),
 				})
@@ -234,8 +234,8 @@ describe("Login/Register routes", () => {
 				email: "test2@email.com",
 				username: "testUser2",
 				password: "testPassword",
-				first_name: expect.any(String),
-				last_name: expect.any(String),
+				first_name: "test",
+				last_name: "test",
 			};
 
 			const duplicateSignup = validSignup;

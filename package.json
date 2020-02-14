@@ -32,7 +32,7 @@
 		"test:badges": "yarn test:coverage && jest-coverage-badges",
 		"db:test:seed": "cross-env NODE_ENV=testing knex seed:run",
 		"db:test:migrate": "cross-env NODE_ENV=testing knex migrate:latest",
-		"coverage": "jest --coverage --detectOpenHandles --forceExit || true"
+		"coverage": "jest --runInBand --coverage --detectOpenHandles --forceExit || true"
 	},
 	"jest": {
 		"testEnvironment": "node",
@@ -41,11 +41,13 @@
 			"text",
 			"lcov"
 		],
-		"collectCoverageFrom": [
-			"**/*.{js,jsx}",
-			"!**/node_modules/**",
-			"!**/vendor/**",
-			"!**/__tests__/**"
+		"coveragePathIgnorePatterns": [
+			"/node_modules/",
+			"/__tests__/",
+			"/coverage/",
+			"/public/",
+			"/database/",
+			"/.github/"
 		]
 	},
 	"repository": {
