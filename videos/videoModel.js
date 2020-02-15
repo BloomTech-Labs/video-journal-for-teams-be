@@ -39,6 +39,7 @@ function findByUserId(user_id) {
 		.where({ owner_id: user_id });
 }
 
+
 function findFeedbackByVideoId(video_id) {
 	return db("feedback")
 		.join("users", "feedback.owner_id", "users.id")
