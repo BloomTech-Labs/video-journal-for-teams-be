@@ -113,3 +113,6 @@ package-lock.json
 
 # Uploads directory for temp video files
 uploads/
+
+# vscode config
+.vscode/launch.json

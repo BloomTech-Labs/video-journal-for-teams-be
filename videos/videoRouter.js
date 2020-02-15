@@ -9,7 +9,6 @@ const tempfile = `TEMP-${Date.now()}`
 const multer = require('multer')
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
-		console.log(11, cb)
 		cb(null, './uploads/')
 	},
 	filename: (req, file, cb) => {
@@ -64,6 +63,7 @@ router.post("/:id/feedback", validateVideoId, validateFeedback, (req, res) => {
 
 // 23. Add a new video
 router.post("/", upload.single("alpacafile"), (req, res) => {
+	//#region
 	/* 
 
 	req.body should be an object in this form
@@ -78,37 +78,34 @@ router.post("/", upload.single("alpacafile"), (req, res) => {
 	}
 
 	REQUIREMENTS:
-	  * owner_id and prompt_id must be from the same team
-	  * owner_id DOES NOT need team admin permission
-	  * owner_id MUST be logged in and Authz Token in header
+		* owner_id and prompt_id must be from the same team
+		* owner_id DOES NOT need team admin permission
+		* owner_id MUST be logged in and Authz Token in header
   
 	*/
-	clg(req.file);
-	if (!req.file) {
-		clg(86, "no file")
-	} else {
-		clg(88, "FILE FOUND", req.file)
-	}
+	//#endregion
+
+
 
 	let vidData = req.body
-	vidData.video_url =
+	vidData.video_url = req.file.filename
 
-		Videos.insert(req.body)
-			.then((video) => res.status(201).json({ message: "Video creation successful.", id: video[0] }))
-			.catch((err) => res.status(500).json({ message: "Could not insert new video.", error: err }));
+	Videos.insert(vidData)
+		.then((video) => res.status(201).json({ message: "Video creation successful.", id: video[0] }))
+		.catch((err) => res.status(500).json({ message: "Could not insert new video.", error: err }));
 });
 
 // 24. Update a video
 router.put("/", (req, res) => {
 	/* 
-  
-	  req.body should be an object in the same form as router.POST
-  
-	  REQUIREMENTS:
-	  * The JSON object MUST contain video.id 
-	  * Same as router.post
-  
-	   */
+
+	req.body should be an object in the same form as router.POST
+
+	REQUIREMENTS:
+		* The JSON object MUST contain video.id 
+		* Same as router.post
+
+	*/
 	Videos.update(req.body)
 		// .then(data => clg(62, data))
 		.then((video) => res.status(200).json({ message: "Video meta-data edit successful.", video: video }))
