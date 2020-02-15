@@ -54,11 +54,11 @@ function findFeedbackByVideoId(video_id) {
 		)
 		.columns(db.raw("users.first_name || ' ' || users.last_name as owner_name"));
 }
-// {
-//   return db("feedback").where("feedback.video_id", video_id);
-// }
 
 function insert(vidObj) {
+	console.log(59,vidObj)
+	const getTime = new Date(Date.now())
+	vidObj.created_at = vidObj.updated_at = getTime
 	return db("videos").insert(vidObj, "id");
 }
 
