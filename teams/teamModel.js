@@ -106,7 +106,7 @@ function getVideosByTeamId(teamId) {
 		.orderBy("prompts.id")
 		.select(
 			"prompts.id as prompt_id",
-			"videos.id as video_id",
+			"videos.id as id",
 			"videos.video_url as video_url",
 			"videos.thumbnail as thumbnail",
 			"videos.title as title",
