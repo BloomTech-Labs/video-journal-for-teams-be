@@ -51,7 +51,7 @@ describe("Login/Register routes", () => {
 						username: expect.any(String),
 						first_name: expect.any(String),
 						last_name: expect.any(String),
-						avatar: null,
+						avatar: expect.any(String),
 					},
 					token: expect.any(String),
 				})
@@ -125,7 +125,7 @@ describe("Login/Register routes", () => {
 						username: expect.any(String),
 						first_name: expect.any(String),
 						last_name: expect.any(String),
-						avatar: null,
+						avatar: expect.any(String),
 					},
 					token: expect.any(String),
 				})
