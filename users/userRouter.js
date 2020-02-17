@@ -10,7 +10,7 @@ const { validateUserId } = require("../middleware/middleware");
 router.get("/", (req, res) => {
 	Users.find()
 		.then((users) => res.status(200).json(users))
-		.catch((err) => res.status(500).json({ message: "Could not get users.", error: err }));
+		.catch((err) => res.status(500).json({ message: "Could not get all users.", error: err }));
 });
 
 // 2. Fetch user by id
@@ -24,7 +24,7 @@ router.get("/:id/teams", validateUserId, (req, res) => {
 
 	Teams.findByUserId(id)
 		.then((teams) => res.status(200).json(teams))
-		.catch((err) => res.status(500).json({ message: "Could not get teams for user.", error: err }));
+		.catch((err) => res.status(500).json({ message: `Could not get teams for user ${id}.`, error: err }));
 });
 
 // 4. Fetch at user's videos
@@ -33,7 +33,7 @@ router.get("/:id/videos", validateUserId, (req, res) => {
 
 	Videos.findByUserId(id)
 		.then((videos) => res.status(200).json(videos))
-		.catch((err) => res.status(500).json({ message: "Could not get videos for user.", error: err }));
+		.catch((err) => res.status(500).json({ message: `Could not get videos for user ${id}.`, error: err }));
 });
 
 // 5. Update a user's info
@@ -42,8 +42,8 @@ router.put("/:id", validateUserId, (req, res) => {
 	const changes = req.body;
 
 	Users.update(id, changes)
-		.then((updatedUser) => res.status(200).json({ message: "Successfully updated user", updatedUser }))
-		.catch((err) => res.status(500).json({ message: "Could not get user.", error: err }));
+		.then((updatedUser) => res.status(200).json({ message: `Successfully updated user ${id}.`, updatedUser }))
+		.catch((err) => res.status(500).json({ message: `Could not get user ${id}.`, error: err }));
 });
 
 module.exports = router;
