@@ -86,14 +86,25 @@ router.post("/", upload.single("alpacafile"), (req, res) => {
 	*/
 	//#endregion
 
+	// These 2 lines will be the ones to use
+		// let vidData = req.body
+		// vidData.video_url = req.file.filename
 
-
-	let vidData = req.body
-	vidData.video_url = req.file.filename
+	// temporary sample data for trying DB activity until I get an object from FE.
+	let vidData = 	{
+		owner_id : 73,
+		title : "Removal of Drainage",
+		description : "Removal of Drainage Device from Peritoneum, Open Approach",
+		video_url : req.file.filename,
+		prompt_id : 6
+	}
 
 	Videos.insert(vidData)
 		.then((video) => res.status(201).json({ message: "Video creation successful.", id: video[0] }))
-		.catch((err) => res.status(500).json({ message: "Could not insert new video.", error: err }));
+		.catch((err) => {
+			console.log(107,err)
+			res.status(500).json({ message: "Could not insert new video.", error: err })
+		});
 });
 
 // 6. Update a video
