@@ -151,20 +151,22 @@ router.put("/:id", validateTeamId, (req, res) => {
 	}
 });
 
-// XYZ. Update a user's team role
-router.put("/:id/users/:user_id/role", validateTeamId, (req, res) => {
+// 11. Update a user's team role
+router.put("/:id/users/:user_id/role", validateTeamId, validateMembership, (req, res) => {
 	const teamId = req.params.id;
 	const userId = req.params.user_id;
 	const { role_id } = req.body;
 
-	if (!role_id) {
-		res.status(400).json({ message: "Missing role id." })
-	} else if (role_id !== 1 && role_id !== 2) {
-		res.status(406).json({ message: "Unable to accept role id, must be 1 or 2." })
+	if (isTeamLead(req.user.role)) {
+		if (!role_id) {
+			res.status(400).json({ message: "Missing role id." })
+		} else {
+			Teams.switchRole(teamId, userId, role_id)
+				.then((updatedRole) => res.status(200).json({ message: `Successfully updated user ${userId} to role ${role_id} on team ${teamId}.`, updatedRole }))
+				.catch((err) => res.status(500).json({ message: `Could not update information for team ${teamid}.`, error: err }));
+		}
 	} else {
-		Teams.switchRole(teamId, userId, role_id)
-			.then((updatedRole) => res.status(200).json({ message: "Successfully updated user role.", updatedRole }))
-			.catch((err) => res.status(500).json({ message: "Could not get user.", error: err }));
+		res.status(403).json({ message: "Permission denied." });
 	}
 });
 
