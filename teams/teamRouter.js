@@ -160,8 +160,6 @@ router.put("/:id/users/:user_id/role", validateTeamId, validateMembership, (req,
 	if (isTeamLead(req.user.role)) {
 		if (!role_id) {
 			res.status(400).json({ message: "Missing role id." })
-		} else if (role_id !== 1 && role_id !== 2) {
-			res.status(406).json({ message: "Unable to accept role id, must be 1 or 2." })
 		} else {
 			Teams.switchRole(teamId, userId, role_id)
 				.then((updatedRole) => res.status(200).json({ message: `Successfully updated user ${userId} to role ${role_id} on team ${teamId}.`, updatedRole }))
@@ -170,7 +168,6 @@ router.put("/:id/users/:user_id/role", validateTeamId, validateMembership, (req,
 	} else {
 		res.status(403).json({ message: "Permission denied." });
 	}
-
 });
 
 module.exports = router;
