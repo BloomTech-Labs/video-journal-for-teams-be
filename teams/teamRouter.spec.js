@@ -140,7 +140,7 @@ describe("Team Data Routes", () => {
 					.set("authorization", token)
 					.send(newTeam);
 
-				expect(response.body).toEqual(
+				expect(response.body[0]).toEqual(
 					expect.objectContaining({
 						id: expect.any(Number),
 						name: expect.any(String),
@@ -310,7 +310,7 @@ describe("Team Data Routes", () => {
 					.set("authorization", token)
 					.then((response) => {
 						expect(response.status).toEqual(200)
-						expect(response.body.message).toBe("Successfully updated user role.");
+						expect(response.body).toHaveProperty("message");
 					});
 			});
 
