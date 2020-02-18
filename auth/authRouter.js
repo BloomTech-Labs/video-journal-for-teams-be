@@ -8,17 +8,17 @@ const router = express.Router();
 const { signToken, validateSignup } = require("../middleware/middleware");
 
 // 1. Login with email
-router.post("/login/email", passport.authenticate("email-login", { session: false }), function(req, res) {
+router.post("/login/email", passport.authenticate("email-login", { session: false }), function (req, res) {
 	res.status(200).json(loginSuccessBody(req.user));
 });
 
 // 2. Login with username
-router.post("/login/username", passport.authenticate("username-login", { session: false }), function(req, res) {
+router.post("/login/username", passport.authenticate("username-login", { session: false }), function (req, res) {
 	res.status(200).json(loginSuccessBody(req.user));
 });
 
 // 3. register new user
-router.post("/register", validateSignup, async function(req, res) {
+router.post("/register", validateSignup, async function (req, res) {
 	const user = req.user;
 
 	//Hash user password before storing in database
@@ -31,7 +31,7 @@ router.post("/register", validateSignup, async function(req, res) {
 			return avatars[index].src;
 		})
 		.catch((err) => {
-			res.status(500).json({ message: "Could not assign avatar to user." });
+			res.status(500).json({ message: `Could not assign avatar ${avatar} to user ${user}.` });
 		});
 
 	user.avatar = avatar;
@@ -48,7 +48,7 @@ router.post("/register", validateSignup, async function(req, res) {
 				res.status(409).json({ error: "Account already exists" });
 			} else {
 				console.log(err);
-				res.status(500).json(err);
+				res.status(500).json({ message: `Avatar DB error`, error: err });
 			}
 		});
 });
