@@ -65,7 +65,7 @@ router.post("/", (req, res) => {
 		
 		IN ALL CASES respond with a full data object:
 		{
-			msg: [readable info]
+			message: [readable info]
 			id: 14,
 			team_id: 14,
 			link: 'McClure-UpsilonAlphaAlpha',
@@ -85,7 +85,7 @@ router.post("/", (req, res) => {
 	const { team_id, team_name } = req.body;
 
 	if (!team_id || !team_name) {
-		res.status(400).json({ msg: "Malformed incoming data" })
+		res.status(400).json({ message: "Request needs to be an object with team_id and team_name elements.",  })
 	}
 
 	// generate a code ahead of time, and create the db object.
@@ -97,14 +97,12 @@ router.post("/", (req, res) => {
 		.then(invite => {
 			const expires = Date.parse(invite.expires_at)
 
-			if (invite === undefined) { clg("invite undef") }
-
 			if (expires > Date.now() && invite.isValid === true) {
 				/* 
 					THIS FOUND A VIABLE CODE
 					It will do nothing but return the existing code.
 				 */
-				res.status(200).json({ msg: "Existing, valid invite code", ...invite })
+				res.status(200).json({ message: "Existing, valid invite code", ...invite })
 			}
 			if (expires < Date.now() || invite.isValid === false) {
 				/* 
@@ -115,11 +113,9 @@ router.post("/", (req, res) => {
 				clg("A CODE EXISTS AND IS EITHER EXPIRED or !isValid")
 				Invites.update(dbsend)
 					.then(updated => {
-						clg(85, updated)
-						res.status(200).json({ msg: "Update of expired or invalid successful", ...updated })
+						res.status(200).json({ message: "Update of expired or invalid successful", ...updated })
 					})
 					.catch(err => {
-						clg(89, err)
 						res.status(500).json({
 							message: "Update existing invite code error",
 							error: `${err}`
@@ -135,16 +131,15 @@ router.post("/", (req, res) => {
 			 */
 			Invites.insert(dbsend)
 				.then(inserted => {
-					clg(109, inserted)
-					res.status(200).json({ msg: "Creation successful", ...inserted })
+					res.status(200).json({ message: "Creation successful", ...inserted })
 				})
 				.catch(err => {
 					// clg(113, err.detail)
 					if (err.detail.includes("not present in table \"teams\"")) {
-						res.status(400).json({ msg: err.detail })
+						res.status(400).json({ message: "Team doesn't exist.", error: err.detail })
 					} else {
 						res.status(500).json({
-							message: "Insert new invite code error: ",
+							message: "Insert new invite code DB error.",
 							error: err
 						})
 					}

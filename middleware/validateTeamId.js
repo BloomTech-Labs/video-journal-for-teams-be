@@ -9,8 +9,8 @@ module.exports = function validateTeamId(req, res, next) {
 				req.team = team;
 				next();
 			} else {
-				res.status(404).json({ message: "Team not found." });
+				res.status(404).json({ message: `Team ${id} not found.` });
 			}
 		})
-		.catch((err) => res.status(500).json({ message: "Failed to get team from database.", error: err }));
+		.catch((err) => res.status(500).json({ message: `Failed to get team ${id} from database.`, error: err }));
 };

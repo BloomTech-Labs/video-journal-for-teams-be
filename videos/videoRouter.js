@@ -32,7 +32,7 @@ router.get("/:id", validateVideoId, (req, res) => {
 
 	Videos.findById(id)
 		.then((video) => res.status(200).json(video))
-		.catch((err) => res.status(500).json({ message: "Could not get video.", error: err }));
+		.catch((err) => res.status(500).json({ message: "Could not get the video.", error: err }));
 });
 
 // 3. Fetch feedback by video id
@@ -41,7 +41,7 @@ router.get("/:id/feedback", validateVideoId, (req, res) => {
 
 	Videos.findFeedbackByVideoId(id)
 		.then((feedback) => res.status(200).json(feedback))
-		.catch((err) => res.status(500).json({ message: "Could not get feedback.", error: err }));
+		.catch((err) => res.status(500).json({ message: "Could not get feedbacks for the video.", error: err }));
 });
 
 // 4. Add video feedback
@@ -120,7 +120,7 @@ router.put("/", (req, res) => {
 	*/
 	Videos.update(req.body)
 		.then((video) => res.status(200).json({ message: "Video meta-data edit successful.", video: video }))
-		.catch((err) => res.status(500).json({ message: "Could not insert new video.", error: err }));
+		.catch((err) => res.status(500).json({ message: "Could not edit existing video.", error: err }));
 });
 
 module.exports = router;

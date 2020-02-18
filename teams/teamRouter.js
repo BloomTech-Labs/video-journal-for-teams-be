@@ -25,7 +25,7 @@ router.get("/:id/users", validateTeamId, (req, res) => {
 
 	Teams.getUsersByTeamId(id)
 		.then((users) => res.status(200).json(users))
-		.catch((err) => res.status(500).json({ message: "Could not get users for this team", error: err }));
+		.catch((err) => res.status(500).json({ message: `Could not get users for team ${id}`, error: err }));
 });
 
 // 4. Fetch prompts created by a team
@@ -34,7 +34,7 @@ router.get("/:id/prompts", validateTeamId, (req, res) => {
 
 	Teams.getPromptsByTeamId(id)
 		.then((prompts) => res.status(200).json(prompts))
-		.catch((err) => res.status(500).json({ message: "Could not get prompts for this team", error: err }));
+		.catch((err) => res.status(500).json({ message: `Could not get prompts for team ${id}`, error: err }));
 });
 
 // 5. Fetch team videos nested in prompt array
@@ -87,10 +87,10 @@ router.post("/", validateTeamData, (req, res) => {
 		.then((team) => {
 			// after creating team it adds the team creator to the team with team_manager role
 			Teams.insertUser({ user_id: req.user.id, role_id: 2, team_id: team[0].id }).then((result) =>
-				res.status(201).json(team[0])
+				res.status(201).json({message: `Created {team[0]}.`})
 			);
 		})
-		.catch((err) => res.status(500).json({ message: "Could not create team." }));
+		.catch((err) => res.status(500).json({ message: "Could not create team.", error: err }));
 });
 
 // 8. Add a user to a team
@@ -106,10 +106,10 @@ router.post("/:id/users", validateTeamId, (req, res) => {
 				}
 			})
 			.catch((err) => {
-				res.status(500).json({ message: "Could not add user to team", error: err });
+				res.status(500).json({ message: `Could not add user ${id} to team`, error: err });
 			});
 	} else {
-		res.status(400).json({ message: "Must have team_id, user_id, and role_id" });
+		res.status(400).json({ message: `Must have team_id, user_id, and role_id` });
 	}
 });
 
@@ -122,12 +122,12 @@ router.delete("/:id/users/:user_id", validateTeamId, (req, res) => {
 		Teams.remove(userId, teamId)
 			.then((count) => {
 				if (count > 0) {
-					res.status(200).json({ count: count, message: "User has been removed successfully." });
+					res.status(200).json({ count: count, message: `User ${userId} has been removed successfully.` });
 				} else {
-					res.status(404).json({ count: count, message: "User not found in team." });
+					res.status(404).json({ count: count, message: `User ${userId} not found in team.` });
 				}
 			})
-			.catch((err) => res.status(500).json({ message: "Could not create team." }));
+			.catch((err) => res.status(500).json({ message: `Could not update information for team ${teamid}.` }));
 	}
 });
 
@@ -142,10 +142,10 @@ router.put("/:id", validateTeamId, (req, res) => {
 				if (count > 0) {
 					res.status(200).json(count);
 				} else {
-					res.status(404).json({ message: "That team id is not available for update." });
+					res.status(404).json({ message: `Team ${id} is not available for update.` });
 				}
 			})
-			.catch((err) => res.status(500).json({ message: "Could not update team information", error: err }));
+			.catch((err) => res.status(500).json({ message: `Could not update information for team ${id}.`, error: err }));
 	} else {
 		res.status(400).json({ message: "Must have a team name or description to update." });
 	}
