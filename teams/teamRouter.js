@@ -86,9 +86,11 @@ router.post("/", validateTeamData, (req, res) => {
 	Teams.insert(body)
 		.then((team) => {
 			// after creating team it adds the team creator to the team with team_manager role
-			Teams.insertUser({ user_id: req.user.id, role_id: 2, team_id: team[0].id }).then((result) =>
-				res.status(201).json(result)
-			);
+			Teams.insertUser({ user_id: req.user.id, role_id: 2, team_id: team[0].id })
+				.then((result) => {
+					result.rowCount === 1 ? res.status(201).json(team) : null;
+				})
+				.catch((err) => res.status(500).json({ message: `Could not insert ${req.user.id} into team ${team.id}.`, error: err }))
 		})
 		.catch((err) => res.status(500).json({ message: "Could not create team.", error: err }));
 });
