@@ -32,7 +32,7 @@ router.get("/:id", validateVideoId, (req, res) => {
 
 	Videos.findById(id)
 		.then((video) => res.status(200).json(video))
-		.catch((err) => res.status(500).json({ message: "Could not get the video.", error: err }));
+		.catch((err) => res.status(500).json({ message: `Could not get video ${id}.`, error: err }));
 });
 
 // 3. Fetch feedback by video id
@@ -41,7 +41,7 @@ router.get("/:id/feedback", validateVideoId, (req, res) => {
 
 	Videos.findFeedbackByVideoId(id)
 		.then((feedback) => res.status(200).json(feedback))
-		.catch((err) => res.status(500).json({ message: "Could not get feedbacks for the video.", error: err }));
+		.catch((err) => res.status(500).json({ message: `Could not get feedback for video ${id}.`, error: err }));
 });
 
 // 4. Add video feedback
@@ -55,9 +55,9 @@ router.post("/:id/feedback", validateVideoId, validateFeedback, (req, res) => {
 		})
 		.catch((err) => {
 			if (err.code === "23503") {
-				res.status(422).json({ message: "Owner id does not exist", error: err });
+				res.status(422).json({ message: `Video ${id} does not exist`, error: err });
 			} else {
-				res.status(500).json({ message: "Could not add feedback.", error: err });
+				res.status(500).json({ message: `Could not add feedback to video ${id}.`, error: err });
 			}
 		});
 });
