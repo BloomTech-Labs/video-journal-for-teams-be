@@ -34,7 +34,7 @@ router.get("/:code", (req, res) => {
 			}
 
 		})
-		.catch(err => res.status(500).json({ message: "Could not find that invite code.", error: err }))
+		.catch(err => res.status(500).json({ message: `Could not find invite code ${code}.`, error: err }))
 })
 
 // 2. Returns invite object
@@ -85,7 +85,7 @@ router.post("/", (req, res) => {
 	const { team_id, team_name } = req.body;
 
 	if (!team_id || !team_name) {
-		res.status(400).json({ message: "Request needs to be an object with team_id and team_name elements.",  })
+		res.status(400).json({ message: "Request needs to be an object with team_id and team_name elements.", body: req.body  })
 	}
 
 	// generate a code ahead of time, and create the db object.
@@ -113,11 +113,11 @@ router.post("/", (req, res) => {
 				clg("A CODE EXISTS AND IS EITHER EXPIRED or !isValid")
 				Invites.update(dbsend)
 					.then(updated => {
-						res.status(200).json({ message: "Update of expired or invalid successful", ...updated })
+						res.status(200).json({ message: "Update of code (expired or invalid) successful", ...updated })
 					})
 					.catch(err => {
 						res.status(500).json({
-							message: "Update existing invite code error",
+							message: `Update existing invite ${invite} error.`,
 							error: `${err}`
 						})
 					})
@@ -136,10 +136,10 @@ router.post("/", (req, res) => {
 				.catch(err => {
 					// clg(113, err.detail)
 					if (err.detail.includes("not present in table \"teams\"")) {
-						res.status(400).json({ message: "Team doesn't exist.", error: err.detail })
+						res.status(400).json({ message: `Team ${team_id} doesn't exist.`, error: err.detail })
 					} else {
 						res.status(500).json({
-							message: "Insert new invite code DB error.",
+							message: `Error inserting new invite code for team ${team_id}.`,
 							error: err
 						})
 					}
