@@ -86,9 +86,11 @@ router.post("/", validateTeamData, (req, res) => {
 	Teams.insert(body)
 		.then((team) => {
 			// after creating team it adds the team creator to the team with team_manager role
-			Teams.insertUser({ user_id: req.user.id, role_id: 2, team_id: team[0].id }).then((result) =>
-				res.status(201).json({message: `Created {team[0]}.`})
-			);
+			Teams.insertUser({ user_id: req.user.id, role_id: 2, team_id: team[0].id })
+				.then((result) => {
+					result.rowCount === 1 ? res.status(201).json(team) : null;
+				})
+				.catch((err) => res.status(500).json({ message: `Could not insert ${req.user.id} into team ${team.id}.`, error: err }))
 		})
 		.catch((err) => res.status(500).json({ message: "Could not create team.", error: err }));
 });
@@ -114,20 +116,24 @@ router.post("/:id/users", validateTeamId, (req, res) => {
 });
 
 // 9. Delete a user from a team
-router.delete("/:id/users/:user_id", validateTeamId, (req, res) => {
+router.delete("/:id/users/:user_id", validateTeamId, validateMembership, (req, res) => {
 	const teamId = req.params.id;
 	const userId = req.params.user_id;
 
-	if (userId) {
-		Teams.remove(userId, teamId)
-			.then((count) => {
-				if (count > 0) {
-					res.status(200).json({ count: count, message: `User ${userId} has been removed successfully.` });
-				} else {
-					res.status(404).json({ count: count, message: `User ${userId} not found in team.` });
-				}
-			})
-			.catch((err) => res.status(500).json({ message: `Could not update information for team ${teamid}.` }));
+	if (isTeamLead(req.user.role)) {
+		if (userId) {
+			Teams.remove(userId, teamId)
+				.then((count) => {
+					if (count > 0) {
+						res.status(200).json({ count: count, message: `User ${userId} has been removed successfully.` });
+					} else {
+						res.status(404).json({ count: count, message: `User ${userId} not found in team.` });
+					}
+				})
+				.catch((err) => res.status(500).json({ message: `Could not update information for team ${teamid}.` }));
+		}
+	} else {
+		res.status(403).json({ message: "Permission denied." });
 	}
 });
 

@@ -5,13 +5,6 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/d1601cb84ad12ad579f2/maintainability)](https://codeclimate.com/github/Lambda-School-Labs/video-journal-for-teams-be/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/d1601cb84ad12ad579f2/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/video-journal-for-teams-be/test_coverage)
 
-## Test Coverage via Jest
-
-![coverage:statements](badges/badge-statements.svg)
-![coverage:branches](badges/badge-branches.svg)
-![coverage:functions](badges/badge-functions.svg)
-![coverage:lines](badges/badge-lines.svg)
-
 # API Documentation
 
 #### 1️⃣ Backend production deployment at heroku: https://video-journal.herokuapp.com/ <br>
