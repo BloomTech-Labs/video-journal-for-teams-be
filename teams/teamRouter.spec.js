@@ -310,7 +310,7 @@ describe("Team Data Routes", () => {
 					.set("authorization", token)
 					.then((response) => {
 						expect(response.status).toEqual(200)
-						expect(response.body.message).toBe("Successfully updated user role.");
+						expect(response.body.message).toHaveProperty("message");
 					});
 			});
 
