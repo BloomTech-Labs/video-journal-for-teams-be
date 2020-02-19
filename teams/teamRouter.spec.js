@@ -281,21 +281,26 @@ describe("Team Data Routes", () => {
 		});
 
 		describe("DELETE /teams/:id/users", () => {
-			it("Should return a 200 status code", async () => {
-				const user_id = 15;
-
+			it("Should return a 200 status code, when user_id: 16 is team lead role_id: 2", async () => {
+				// Team Leader, Valera Corking, deletes member, Gizela Dufer, from Borer, Nienow and Kunde team_id: 20
 				const response = await request(server)
-					.delete(`/api/teams/1/users/${user_id}`)
+					.delete(`/api/teams/20/users/50`)
 					.set("authorization", token);
 
 				expect(response.status).toEqual(200);
 			});
 
-			it("Should return a 404 status code if the user does not belong to team", async () => {
-				const user = 1;
-
+			it("Should return a 403 status code, if Valera Corking does not have team leader privilege on team 17", async () => {
 				const response = await request(server)
-					.delete(`/api/teams/1/users/${user}`)
+					.delete(`/api/teams/17/users/3`)
+					.set("authorization", token);
+
+				expect(response.status).toEqual(403);
+			});
+
+			it("Should return a 404 status code since member, Glenda Arlidge user_id: 7, does not belong to team 20", async () => {
+				const response = await request(server)
+					.delete(`/api/teams/20/users/7`)
 					.set("authorization", token);
 
 				expect(response.status).toEqual(404);
@@ -303,10 +308,11 @@ describe("Team Data Routes", () => {
 		});
 
 		describe("PUT /teams/:id/users/:user_id/role for updating a user's team role", () => {
+			// Team Leader, Valera Corking, promotes member, Gizela Dufer, to role_id: 2 on Borer, Nienow and Kunde team_id: 20
 			it("should return successful message", async () => {
 				return await request(server)
-					.put("/api/teams/20/users/1/role")
-					.send({ role_id: 1 })
+					.put("/api/teams/20/users/50/role")
+					.send({ role_id: 2 })
 					.set("authorization", token)
 					.then((response) => {
 						expect(response.status).toEqual(200)
@@ -316,8 +322,8 @@ describe("Team Data Routes", () => {
 
 			it("should return missing role id message", async () => {
 				return await request(server)
-					.put("/api/teams/20/users/1/role")
-					.send()
+					.put("/api/teams/20/users/50/role")
+					.send() // empty role
 					.set("authorization", token)
 					.then((response) => {
 						expect(response.status).toEqual(400)
@@ -325,16 +331,45 @@ describe("Team Data Routes", () => {
 					});
 			});
 
-			it("should unacceptable message", async () => {
+			it("Should return a 403 status code, if Valera Corking does not have team leader privilege on team 17", async () => {
 				return await request(server)
-					.put("/api/teams/20/users/1/role")
-					.send({ role_id: 42 })
+					.put(`/api/teams/17/users/3/role`)
+					.send({ role_id: 2 })
 					.set("authorization", token)
 					.then((response) => {
-						expect(response.status).toEqual(406)
-						expect(response.body.message).toBe("Unable to accept role id, must be 1 or 2.");
-					});
+						expect(response.status).toEqual(403);
+						expect(response.body.message).toBe("Permission denied.")
+					})
 			});
 		});
+
+		describe("POST /teams/:id/invite", () => {
+			it("POST status 200 success should RETURN an object", async () => {
+				const response = await request(server)
+					.post("/api/teams/20/invite")
+					.send({ "team_name": "Borer, Nienow and Kunde" })
+					.set("authorization", token);
+				expect(response.status).toEqual(200);
+				expect(typeof response.body).toBe("object");
+			});
+
+			it("POST should not accept an incomplete or incorrect request object", async () => {
+				const response = await request(server)
+					.post("/api/teams/20/invite")
+					.send({ "team_id": 4 })
+					.set("authorization", token);
+				expect(response.status).toEqual(400);
+				expect(response.body.message).toBe("Request needs to be an object with team_id and team_name elements.");
+			});
+
+			it("POST should not accept request from a regular team member, must be team lead only", async () => {
+				const response = await request(server)
+					.post("/api/teams/17/invite")
+					.send({ "team_name": "Kreiger, Langworth and Beatty" })
+					.set("authorization", token);
+				expect(response.status).toEqual(403);
+				expect(response.body.message).toBe("Permission denied.");
+			});
+		})
 	});
 });
