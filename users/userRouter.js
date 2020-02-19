@@ -4,7 +4,25 @@ const Teams = require("../teams/teamModel.js");
 const Videos = require("../videos/videoModel.js");
 const router = express.Router();
 
+const shortId = require("shortid");
+const multer = require("multer");
+const path = require("path");
+
 const { validateUserId } = require("../middleware/middleware");
+
+const photoDir = path.join(__dirname, "../public/photos");
+
+const storage = multer.diskStorage({
+	destination: (req, file, cb) => {
+		cb(null, photoDir);
+	},
+	filename: (req, file, cb) => {
+		const extension = file.mimetype.replace(/image\//g, "");
+		cb(null, `ALPACAPIC-${shortId.generate()}.${extension}`);
+	},
+});
+
+const upload = multer({ storage: storage });
 
 // 1. Fetch all users
 router.get("/", (req, res) => {
@@ -44,6 +62,21 @@ router.put("/:id", validateUserId, (req, res) => {
 	Users.update(id, changes)
 		.then((updatedUser) => res.status(200).json({ message: `Successfully updated user ${id}.`, updatedUser }))
 		.catch((err) => res.status(500).json({ message: `Could not get user ${id}.`, error: err }));
+});
+
+router.post("/:id/photo", upload.single("photo"), (req, res) => {
+	const { id } = req.params;
+
+	const newPhoto = {
+		avatar: req.file.filename,
+	};
+	
+	Users.update(id, newPhoto)
+		.then((user) => {
+				res.status(201).json({ message: "Photo uploaded successfully.", avatar: user.avatar })})
+		.catch((err) => {
+			res.status(500).json({ message: "Could not upload photo.", error: err })
+		});
 });
 
 module.exports = router;
