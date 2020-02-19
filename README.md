@@ -60,9 +60,11 @@ To get the server running locally:
 | 5.  | GET    | `/api/teams/:id/videos`             | restricted     | Returns prompts with nested videos array by team id. |
 | 6.  | POST   | `/api/teams/:id/prompts`            | restricted     | Creates a new team prompts.                          |
 | 7.  | POST   | `/api/teams/`                       | restricted     | Creates a new team.                                  |
-| 8.  | PUT    | `/api/teams/:id`                    | restricted     | Updates team information.                            |
+| 8.  | POST   | `/api/teams/:id/users`              | restricted     | Add a new team member.                               |
 | 9.  | DELETE | `/api/teams/:id/users/:user_id`     | restricted     | Deletes a user from a team.                          |
-| 10. | PUT    | `/api/teams/:id/users/:user_id/role`| restricted     | Deletes a user from a team.                          |
+| 10. | PUT    | `/api/teams/:id`                    | restricted     | Updates team information.                            |
+| 11. | PUT    | `/api/teams/:id/users/:user_id/role`| restricted     | Deletes a user from a team.                          |
+| 12. | POST   | `/api/teams/invite/:id`             | restricted     | Returns Invite object with a simple status message   |
 
 ### Video Routes
 
@@ -80,7 +82,6 @@ To get the server running locally:
 | No. | Method | Endpoint             | Access Control | Description                                        |
 | --- | ------ | -------------------- | -------------- | -------------------------------------------------- |
 | 1.  | GET    | `/api/invites/:code` | open           | Returns team_id. -1==Invalid, -2==Expired          |
-| 2.  | POST   | `/api/invites/`      | open           | Returns Invite object with a simple status message |
 
 ### Avatar Routes
 
