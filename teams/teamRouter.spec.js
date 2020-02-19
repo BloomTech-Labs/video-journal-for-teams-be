@@ -342,5 +342,34 @@ describe("Team Data Routes", () => {
 					})
 			});
 		});
+
+		describe("POST /teams/:id/invite", () => {
+			it("POST status 200 success should RETURN an object", async () => {
+				const response = await request(server)
+					.post("/api/teams/20/invite")
+					.send({ "team_name": "Borer, Nienow and Kunde" })
+					.set("authorization", token);
+				expect(response.status).toEqual(200);
+				expect(typeof response.body).toBe("object");
+			});
+
+			it("POST should not accept an incomplete or incorrect request object", async () => {
+				const response = await request(server)
+					.post("/api/teams/20/invite")
+					.send({ "team_id": 4 })
+					.set("authorization", token);
+				expect(response.status).toEqual(400);
+				expect(response.body.message).toBe("Request needs to be an object with team_id and team_name elements.");
+			});
+
+			it("POST should not accept request from a regular team member, must be team lead only", async () => {
+				const response = await request(server)
+					.post("/api/teams/17/invite")
+					.send({ "team_name": "Kreiger, Langworth and Beatty" })
+					.set("authorization", token);
+				expect(response.status).toEqual(403);
+				expect(response.body.message).toBe("Permission denied.");
+			});
+		})
 	});
 });

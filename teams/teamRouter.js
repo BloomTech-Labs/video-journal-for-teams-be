@@ -179,7 +179,7 @@ router.put("/:id/users/:user_id/role", validateTeamId, validateMembership, (req,
 });
 
 // 12. Returns team invite object
-router.post("/invite/:id", validateTeamId, validateMembership, (req, res) => {
+router.post("/:id/invite", validateTeamId, validateMembership, (req, res) => {
 
 	// #region docstring 
 	/*
