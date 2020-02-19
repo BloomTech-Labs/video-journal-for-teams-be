@@ -1,23 +1,25 @@
 const express = require("express");
 const router = express.Router();
+const shortId = require("shortid");
+const multer = require("multer");
+const path = require("path");
 
 const Videos = require("../videos/videoModel.js");
 
 const { validateVideoId, validateFeedback } = require("../middleware/middleware");
 
+const videoDir = path.join(__dirname, "../public/videos");
 
-const tempfile = `TEMP-${Date.now()}`
-const multer = require('multer')
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
-		cb(null, './uploads/')
+		cb(null, videoDir);
 	},
 	filename: (req, file, cb) => {
-		cb(null, tempfile)
-	}
-})
-const upload = multer({ storage: storage })
+		cb(null, `ALPACAVID-${shortId.generate()}.webm`);
+	},
+});
 
+const upload = multer({ storage: storage });
 
 // 1. Fetch all videos
 router.get("/", (req, res) => {
@@ -32,7 +34,7 @@ router.get("/:id", validateVideoId, (req, res) => {
 
 	Videos.findById(id)
 		.then((video) => res.status(200).json(video))
-		.catch((err) => res.status(500).json({ message: `Could not get video ${id}.`, error: err }));
+		.catch((err) => res.status(500).json({ message: "Could not get video.", error: err }));
 });
 
 // 3. Fetch feedback by video id
@@ -41,7 +43,7 @@ router.get("/:id/feedback", validateVideoId, (req, res) => {
 
 	Videos.findFeedbackByVideoId(id)
 		.then((feedback) => res.status(200).json(feedback))
-		.catch((err) => res.status(500).json({ message: `Could not get feedback for video ${id}.`, error: err }));
+		.catch((err) => res.status(500).json({ message: "Could not get feedback.", error: err }));
 });
 
 // 4. Add video feedback
@@ -55,56 +57,29 @@ router.post("/:id/feedback", validateVideoId, validateFeedback, (req, res) => {
 		})
 		.catch((err) => {
 			if (err.code === "23503") {
-				res.status(422).json({ message: `Video ${id} does not exist`, error: err });
+				res.status(422).json({ message: "Owner id does not exist", error: err });
 			} else {
-				res.status(500).json({ message: `Could not add feedback to video ${id}.`, error: err });
+				res.status(500).json({ message: "Could not add feedback.", error: err });
 			}
 		});
 });
 
 // 5. Add a new video
-router.post("/", upload.single("alpacafile"), (req, res) => {
-	//#region
-	/* 
+router.post("/", upload.single("video"), (req, res) => {
+	const { title, description, owner_id, prompt_id } = req.body;
 
-	req.body should be an object in this form
-	{
-		"owner_id": 73,
-		"title": "Removal of Drainage Device from Peritoneum, Open Approach",
-		"description": "Removal of Drainage Device from Peritoneum, Open Approach",
-		"created_at": "2020-01-14 14:32:15",
-		"updated_at": "2019-01-24 03:09:02",
-		"video_url": "http://dummyimage.com/204x108.jpg/5fa2dd/ffffff",
-		"prompt_id": 6
-	}
+	const newVideo = {
+		owner_id: owner_id,
+		title: title,
+		description: description,
+		video_url: req.file.filename,
+		prompt_id: prompt_id,
+	};
 
-	REQUIREMENTS:
-		* owner_id and prompt_id must be from the same team
-		* owner_id DOES NOT need team admin permission
-		* owner_id MUST be logged in and Authz Token in header
-
-	*/
-	//#endregion
-
-	// These 2 lines will be the ones to use
-		// let vidData = req.body
-		// vidData.video_url = req.file.filename
-
-	// temporary sample data for trying DB activity until I get an object from FE.
-
-	let vidData = 	{
-		owner_id : 73,
-		title : "Removal of Drainage",
-		description : "Removal of Drainage Device from Peritoneum, Open Approach",
-		video_url : req.file.filename,
-		prompt_id : 6
-	}
-
-	Videos.insert(vidData)
+	Videos.insert(newVideo)
 		.then((video) => res.status(201).json({ message: "Video creation successful.", id: video[0] }))
 		.catch((err) => {
-			console.log(107,err)
-			res.status(500).json({ message: "Could not insert new video.", error: err })
+			res.status(500).json({ message: "Could not insert new video.", error: err });
 		});
 });
 
@@ -121,7 +96,7 @@ router.put("/", (req, res) => {
 	*/
 	Videos.update(req.body)
 		.then((video) => res.status(200).json({ message: "Video meta-data edit successful.", video: video }))
-		.catch((err) => res.status(500).json({ message: "Could not edit existing video.", error: err }));
+		.catch((err) => res.status(500).json({ message: "Could not insert new video.", error: err }));
 });
 
 module.exports = router;
