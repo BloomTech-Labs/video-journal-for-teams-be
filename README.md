@@ -20,8 +20,6 @@ To get the server running locally:
 - **yarn server** to start the local server
 - **yarn test** to start server using testing environment
 
-
-
 ## 2️⃣ Endpoints
 
 API Endpoint documentation is [**available on netlify**](https://alpacavid-api-doc.netlify.com/). 
