@@ -49,18 +49,14 @@ router.get("/:id/feedback", validateVideoId, (req, res) => {
 // 4. Add video feedback
 router.post("/:id/feedback", validateVideoId, validateFeedback, (req, res) => {
 	const { id } = req.params;
-	req.feedback.video_id = id;
+	req.feedback.video_id = Number(id);
 
 	Videos.insertFeedback(req.feedback)
 		.then((feedbackId) => {
 			res.status(201).json(feedbackId);
 		})
 		.catch((err) => {
-			if (err.code === "23503") {
-				res.status(422).json({ message: "Owner id does not exist", error: err });
-			} else {
-				res.status(500).json({ message: "Could not add feedback.", error: err });
-			}
+			res.status(500).json({ message: "Could not add feedback.", error: err });
 		});
 });
 
