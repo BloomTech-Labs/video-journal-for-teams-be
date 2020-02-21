@@ -14,6 +14,7 @@ module.exports = {
 	getPromptsByTeamId,
 	getVideosByTeamId,
 	switchRole,
+	matchUserToTeam
 };
 
 function find() {
@@ -49,6 +50,20 @@ function findByUserId(userId) {
 			"teams.created_at as created_at",
 			"teams.updated_at as updated_at",
 			"team_members.role_id as role_id"
+		);
+}
+
+// match specific user to specific team.
+function matchUserToTeam(userId, teamId) {
+	return db("teams")
+		.join("team_members", "teams.id", "team_members.team_id")
+		.join("users", "users.id", "team_members.user_id")
+		.where("teams.id", teamId)
+		.andWhere("users.id", userId)
+		.select(
+			"teams.id as id",
+			"teams.name as name",
+			"users.first_name as user"
 		);
 }
 
