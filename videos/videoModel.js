@@ -39,7 +39,6 @@ function findByUserId(user_id) {
 		.where({ owner_id: user_id });
 }
 
-
 function findFeedbackByVideoId(video_id) {
 	return db("feedback")
 		.join("users", "feedback.owner_id", "users.id")
@@ -56,13 +55,12 @@ function findFeedbackByVideoId(video_id) {
 }
 
 function insert(vidObj) {
-	console.log(59,vidObj)
-	const getTime = new Date(Date.now())
-	vidObj.created_at = vidObj.updated_at = getTime
+	vidObj.created_at = vidObj.updated_at = new Date(Date.now());
 	return db("videos").insert(vidObj, "id");
 }
 
 function insertFeedback(feedback) {
+	feedback.created_at = feedback.updated_at = new Date(Date.now());
 	return db("feedback").insert(feedback, "id");
 }
 
