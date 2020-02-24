@@ -6,7 +6,7 @@ const greek = require("../invites/greekalpha.json");
 
 const router = express.Router();
 
-const { validateTeamId, validateTeamData, validateMembership } = require("../middleware/middleware");
+const { validateTeamId, validateTeamData, validateMembership, verifyUserToTeam } = require("../middleware/middleware");
 const { isTeamLead } = require("../utils/utils");
 
 // 1. Fetch all teams
@@ -17,12 +17,12 @@ router.get("/", (req, res) => {
 });
 
 // 2. Fetch team by id
-router.get("/:id", validateTeamId, (req, res) => {
+router.get("/:id", verifyUserToTeam, validateTeamId, (req, res) => {
 	res.status(200).json(req.team);
 });
 
 // 3. Fetch users in a team
-router.get("/:id/users", validateTeamId, (req, res) => {
+router.get("/:id/users", verifyUserToTeam, validateTeamId, (req, res) => {
 	const { id } = req.params;
 
 	Teams.getUsersByTeamId(id)
@@ -31,7 +31,7 @@ router.get("/:id/users", validateTeamId, (req, res) => {
 });
 
 // 4. Fetch prompts created by a team
-router.get("/:id/prompts", validateTeamId, (req, res) => {
+router.get("/:id/prompts", verifyUserToTeam, validateTeamId, (req, res) => {
 	const { id } = req.params;
 
 	Teams.getPromptsByTeamId(id)
@@ -40,7 +40,7 @@ router.get("/:id/prompts", validateTeamId, (req, res) => {
 });
 
 // 5. Fetch team videos nested in prompt array
-router.get("/:id/videos", validateTeamId, async (req, res) => {
+router.get("/:id/videos", verifyUserToTeam, validateTeamId, async (req, res) => {
 	const { id } = req.params;
 
 	const prompts = await Teams.getPromptsByTeamId(id);
@@ -57,7 +57,7 @@ router.get("/:id/videos", validateTeamId, async (req, res) => {
 });
 
 // 6. Add a new team prompt
-router.post("/:id/prompts", validateTeamId, validateMembership, (req, res) => {
+router.post("/:id/prompts", verifyUserToTeam, validateTeamId, validateMembership, (req, res) => {
 	const { body } = req;
 	const { id } = req.params;
 
@@ -98,7 +98,7 @@ router.post("/", validateTeamData, (req, res) => {
 });
 
 // 8. Add a user to a team
-router.post("/:id/users", validateTeamId, (req, res) => {
+router.post("/:id/users", verifyUserToTeam, validateTeamId, (req, res) => {
 	const { id } = req.params;
 	const body = { ...req.body, team_id: id };
 
@@ -118,7 +118,7 @@ router.post("/:id/users", validateTeamId, (req, res) => {
 });
 
 // 9. Delete a user from a team
-router.delete("/:id/users/:user_id", validateTeamId, validateMembership, (req, res) => {
+router.delete("/:id/users/:user_id", verifyUserToTeam, validateTeamId, validateMembership, (req, res) => {
 	const teamId = req.params.id;
 	const userId = req.params.user_id;
 
@@ -140,7 +140,7 @@ router.delete("/:id/users/:user_id", validateTeamId, validateMembership, (req, r
 });
 
 // 10. Update team info
-router.put("/:id", validateTeamId, (req, res) => {
+router.put("/:id", verifyUserToTeam, validateTeamId, (req, res) => {
 	const updates = { ...req.body, updated_at: new Date(Date.now()).toISOString() };
 	const { id } = req.params;
 
@@ -160,7 +160,7 @@ router.put("/:id", validateTeamId, (req, res) => {
 });
 
 // 11. Update a user's team role
-router.put("/:id/users/:user_id/role", validateTeamId, validateMembership, (req, res) => {
+router.put("/:id/users/:user_id/role", verifyUserToTeam, validateTeamId, validateMembership, (req, res) => {
 	const teamId = req.params.id;
 	const userId = req.params.user_id;
 	const { role_id } = req.body;
@@ -179,7 +179,7 @@ router.put("/:id/users/:user_id/role", validateTeamId, validateMembership, (req,
 });
 
 // 12. Returns team invite object
-router.post("/:id/invite", validateTeamId, validateMembership, (req, res) => {
+router.post("/:id/invite", verifyUserToTeam, validateTeamId, validateMembership, (req, res) => {
 
 	// #region docstring 
 	/*
