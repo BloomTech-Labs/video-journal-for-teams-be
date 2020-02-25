@@ -22,7 +22,7 @@ module.exports = function verifyPassword(req, res, next) {
 					req.body.password = bcrypt.hashSync(req.body.newPassword, 8);
 					next();
 				} else {
-					res.status(406).json({ message: `Passwords do not match.` });
+					res.status(406).json({ message: `Current password is incorrect.` });
 				}
 			})
 			.catch((err) => res.status(500).json({ message: `Failed to update password.`, error: err }));
