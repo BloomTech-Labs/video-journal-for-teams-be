@@ -43,6 +43,7 @@ function findByUserId(userId) {
 	return db("teams")
 		.join("team_members", "teams.id", "team_members.team_id")
 		.where("team_members.user_id", userId)
+		.orderBy("created_at", "desc")
 		.select(
 			"teams.id as id",
 			"teams.name as name",
@@ -109,7 +110,9 @@ function getUsersByTeamId(teamId) {
 
 // GET a team's prompts
 function getPromptsByTeamId(teamId) {
-	return db("prompts").where("prompts.team_id", teamId);
+	return db("prompts")
+	.orderBy("created_at", "desc")
+	.where("prompts.team_id", teamId);
 }
 
 // GET a team's videos
@@ -118,7 +121,7 @@ function getVideosByTeamId(teamId) {
 		.join("prompts", "videos.prompt_id", "prompts.id")
 		.join("users", "videos.owner_id", "users.id")
 		.where("prompts.team_id", teamId)
-		.orderBy("prompts.id")
+		.orderBy("videos.created_at", "desc")
 		.select(
 			"prompts.id as prompt_id",
 			"videos.id as id",

@@ -36,6 +36,7 @@ function findByUserId(user_id) {
 	return db
 		.select("*")
 		.from("videos")
+		.orderBy("created_at", "desc")
 		.where({ owner_id: user_id });
 }
 
@@ -51,6 +52,7 @@ function findFeedbackByVideoId(video_id) {
 			"feedback.created_at",
 			"feedback.updated_at"
 		)
+		.orderBy("feedback.created_at", "desc")
 		.columns(db.raw("users.first_name || ' ' || users.last_name as owner_name"));
 }
 
