@@ -16,8 +16,8 @@ module.exports = function verifyPassword(req, res, next) {
 		next()
 	} else {
 		findCurrentPassword(id)
-			.then(async (currentPassword) => {
-				const match = await bcrypt.compareSync(req.body.currentPassword, currentPassword.password)
+			.then((currentPassword) => {
+				const match = bcrypt.compareSync(req.body.currentPassword, currentPassword.password)
 				if (match) {
 					req.body.password = bcrypt.hashSync(req.body.newPassword, 8);
 					next();
