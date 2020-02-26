@@ -8,7 +8,7 @@ const shortId = require("shortid");
 const multer = require("multer");
 const path = require("path");
 
-const { validateUserId } = require("../middleware/middleware");
+const { validateUserId, verifyPassword } = require("../middleware/middleware");
 
 const photoDir = path.join(__dirname, "../public/photos");
 
@@ -55,13 +55,22 @@ router.get("/:id/videos", validateUserId, (req, res) => {
 });
 
 // 5. Update a user's info
-router.put("/:id", validateUserId, (req, res) => {
+router.put("/:id", validateUserId, verifyPassword, (req, res) => {
 	const { id } = req.params;
 	const changes = req.body;
 
-	Users.update(id, changes)
-		.then((updatedUser) => res.status(200).json({ message: `Successfully updated user ${id}.`, updatedUser }))
-		.catch((err) => res.status(500).json({ message: `Could not get user ${id}.`, error: err }));
+	//This logic only applies if the user is trying to update their password.
+	//It utilizes verifyPassword middleware.
+	if (req.body.password) {
+		Users.update(id, { password: req.body.password })
+			.then((updatedUser) => res.status(200).json({ message: `Successfully updated password for user ${id}.`, updatedUser }))
+			.catch((err) => res.status(500).json({ message: `Could not get user ${id}.`, error: err }));
+	} else {
+		//All other cases for updating a user's information.
+		Users.update(id, changes)
+			.then((updatedUser) => res.status(200).json({ message: `Successfully updated user ${id}.`, updatedUser }))
+			.catch((err) => res.status(500).json({ message: `Could not get user ${id}.`, error: err }));
+	}
 });
 
 router.post("/:id/photo", upload.single("photo"), (req, res) => {
@@ -70,10 +79,11 @@ router.post("/:id/photo", upload.single("photo"), (req, res) => {
 	const newPhoto = {
 		avatar: req.file.filename,
 	};
-	
+
 	Users.update(id, newPhoto)
 		.then((user) => {
-				res.status(201).json({ message: "Photo uploaded successfully.", avatar: user.avatar })})
+			res.status(201).json({ message: "Photo uploaded successfully.", avatar: user.avatar })
+		})
 		.catch((err) => {
 			res.status(500).json({ message: "Could not upload photo.", error: err })
 		});

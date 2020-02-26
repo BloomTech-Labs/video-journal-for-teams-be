@@ -7,6 +7,7 @@ const validateFeedback = require("./validateFeedback");
 const validateTeamData = require("./validateTeamData");
 const validateMembership = require("./validateMembership");
 const verifyUserToTeam = require("./verifyUserToTeam");
+const verifyPassword = require("./verifyPassword.js");
 
 module.exports = {
 	signToken,
@@ -17,5 +18,6 @@ module.exports = {
 	validateFeedback,
 	validateTeamData,
 	validateMembership,
-	verifyUserToTeam
+	verifyUserToTeam,
+	verifyPassword,
 };
