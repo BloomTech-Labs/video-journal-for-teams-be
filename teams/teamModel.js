@@ -125,6 +125,7 @@ function getVideosByTeamId(teamId) {
 			"videos.video_url as video_url",
 			"videos.thumbnail as thumbnail",
 			"videos.title as title",
+			"videos.description as description",
 			"videos.created_at as created_at"
 		)
 		.columns(db.raw("users.first_name || ' ' || users.last_name as user_full_name"));
