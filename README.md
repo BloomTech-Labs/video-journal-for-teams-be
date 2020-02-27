@@ -7,11 +7,11 @@
 
 # API Documentation
 
-#### 1️⃣ Backend production deployment at heroku: https://video-journal.herokuapp.com/ <br>
+#### Backend production deployment at heroku: https://video-journal.herokuapp.com/ <br>
 
-#### 1️⃣ Backend staging deployment at heroku: https://video-journal-staging.herokuapp.com/ <br>
+#### Backend staging deployment at heroku: https://video-journal-staging.herokuapp.com/ <br>
 
-## 1️⃣ Getting started
+## Getting started
 
 To get the server running locally:
 
@@ -19,8 +19,9 @@ To get the server running locally:
 - **yarn install** to install all required dependencies
 - **yarn server** to start the local server
 - **yarn test** to start server using testing environment
+- **yarn coverage** to generate test coverage report
 
-## 2️⃣ Endpoints
+## Endpoints
 
 API Endpoint documentation is [**available on netlify**](https://alpacavid-api-doc.netlify.com/). 
 
@@ -153,45 +154,18 @@ API Endpoint documentation is [**available on netlify**](https://alpacavid-api-d
 }
 ```
 
-## 2️⃣ Actions
-
-🚫 This is an example, replace this with the actions that pertain to your backend
-
-`getOrgs()` -> Returns all organizations
-
-`getOrg(orgId)` -> Returns a single organization by ID
-
-`addOrg(org)` -> Returns the created org
-
-`updateOrg(orgId)` -> Update an organization by ID
-
-`deleteOrg(orgId)` -> Delete an organization by ID
-<br>
-<br>
-<br>
-`getUsers(orgId)` -> if no param all users
-
-`getUser(userId)` -> Returns a single user by user ID
-
-`addUser(user object)` --> Creates a new user and returns that user. Also creates 7 availabilities defaulted to hours of operation for their organization.
-
-`updateUser(userId, changes object)` -> Updates a single user by ID.
-
-`deleteUser(userId)` -> deletes everything dependent on the user
-
-## 3️⃣ Environment Variables
+## Environment Variables
 
 In order for the app to function correctly, the user must set up their own environment variables.
 
 create a .env file that includes the following:
 
-🚫 These are just examples, replace them with the specifics for your app
+- JWT_SECRET = *secure passphrase*
+- DB_ENV = *depends on situation* - "development" / "testing" / "production"
 
-_ STAGING_DB - optional development db for using functionality not available in SQLite
-_ NODE\*ENV - set to "development" until ready for "production"
-
-- JWT*SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-_=+)') for i in range(50)])
-  _ SENDGRID_API_KEY - this is generated in your Sendgrid account \* stripe_secret - this is generated in the Stripe dashboard
+- DATABASE_URL= *This is provided by heroku*
+- DATABASE_URL_DEV="postgres://username:password@localhost:5432/db_name"
+- DATABASE_URL_TEST = "postgres://username:password@localhost:5432/db_name_test"
 
 ## Contributing
 
@@ -232,5 +206,4 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 
 ## Documentation
 
-See [Frontend Documentation](🚫link to your frontend readme here) for details on the fronend of our project.
-🚫 Add DS iOS and/or Andriod links here if applicable.
+See [Frontend Documentation](https://github.com/Lambda-School-Labs/video-journal-for-teams-fe) for details on the fronend of our project.
