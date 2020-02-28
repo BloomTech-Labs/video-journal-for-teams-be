@@ -10,403 +10,403 @@ exports.seed = function (knex) {
 				[
 					{
 						"first_name": "Curr",
-						"last_name": "Ladley", "username": "fwilloughley0", "password": bcrypt.hashSync("4OTUUVDkYT", 8), "email": "asculpher0@independent.co.uk", "avatar": "superhero-1.png"
+						"last_name": "Ladley", "username": "fwilloughley0", "password": bcrypt.hashSync("4OTUUVDkYT", 8), "email": "asculpher0@independent.co.uk", "avatar": "avatars/superhero-1.png"
 					},
 					{
 						"first_name": "Leopold",
-						"last_name": "Varndall", "username": "tlefeaver1", "password": bcrypt.hashSync("5Pdb0nki8d0", 8), "email": "oivashkin1@nsw.gov.au", "avatar": "superhero-2.png"
+						"last_name": "Varndall", "username": "tlefeaver1", "password": bcrypt.hashSync("5Pdb0nki8d0", 8), "email": "oivashkin1@nsw.gov.au", "avatar": "avatars/superhero-2.png"
 					},
 					{
 						"first_name": "Brenna",
-						"last_name": "Shwalbe", "username": "jdudney2", "password": bcrypt.hashSync("fskk612N0GR", 8), "email": "jmuldowney2@cargocollective.com", "avatar": "superhero-3.png"
+						"last_name": "Shwalbe", "username": "jdudney2", "password": bcrypt.hashSync("fskk612N0GR", 8), "email": "jmuldowney2@cargocollective.com", "avatar": "avatars/superhero-3.png"
 					},
 					{
 						"first_name": "Grace",
-						"last_name": "Eyer", "username": "tvolke3", "password": bcrypt.hashSync("Fq8wxfoXZLl", 8), "email": "lgunner3@tamu.edu", "avatar": "superhero-4.png"
+						"last_name": "Eyer", "username": "tvolke3", "password": bcrypt.hashSync("Fq8wxfoXZLl", 8), "email": "lgunner3@tamu.edu", "avatar": "avatars/superhero-4.png"
 					},
 					{
 						"first_name": "Idaline",
-						"last_name": "Gounet", "username": "cdeem4", "password": bcrypt.hashSync("kIXb5qpu1z0", 8), "email": "balderton4@printfriendly.com", "avatar": "superhero-5.png"
+						"last_name": "Gounet", "username": "cdeem4", "password": bcrypt.hashSync("kIXb5qpu1z0", 8), "email": "balderton4@printfriendly.com", "avatar": "avatars/superhero-5.png"
 					},
 					{
 						"first_name": "Sasha",
-						"last_name": "Leys", "username": "nnosworthy5", "password": bcrypt.hashSync("xcPNPxHXOWTf", 8), "email": "aabazi5@nps.gov", "avatar": "superhero-6.png"
+						"last_name": "Leys", "username": "nnosworthy5", "password": bcrypt.hashSync("xcPNPxHXOWTf", 8), "email": "aabazi5@nps.gov", "avatar": "avatars/superhero-6.png"
 					},
 					{
 						"first_name": "Glenda",
-						"last_name": "Arlidge", "username": "lzealy6", "password": bcrypt.hashSync("9vPzWkg2", 8), "email": "wpawlik6@cmu.edu", "avatar": "superhero-7.png"
+						"last_name": "Arlidge", "username": "lzealy6", "password": bcrypt.hashSync("9vPzWkg2", 8), "email": "wpawlik6@cmu.edu", "avatar": "avatars/superhero-7.png"
 					},
 					{
 						"first_name": "Sadella",
-						"last_name": "Hedger", "username": "fbulch7", "password": bcrypt.hashSync("gs7K71", 8), "email": "brolse7@rakuten.co.jp", "avatar": "superhero-8.png"
+						"last_name": "Hedger", "username": "fbulch7", "password": bcrypt.hashSync("gs7K71", 8), "email": "brolse7@rakuten.co.jp", "avatar": "avatars/superhero-8.png"
 					},
 					{
 						"first_name": "Luciano",
-						"last_name": "Burlingham", "username": "alantiff8", "password": bcrypt.hashSync("I0QV7nrS", 8), "email": "sstonhewer8@yellowpages.com", "avatar": "superhero-9.png"
+						"last_name": "Burlingham", "username": "alantiff8", "password": bcrypt.hashSync("I0QV7nrS", 8), "email": "sstonhewer8@yellowpages.com", "avatar": "avatars/superhero-9.png"
 					},
 					{
 						"first_name": "Augie",
-						"last_name": "Tomasz", "username": "abennie9", "password": bcrypt.hashSync("U4gccGoIvx", 8), "email": "chawkswell9@ucsd.edu", "avatar": "superhero-10.png"
+						"last_name": "Tomasz", "username": "abennie9", "password": bcrypt.hashSync("U4gccGoIvx", 8), "email": "chawkswell9@ucsd.edu", "avatar": "avatars/superhero-10.png"
 					},
 					{
 						"first_name": "Harley",
-						"last_name": "Summerskill", "username": "zjakubskia", "password": bcrypt.hashSync("husJkbmsOeB", 8), "email": "abraunleina@ibm.com", "avatar": "superhero-11.png"
+						"last_name": "Summerskill", "username": "zjakubskia", "password": bcrypt.hashSync("husJkbmsOeB", 8), "email": "abraunleina@ibm.com", "avatar": "avatars/superhero-11.png"
 					},
 					{
 						"first_name": "Willi",
-						"last_name": "Santacrole", "username": "agogganb", "password": bcrypt.hashSync("bgYlWgNIT2V", 8), "email": "rlabuschagneb@dot.gov", "avatar": "superhero-12.png"
+						"last_name": "Santacrole", "username": "agogganb", "password": bcrypt.hashSync("bgYlWgNIT2V", 8), "email": "rlabuschagneb@dot.gov", "avatar": "avatars/superhero-12.png"
 					},
 					{
 						"first_name": "Peta",
-						"last_name": "Frankham", "username": "bheadinghamc", "password": bcrypt.hashSync("IIr27isvxtr", 8), "email": "homahoneyc@issuu.com", "avatar": "superhero-1.png"
+						"last_name": "Frankham", "username": "bheadinghamc", "password": bcrypt.hashSync("IIr27isvxtr", 8), "email": "homahoneyc@issuu.com", "avatar": "avatars/superhero-1.png"
 					},
 					{
 						"first_name": "Nat",
-						"last_name": "Dashper", "username": "pjeeksd", "password": bcrypt.hashSync("fDaHNY", 8), "email": "amargramd@tmall.com", "avatar": "superhero-2.png"
+						"last_name": "Dashper", "username": "pjeeksd", "password": bcrypt.hashSync("fDaHNY", 8), "email": "amargramd@tmall.com", "avatar": "avatars/superhero-2.png"
 					},
 					{
 						"first_name": "Idalina",
-						"last_name": "Cearley", "username": "fdalbeye", "password": bcrypt.hashSync("CowIsN", 8), "email": "tfausche@latimes.com", "avatar": "superhero-3.png"
+						"last_name": "Cearley", "username": "fdalbeye", "password": bcrypt.hashSync("CowIsN", 8), "email": "tfausche@latimes.com", "avatar": "avatars/superhero-3.png"
 					},
 					{
 						"first_name": "Valera",
-						"last_name": "Corking", "username": "ostalleyf", "password": bcrypt.hashSync("Nx1XqfzS6X", 8), "email": "lstroudf@hubpages.com", "avatar": "superhero-4.png"
+						"last_name": "Corking", "username": "ostalleyf", "password": bcrypt.hashSync("Nx1XqfzS6X", 8), "email": "lstroudf@hubpages.com", "avatar": "avatars/superhero-4.png"
 					},
 					{
 						"first_name": "Meade",
-						"last_name": "Costell", "username": "ogrunwallg", "password": bcrypt.hashSync("itMYt7eWI", 8), "email": "cmourgeg@nymag.com", "avatar": "superhero-5.png"
+						"last_name": "Costell", "username": "ogrunwallg", "password": bcrypt.hashSync("itMYt7eWI", 8), "email": "cmourgeg@nymag.com", "avatar": "avatars/superhero-5.png"
 					},
 					{
 						"first_name": "Jeniffer",
-						"last_name": "Flaune", "username": "adineharth", "password": bcrypt.hashSync("VhVPMh", 8), "email": "ddanevh@blog.com", "avatar": "superhero-6.png"
+						"last_name": "Flaune", "username": "adineharth", "password": bcrypt.hashSync("VhVPMh", 8), "email": "ddanevh@blog.com", "avatar": "avatars/superhero-6.png"
 					},
 					{
 						"first_name": "Kandy",
-						"last_name": "Dalglish", "username": "gfilloni", "password": bcrypt.hashSync("yf58MxewqA", 8), "email": "awaldiei@economist.com", "avatar": "superhero-7.png"
+						"last_name": "Dalglish", "username": "gfilloni", "password": bcrypt.hashSync("yf58MxewqA", 8), "email": "awaldiei@economist.com", "avatar": "avatars/superhero-7.png"
 					},
 					{
 						"first_name": "Pen",
-						"last_name": "Howsego", "username": "tjeannessonj", "password": bcrypt.hashSync("7MDnL0UNjzwg", 8), "email": "lsloamj@squarespace.com", "avatar": "superhero-8.png"
+						"last_name": "Howsego", "username": "tjeannessonj", "password": bcrypt.hashSync("7MDnL0UNjzwg", 8), "email": "lsloamj@squarespace.com", "avatar": "avatars/superhero-8.png"
 					},
 					{
 						"first_name": "Nance",
-						"last_name": "Abden", "username": "vgransdenk", "password": bcrypt.hashSync("TZ0CwZbEvpY", 8), "email": "ykoomark@google.com", "avatar": "superhero-9.png"
+						"last_name": "Abden", "username": "vgransdenk", "password": bcrypt.hashSync("TZ0CwZbEvpY", 8), "email": "ykoomark@google.com", "avatar": "avatars/superhero-9.png"
 					},
 					{
 						"first_name": "Leslie",
-						"last_name": "Bichard", "username": "mtewl", "password": bcrypt.hashSync("7oORVa", 8), "email": "djerromesl@csmonitor.com", "avatar": "superhero-10.png"
+						"last_name": "Bichard", "username": "mtewl", "password": bcrypt.hashSync("7oORVa", 8), "email": "djerromesl@csmonitor.com", "avatar": "avatars/superhero-10.png"
 					},
 					{
 						"first_name": "Kerwinn",
-						"last_name": "Rarity", "username": "cbramm", "password": bcrypt.hashSync("sueD3tWsjuc5", 8), "email": "mbangsm@example.com", "avatar": "superhero-11.png"
+						"last_name": "Rarity", "username": "cbramm", "password": bcrypt.hashSync("sueD3tWsjuc5", 8), "email": "mbangsm@example.com", "avatar": "avatars/superhero-11.png"
 					},
 					{
 						"first_name": "Saudra",
-						"last_name": "Corkish", "username": "rmallonn", "password": bcrypt.hashSync("S4os5BcmLJ3F", 8), "email": "rdagnalln@xrea.com", "avatar": "superhero-12.png"
+						"last_name": "Corkish", "username": "rmallonn", "password": bcrypt.hashSync("S4os5BcmLJ3F", 8), "email": "rdagnalln@xrea.com", "avatar": "avatars/superhero-12.png"
 					},
 					{
 						"first_name": "Mayne",
-						"last_name": "Wishkar", "username": "brigateo", "password": bcrypt.hashSync("DLBa9rtj0Q0", 8), "email": "jabellao@virginia.edu", "avatar": "superhero-1.png"
+						"last_name": "Wishkar", "username": "brigateo", "password": bcrypt.hashSync("DLBa9rtj0Q0", 8), "email": "jabellao@virginia.edu", "avatar": "avatars/superhero-1.png"
 					},
 					{
 						"first_name": "Dunstan",
-						"last_name": "Ells", "username": "dbucherp", "password": bcrypt.hashSync("SM7TX8Ja1Jx", 8), "email": "cbernakiewiczp@nymag.com", "avatar": "superhero-2.png"
+						"last_name": "Ells", "username": "dbucherp", "password": bcrypt.hashSync("SM7TX8Ja1Jx", 8), "email": "cbernakiewiczp@nymag.com", "avatar": "avatars/superhero-2.png"
 					},
 					{
 						"first_name": "Jacquenetta",
-						"last_name": "Vaissiere", "username": "sbirkheadq", "password": bcrypt.hashSync("ba79PKOZtrNd", 8), "email": "wdumbreckq@ow.ly", "avatar": "superhero-3.png"
+						"last_name": "Vaissiere", "username": "sbirkheadq", "password": bcrypt.hashSync("ba79PKOZtrNd", 8), "email": "wdumbreckq@ow.ly", "avatar": "avatars/superhero-3.png"
 					},
 					{
 						"first_name": "Dewain",
-						"last_name": "Netherclift", "username": "jseelbachr", "password": bcrypt.hashSync("fvT0VIZoGQjj", 8), "email": "erubertellir@liveinternet.ru", "avatar": "superhero-4.png"
+						"last_name": "Netherclift", "username": "jseelbachr", "password": bcrypt.hashSync("fvT0VIZoGQjj", 8), "email": "erubertellir@liveinternet.ru", "avatar": "avatars/superhero-4.png"
 					},
 					{
 						"first_name": "Ariel",
-						"last_name": "Ayliff", "username": "ewhitcombs", "password": bcrypt.hashSync("h4iB0OdjcKe", 8), "email": "sbridewells@arstechnica.com", "avatar": "superhero-5.png"
+						"last_name": "Ayliff", "username": "ewhitcombs", "password": bcrypt.hashSync("h4iB0OdjcKe", 8), "email": "sbridewells@arstechnica.com", "avatar": "avatars/superhero-5.png"
 					},
 					{
 						"first_name": "Kati",
-						"last_name": "Dwelley", "username": "hconnechyt", "password": bcrypt.hashSync("me907AlwS", 8), "email": "dteaset@statcounter.com", "avatar": "superhero-6.png"
+						"last_name": "Dwelley", "username": "hconnechyt", "password": bcrypt.hashSync("me907AlwS", 8), "email": "dteaset@statcounter.com", "avatar": "avatars/superhero-6.png"
 					},
 					{
 						"first_name": "Jasmine",
-						"last_name": "Carn", "username": "hgheraldiu", "password": bcrypt.hashSync("S0gvp3", 8), "email": "bpurcellu@pcworld.com", "avatar": "superhero-7.png"
+						"last_name": "Carn", "username": "hgheraldiu", "password": bcrypt.hashSync("S0gvp3", 8), "email": "bpurcellu@pcworld.com", "avatar": "avatars/superhero-7.png"
 					},
 					{
 						"first_name": "Felicia",
-						"last_name": "Wassell", "username": "nmccrumv", "password": bcrypt.hashSync("y0FPz8", 8), "email": "ccircuitv@tinypic.com", "avatar": "superhero-8.png"
+						"last_name": "Wassell", "username": "nmccrumv", "password": bcrypt.hashSync("y0FPz8", 8), "email": "ccircuitv@tinypic.com", "avatar": "avatars/superhero-8.png"
 					},
 					{
 						"first_name": "Rocky",
-						"last_name": "Ferandez", "username": "gwhoolehanw", "password": bcrypt.hashSync("fdeK8MaIqs", 8), "email": "dmicallefw@apache.org", "avatar": "superhero-9.png"
+						"last_name": "Ferandez", "username": "gwhoolehanw", "password": bcrypt.hashSync("fdeK8MaIqs", 8), "email": "dmicallefw@apache.org", "avatar": "avatars/superhero-9.png"
 					},
 					{
 						"first_name": "Chelsae",
-						"last_name": "Baumber", "username": "dquincex", "password": bcrypt.hashSync("JDhFOMO", 8), "email": "bcharlottex@fda.gov", "avatar": "superhero-10.png"
+						"last_name": "Baumber", "username": "dquincex", "password": bcrypt.hashSync("JDhFOMO", 8), "email": "bcharlottex@fda.gov", "avatar": "avatars/superhero-10.png"
 					},
 					{
 						"first_name": "Jordana",
-						"last_name": "Degli Abbati", "username": "slatoury", "password": bcrypt.hashSync("CXaeY2A", 8), "email": "staylery@vkontakte.ru", "avatar": "superhero-11.png"
+						"last_name": "Degli Abbati", "username": "slatoury", "password": bcrypt.hashSync("CXaeY2A", 8), "email": "staylery@vkontakte.ru", "avatar": "avatars/superhero-11.png"
 					},
 					{
 						"first_name": "Gabriella",
-						"last_name": "Raven", "username": "dearpez", "password": bcrypt.hashSync("mQgciNw", 8), "email": "rclunanz@geocities.jp", "avatar": "superhero-12.png"
+						"last_name": "Raven", "username": "dearpez", "password": bcrypt.hashSync("mQgciNw", 8), "email": "rclunanz@geocities.jp", "avatar": "avatars/superhero-12.png"
 					},
 					{
 						"first_name": "Myrwyn",
-						"last_name": "Spellicy", "username": "kschaffler10", "password": bcrypt.hashSync("uNgGX3", 8), "email": "erentenbeck10@wikimedia.org", "avatar": "superhero-1.png"
+						"last_name": "Spellicy", "username": "kschaffler10", "password": bcrypt.hashSync("uNgGX3", 8), "email": "erentenbeck10@wikimedia.org", "avatar": "avatars/superhero-1.png"
 					},
 					{
 						"first_name": "Peggy",
-						"last_name": "Faircliff", "username": "lfer11", "password": bcrypt.hashSync("40eAdd1WD7", 8), "email": "mlaboune11@ning.com", "avatar": "superhero-2.png"
+						"last_name": "Faircliff", "username": "lfer11", "password": bcrypt.hashSync("40eAdd1WD7", 8), "email": "mlaboune11@ning.com", "avatar": "avatars/superhero-2.png"
 					},
 					{
 						"first_name": "Elise",
-						"last_name": "Swyne", "username": "apail12", "password": bcrypt.hashSync("GMsGxqnTXOB", 8), "email": "twindybank12@pinterest.com", "avatar": "superhero-3.png"
+						"last_name": "Swyne", "username": "apail12", "password": bcrypt.hashSync("GMsGxqnTXOB", 8), "email": "twindybank12@pinterest.com", "avatar": "avatars/superhero-3.png"
 					},
 					{
 						"first_name": "Adelle",
-						"last_name": "Corderoy", "username": "eferrey13", "password": bcrypt.hashSync("sBGGPrR", 8), "email": "nmccorrie13@blogspot.com", "avatar": "superhero-4.png"
+						"last_name": "Corderoy", "username": "eferrey13", "password": bcrypt.hashSync("sBGGPrR", 8), "email": "nmccorrie13@blogspot.com", "avatar": "avatars/superhero-4.png"
 					},
 					{
 						"first_name": "Brandice",
-						"last_name": "Drury", "username": "dkembrey14", "password": bcrypt.hashSync("8JAfCWURZ", 8), "email": "rloch14@princeton.edu", "avatar": "superhero-5.png"
+						"last_name": "Drury", "username": "dkembrey14", "password": bcrypt.hashSync("8JAfCWURZ", 8), "email": "rloch14@princeton.edu", "avatar": "avatars/superhero-5.png"
 					},
 					{
 						"first_name": "Abra",
-						"last_name": "Linkie", "username": "mbimrose15", "password": bcrypt.hashSync("aTx5dfaKP", 8), "email": "llewinton15@microsoft.com", "avatar": "superhero-6.png"
+						"last_name": "Linkie", "username": "mbimrose15", "password": bcrypt.hashSync("aTx5dfaKP", 8), "email": "llewinton15@microsoft.com", "avatar": "avatars/superhero-6.png"
 					},
 					{
 						"first_name": "Lyndell",
-						"last_name": "Hamblett", "username": "usenior16", "password": bcrypt.hashSync("MOg44YK", 8), "email": "acanto16@archive.org", "avatar": "superhero-7.png"
+						"last_name": "Hamblett", "username": "usenior16", "password": bcrypt.hashSync("MOg44YK", 8), "email": "acanto16@archive.org", "avatar": "avatars/superhero-7.png"
 					},
 					{
 						"first_name": "Cleveland",
-						"last_name": "Greyes", "username": "cburbury17", "password": bcrypt.hashSync("ImiCLMmwSX", 8), "email": "nnorcross17@comcast.net", "avatar": "superhero-8.png"
+						"last_name": "Greyes", "username": "cburbury17", "password": bcrypt.hashSync("ImiCLMmwSX", 8), "email": "nnorcross17@comcast.net", "avatar": "avatars/superhero-8.png"
 					},
 					{
 						"first_name": "Ashley",
-						"last_name": "Sotworth", "username": "mlangelay18", "password": bcrypt.hashSync("R8Ov6a2G1YW", 8), "email": "hpinfold18@freewebs.com", "avatar": "superhero-9.png"
+						"last_name": "Sotworth", "username": "mlangelay18", "password": bcrypt.hashSync("R8Ov6a2G1YW", 8), "email": "hpinfold18@freewebs.com", "avatar": "avatars/superhero-9.png"
 					},
 					{
 						"first_name": "Denyse",
-						"last_name": "Stansall", "username": "eodriscole19", "password": bcrypt.hashSync("XDlPPnh030e", 8), "email": "ncherryholme19@themeforest.net", "avatar": "superhero-10.png"
+						"last_name": "Stansall", "username": "eodriscole19", "password": bcrypt.hashSync("XDlPPnh030e", 8), "email": "ncherryholme19@themeforest.net", "avatar": "avatars/superhero-10.png"
 					},
 					{
 						"first_name": "Barclay",
-						"last_name": "Dunbobin", "username": "fhicks1a", "password": bcrypt.hashSync("zzN87dhCs", 8), "email": "canstead1a@hubpages.com", "avatar": "superhero-11.png"
+						"last_name": "Dunbobin", "username": "fhicks1a", "password": bcrypt.hashSync("zzN87dhCs", 8), "email": "canstead1a@hubpages.com", "avatar": "avatars/superhero-11.png"
 					},
 					{
 						"first_name": "Eba",
-						"last_name": "Biasioni", "username": "dsandall1b", "password": bcrypt.hashSync("lhbJFScvVvC", 8), "email": "fpiel1b@sogou.com", "avatar": "superhero-12.png"
+						"last_name": "Biasioni", "username": "dsandall1b", "password": bcrypt.hashSync("lhbJFScvVvC", 8), "email": "fpiel1b@sogou.com", "avatar": "avatars/superhero-12.png"
 					},
 					{
 						"first_name": "Onofredo",
-						"last_name": "Fellis", "username": "cfeenan1c", "password": bcrypt.hashSync("VLmADPxK", 8), "email": "wdalesco1c@blogs.com", "avatar": "superhero-1.png"
+						"last_name": "Fellis", "username": "cfeenan1c", "password": bcrypt.hashSync("VLmADPxK", 8), "email": "wdalesco1c@blogs.com", "avatar": "avatars/superhero-1.png"
 					},
 					{
 						"first_name": "Gizela",
-						"last_name": "Dufer", "username": "aphlipon1d", "password": bcrypt.hashSync("tmvafOjoD", 8), "email": "utoby1d@shareasale.com", "avatar": "superhero-2.png"
+						"last_name": "Dufer", "username": "aphlipon1d", "password": bcrypt.hashSync("tmvafOjoD", 8), "email": "utoby1d@shareasale.com", "avatar": "avatars/superhero-2.png"
 					},
 					{
 						"first_name": "Giorgi",
-						"last_name": "Kempstone", "username": "gblackie1e", "password": bcrypt.hashSync("GdE6B9d6c", 8), "email": "lgoose1e@ning.com", "avatar": "superhero-3.png"
+						"last_name": "Kempstone", "username": "gblackie1e", "password": bcrypt.hashSync("GdE6B9d6c", 8), "email": "lgoose1e@ning.com", "avatar": "avatars/superhero-3.png"
 					},
 					{
 						"first_name": "Guendolen",
-						"last_name": "Heinrici", "username": "jcruddace1f", "password": bcrypt.hashSync("kraIrjGBg7Xe", 8), "email": "obembrigg1f@cargocollective.com", "avatar": "superhero-4.png"
+						"last_name": "Heinrici", "username": "jcruddace1f", "password": bcrypt.hashSync("kraIrjGBg7Xe", 8), "email": "obembrigg1f@cargocollective.com", "avatar": "avatars/superhero-4.png"
 					},
 					{
 						"first_name": "Redd",
-						"last_name": "Sarl", "username": "atrase1g", "password": bcrypt.hashSync("T5U1hEIthrvF", 8), "email": "mcondie1g@vimeo.com", "avatar": "superhero-5.png"
+						"last_name": "Sarl", "username": "atrase1g", "password": bcrypt.hashSync("T5U1hEIthrvF", 8), "email": "mcondie1g@vimeo.com", "avatar": "avatars/superhero-5.png"
 					},
 					{
 						"first_name": "Ahmad",
-						"last_name": "Attride", "username": "ehemphill1h", "password": bcrypt.hashSync("q76QG9k", 8), "email": "tcoolican1h@etsy.com", "avatar": "superhero-6.png"
+						"last_name": "Attride", "username": "ehemphill1h", "password": bcrypt.hashSync("q76QG9k", 8), "email": "tcoolican1h@etsy.com", "avatar": "avatars/superhero-6.png"
 					},
 					{
 						"first_name": "Patrice",
-						"last_name": "Cornthwaite", "username": "bgarstan1i", "password": bcrypt.hashSync("iGXrpnHQpnQb", 8), "email": "rcardozo1i@mapy.cz", "avatar": "superhero-7.png"
+						"last_name": "Cornthwaite", "username": "bgarstan1i", "password": bcrypt.hashSync("iGXrpnHQpnQb", 8), "email": "rcardozo1i@mapy.cz", "avatar": "avatars/superhero-7.png"
 					},
 					{
 						"first_name": "Candide",
-						"last_name": "Bouchard", "username": "imacskeagan1j", "password": bcrypt.hashSync("aY9XP4BS", 8), "email": "rpleat1j@mozilla.com", "avatar": "superhero-8.png"
+						"last_name": "Bouchard", "username": "imacskeagan1j", "password": bcrypt.hashSync("aY9XP4BS", 8), "email": "rpleat1j@mozilla.com", "avatar": "avatars/superhero-8.png"
 					},
 					{
 						"first_name": "Brennen",
-						"last_name": "Parrott", "username": "mdowning1k", "password": bcrypt.hashSync("iKwmX76x", 8), "email": "wscard1k@umich.edu", "avatar": "superhero-9.png"
+						"last_name": "Parrott", "username": "mdowning1k", "password": bcrypt.hashSync("iKwmX76x", 8), "email": "wscard1k@umich.edu", "avatar": "avatars/superhero-9.png"
 					},
 					{
 						"first_name": "Doretta",
-						"last_name": "Wickersley", "username": "ckarpf1l", "password": bcrypt.hashSync("dQ5OIz", 8), "email": "gmacgregor1l@purevolume.com", "avatar": "superhero-10.png"
+						"last_name": "Wickersley", "username": "ckarpf1l", "password": bcrypt.hashSync("dQ5OIz", 8), "email": "gmacgregor1l@purevolume.com", "avatar": "avatars/superhero-10.png"
 					},
 					{
 						"first_name": "Natalee",
-						"last_name": "Wyllis", "username": "msmithson1m", "password": bcrypt.hashSync("pv2X6K", 8), "email": "kdormon1m@creativecommons.org", "avatar": "superhero-11.png"
+						"last_name": "Wyllis", "username": "msmithson1m", "password": bcrypt.hashSync("pv2X6K", 8), "email": "kdormon1m@creativecommons.org", "avatar": "avatars/superhero-11.png"
 					},
 					{
 						"first_name": "Laraine",
-						"last_name": "Morten", "username": "llennox1n", "password": bcrypt.hashSync("HTdB50oTmVlC", 8), "email": "bcaesman1n@unesco.org", "avatar": "superhero-12.png"
+						"last_name": "Morten", "username": "llennox1n", "password": bcrypt.hashSync("HTdB50oTmVlC", 8), "email": "bcaesman1n@unesco.org", "avatar": "avatars/superhero-12.png"
 					},
 					{
 						"first_name": "Betteann",
-						"last_name": "Soloway", "username": "ccantero1o", "password": bcrypt.hashSync("kwdbcH", 8), "email": "harnow1o@tuttocitta.it", "avatar": "superhero-1.png"
+						"last_name": "Soloway", "username": "ccantero1o", "password": bcrypt.hashSync("kwdbcH", 8), "email": "harnow1o@tuttocitta.it", "avatar": "avatars/superhero-1.png"
 					},
 					{
 						"first_name": "Vladimir",
-						"last_name": "Buttriss", "username": "cmccann1p", "password": bcrypt.hashSync("zAIUjsg3C", 8), "email": "rmellows1p@mysql.com", "avatar": "superhero-2.png"
+						"last_name": "Buttriss", "username": "cmccann1p", "password": bcrypt.hashSync("zAIUjsg3C", 8), "email": "rmellows1p@mysql.com", "avatar": "avatars/superhero-2.png"
 					},
 					{
 						"first_name": "Pen",
-						"last_name": "Arrighi", "username": "lrenshell1q", "password": bcrypt.hashSync("LnyGLtvDi", 8), "email": "zlafay1q@usa.gov", "avatar": "superhero-3.png"
+						"last_name": "Arrighi", "username": "lrenshell1q", "password": bcrypt.hashSync("LnyGLtvDi", 8), "email": "zlafay1q@usa.gov", "avatar": "avatars/superhero-3.png"
 					},
 					{
 						"first_name": "Karil",
-						"last_name": "Shury", "username": "acapstaff1r", "password": bcrypt.hashSync("BKDpQeVmJK", 8), "email": "cduddin1r@odnoklassniki.ru", "avatar": "superhero-4.png"
+						"last_name": "Shury", "username": "acapstaff1r", "password": bcrypt.hashSync("BKDpQeVmJK", 8), "email": "cduddin1r@odnoklassniki.ru", "avatar": "avatars/superhero-4.png"
 					},
 					{
 						"first_name": "Kliment",
-						"last_name": "Sapwell", "username": "oattersoll1s", "password": bcrypt.hashSync("5Kw9kC5cAU1D", 8), "email": "hsakins1s@scribd.com", "avatar": "superhero-5.png"
+						"last_name": "Sapwell", "username": "oattersoll1s", "password": bcrypt.hashSync("5Kw9kC5cAU1D", 8), "email": "hsakins1s@scribd.com", "avatar": "avatars/superhero-5.png"
 					},
 					{
 						"first_name": "Karmen",
-						"last_name": "Fencott", "username": "klevane1t", "password": bcrypt.hashSync("FybDQntqJGr", 8), "email": "nsmitton1t@admin.ch", "avatar": "superhero-6.png"
+						"last_name": "Fencott", "username": "klevane1t", "password": bcrypt.hashSync("FybDQntqJGr", 8), "email": "nsmitton1t@admin.ch", "avatar": "avatars/superhero-6.png"
 					},
 					{
 						"first_name": "Bernardo",
-						"last_name": "Kobierra", "username": "wgirardetti1u", "password": bcrypt.hashSync("OlViRBDfZZ3", 8), "email": "jmudge1u@state.gov", "avatar": "superhero-7.png"
+						"last_name": "Kobierra", "username": "wgirardetti1u", "password": bcrypt.hashSync("OlViRBDfZZ3", 8), "email": "jmudge1u@state.gov", "avatar": "avatars/superhero-7.png"
 					},
 					{
 						"first_name": "Piggy",
-						"last_name": "Pescud", "username": "ynunnerley1v", "password": bcrypt.hashSync("KLc2NQG6c", 8), "email": "lmanifold1v@upenn.edu", "avatar": "superhero-8.png"
+						"last_name": "Pescud", "username": "ynunnerley1v", "password": bcrypt.hashSync("KLc2NQG6c", 8), "email": "lmanifold1v@upenn.edu", "avatar": "avatars/superhero-8.png"
 					},
 					{
 						"first_name": "Pamelina",
-						"last_name": "Commin", "username": "vchuney1w", "password": bcrypt.hashSync("ZzmfUgy3Q", 8), "email": "mipwell1w@example.com", "avatar": "superhero-9.png"
+						"last_name": "Commin", "username": "vchuney1w", "password": bcrypt.hashSync("ZzmfUgy3Q", 8), "email": "mipwell1w@example.com", "avatar": "avatars/superhero-9.png"
 					},
 					{
 						"first_name": "Elsi",
-						"last_name": "Mounsie", "username": "tbruggen1x", "password": bcrypt.hashSync("f4dZwcgj", 8), "email": "rchristoffersen1x@goo.ne.jp", "avatar": "superhero-10.png"
+						"last_name": "Mounsie", "username": "tbruggen1x", "password": bcrypt.hashSync("f4dZwcgj", 8), "email": "rchristoffersen1x@goo.ne.jp", "avatar": "avatars/superhero-10.png"
 					},
 					{
 						"first_name": "Orren",
-						"last_name": "Doelle", "username": "mghirigori1y", "password": bcrypt.hashSync("deP1qB1l1J", 8), "email": "msyrad1y@skype.com", "avatar": "superhero-11.png"
+						"last_name": "Doelle", "username": "mghirigori1y", "password": bcrypt.hashSync("deP1qB1l1J", 8), "email": "msyrad1y@skype.com", "avatar": "avatars/superhero-11.png"
 					},
 					{
 						"first_name": "Bartholomeus",
-						"last_name": "Sillito", "username": "hpamphilon1z", "password": bcrypt.hashSync("9wo60G6", 8), "email": "dmoody1z@fotki.com", "avatar": "superhero-12.png"
+						"last_name": "Sillito", "username": "hpamphilon1z", "password": bcrypt.hashSync("9wo60G6", 8), "email": "dmoody1z@fotki.com", "avatar": "avatars/superhero-12.png"
 					},
 					{
 						"first_name": "Francklin",
-						"last_name": "Bristowe", "username": "llinnock20", "password": bcrypt.hashSync("l7m9iU2z3", 8), "email": "chamblyn20@hubpages.com", "avatar": "superhero-1.png"
+						"last_name": "Bristowe", "username": "llinnock20", "password": bcrypt.hashSync("l7m9iU2z3", 8), "email": "chamblyn20@hubpages.com", "avatar": "avatars/superhero-1.png"
 					},
 					{
 						"first_name": "Guenna",
-						"last_name": "Soppitt", "username": "scalow21", "password": bcrypt.hashSync("7fL14Y", 8), "email": "aaxston21@sogou.com", "avatar": "superhero-2.png"
+						"last_name": "Soppitt", "username": "scalow21", "password": bcrypt.hashSync("7fL14Y", 8), "email": "aaxston21@sogou.com", "avatar": "avatars/superhero-2.png"
 					},
 					{
 						"first_name": "Franklin",
-						"last_name": "Wapples", "username": "apyburn22", "password": bcrypt.hashSync("EOmJnIXsYUUT", 8), "email": "awells22@gmpg.org", "avatar": "superhero-3.png"
+						"last_name": "Wapples", "username": "apyburn22", "password": bcrypt.hashSync("EOmJnIXsYUUT", 8), "email": "awells22@gmpg.org", "avatar": "avatars/superhero-3.png"
 					},
 					{
 						"first_name": "Modestine",
-						"last_name": "Mellanby", "username": "fcracie23", "password": bcrypt.hashSync("m2rF64xzeA", 8), "email": "eizatson23@uol.com.br", "avatar": "superhero-4.png"
+						"last_name": "Mellanby", "username": "fcracie23", "password": bcrypt.hashSync("m2rF64xzeA", 8), "email": "eizatson23@uol.com.br", "avatar": "avatars/superhero-4.png"
 					},
 					{
 						"first_name": "Delores",
-						"last_name": "Dumper", "username": "mvowels24", "password": bcrypt.hashSync("B4slz9KaX2", 8), "email": "kwantling24@ucla.edu", "avatar": "superhero-5.png"
+						"last_name": "Dumper", "username": "mvowels24", "password": bcrypt.hashSync("B4slz9KaX2", 8), "email": "kwantling24@ucla.edu", "avatar": "avatars/superhero-5.png"
 					},
 					{
 						"first_name": "Alfreda",
-						"last_name": "Collingdon", "username": "ddiggons25", "password": bcrypt.hashSync("mJHvo9jRkFG", 8), "email": "mreitenbach25@fastcompany.com", "avatar": "superhero-6.png"
+						"last_name": "Collingdon", "username": "ddiggons25", "password": bcrypt.hashSync("mJHvo9jRkFG", 8), "email": "mreitenbach25@fastcompany.com", "avatar": "avatars/superhero-6.png"
 					},
 					{
 						"first_name": "Claire",
-						"last_name": "Meagh", "username": "mhattrick26", "password": bcrypt.hashSync("Iv32gr9r", 8), "email": "gshildrick26@cornell.edu", "avatar": "superhero-7.png"
+						"last_name": "Meagh", "username": "mhattrick26", "password": bcrypt.hashSync("Iv32gr9r", 8), "email": "gshildrick26@cornell.edu", "avatar": "avatars/superhero-7.png"
 					},
 					{
 						"first_name": "Gweneth",
-						"last_name": "Statersfield", "username": "dblenkharn27", "password": bcrypt.hashSync("KLlZhIPh", 8), "email": "asoldi27@guardian.co.uk", "avatar": "superhero-8.png"
+						"last_name": "Statersfield", "username": "dblenkharn27", "password": bcrypt.hashSync("KLlZhIPh", 8), "email": "asoldi27@guardian.co.uk", "avatar": "avatars/superhero-8.png"
 					},
 					{
 						"first_name": "Euphemia",
-						"last_name": "Selwin", "username": "wseeger28", "password": bcrypt.hashSync("o7uroZtTtW", 8), "email": "tcoom28@army.mil", "avatar": "superhero-9.png"
+						"last_name": "Selwin", "username": "wseeger28", "password": bcrypt.hashSync("o7uroZtTtW", 8), "email": "tcoom28@army.mil", "avatar": "avatars/superhero-9.png"
 					},
 					{
 						"first_name": "Thaddus",
-						"last_name": "Peeke-Vout", "username": "rpotzold29", "password": bcrypt.hashSync("cxmxzp2LS", 8), "email": "gcoode29@wisc.edu", "avatar": "superhero-10.png"
+						"last_name": "Peeke-Vout", "username": "rpotzold29", "password": bcrypt.hashSync("cxmxzp2LS", 8), "email": "gcoode29@wisc.edu", "avatar": "avatars/superhero-10.png"
 					},
 					{
 						"first_name": "Almeta",
-						"last_name": "Zupa", "username": "gbarmby2a", "password": bcrypt.hashSync("cBCD3H2xeV", 8), "email": "gfaunch2a@taobao.com", "avatar": "superhero-11.png"
+						"last_name": "Zupa", "username": "gbarmby2a", "password": bcrypt.hashSync("cBCD3H2xeV", 8), "email": "gfaunch2a@taobao.com", "avatar": "avatars/superhero-11.png"
 					},
 					{
 						"first_name": "Horton",
-						"last_name": "Sorsbie", "username": "aexer2b", "password": bcrypt.hashSync("G7dI4wHy", 8), "email": "cebsworth2b@cam.ac.uk", "avatar": "superhero-12.png"
+						"last_name": "Sorsbie", "username": "aexer2b", "password": bcrypt.hashSync("G7dI4wHy", 8), "email": "cebsworth2b@cam.ac.uk", "avatar": "avatars/superhero-12.png"
 					},
 					{
 						"first_name": "Leoine",
-						"last_name": "Howels", "username": "cmatthews2c", "password": bcrypt.hashSync("Ras8gsyz", 8), "email": "kriddle2c@ifeng.com", "avatar": "superhero-1.png"
+						"last_name": "Howels", "username": "cmatthews2c", "password": bcrypt.hashSync("Ras8gsyz", 8), "email": "kriddle2c@ifeng.com", "avatar": "avatars/superhero-1.png"
 					},
 					{
 						"first_name": "Chicky",
-						"last_name": "Kennelly", "username": "vluckett2d", "password": bcrypt.hashSync("7lNCEABo", 8), "email": "tprimmer2d@nhs.uk", "avatar": "superhero-2.png"
+						"last_name": "Kennelly", "username": "vluckett2d", "password": bcrypt.hashSync("7lNCEABo", 8), "email": "tprimmer2d@nhs.uk", "avatar": "avatars/superhero-2.png"
 					},
 					{
 						"first_name": "Gunner",
-						"last_name": "O'Bradane", "username": "kpryell2e", "password": bcrypt.hashSync("hsYFP9", 8), "email": "poffen2e@alexa.com", "avatar": "superhero-3.png"
+						"last_name": "O'Bradane", "username": "kpryell2e", "password": bcrypt.hashSync("hsYFP9", 8), "email": "poffen2e@alexa.com", "avatar": "avatars/superhero-3.png"
 					},
 					{
 						"first_name": "Birgitta",
-						"last_name": "Hayller", "username": "jbunnell2f", "password": bcrypt.hashSync("yZImnAe", 8), "email": "ameier2f@paypal.com", "avatar": "superhero-4.png"
+						"last_name": "Hayller", "username": "jbunnell2f", "password": bcrypt.hashSync("yZImnAe", 8), "email": "ameier2f@paypal.com", "avatar": "avatars/superhero-4.png"
 					},
 					{
 						"first_name": "Selinda",
-						"last_name": "Tritton", "username": "bbrauner2g", "password": bcrypt.hashSync("DaXHRzNMnt", 8), "email": "mbillam2g@tumblr.com", "avatar": "superhero-5.png"
+						"last_name": "Tritton", "username": "bbrauner2g", "password": bcrypt.hashSync("DaXHRzNMnt", 8), "email": "mbillam2g@tumblr.com", "avatar": "avatars/superhero-5.png"
 					},
 					{
 						"first_name": "Diane",
-						"last_name": "Olrenshaw", "username": "xrainard2h", "password": bcrypt.hashSync("gzQ0MOHx37P", 8), "email": "afontaine2h@yellowpages.com", "avatar": "superhero-6.png"
+						"last_name": "Olrenshaw", "username": "xrainard2h", "password": bcrypt.hashSync("gzQ0MOHx37P", 8), "email": "afontaine2h@yellowpages.com", "avatar": "avatars/superhero-6.png"
 					},
 					{
 						"first_name": "Joela",
-						"last_name": "Frankiewicz", "username": "kdifrancecshi2i", "password": bcrypt.hashSync("otIP2jlwdb", 8), "email": "jhackforth2i@bandcamp.com", "avatar": "superhero-7.png"
+						"last_name": "Frankiewicz", "username": "kdifrancecshi2i", "password": bcrypt.hashSync("otIP2jlwdb", 8), "email": "jhackforth2i@bandcamp.com", "avatar": "avatars/superhero-7.png"
 					},
 					{
 						"first_name": "Krishna",
-						"last_name": "Eeles", "username": "nolliver2j", "password": bcrypt.hashSync("J2mLU5xQ3t", 8), "email": "cgroombridge2j@twitpic.com", "avatar": "superhero-8.png"
+						"last_name": "Eeles", "username": "nolliver2j", "password": bcrypt.hashSync("J2mLU5xQ3t", 8), "email": "cgroombridge2j@twitpic.com", "avatar": "avatars/superhero-8.png"
 					},
 					{
 						"first_name": "Edie",
-						"last_name": "Lynam", "username": "vnajara2k", "password": bcrypt.hashSync("wTCmjIRm", 8), "email": "nangrick2k@so-net.ne.jp", "avatar": "superhero-9.png"
+						"last_name": "Lynam", "username": "vnajara2k", "password": bcrypt.hashSync("wTCmjIRm", 8), "email": "nangrick2k@so-net.ne.jp", "avatar": "avatars/superhero-9.png"
 					},
 					{
 						"first_name": "Benny",
-						"last_name": "Ribou", "username": "gbexon2l", "password": bcrypt.hashSync("nVsu7fU6b", 8), "email": "buc2l@omniture.com", "avatar": "superhero-10.png"
+						"last_name": "Ribou", "username": "gbexon2l", "password": bcrypt.hashSync("nVsu7fU6b", 8), "email": "buc2l@omniture.com", "avatar": "avatars/superhero-10.png"
 					},
 					{
 						"first_name": "Cory",
-						"last_name": "Barbera", "username": "pdutch2m", "password": bcrypt.hashSync("tkycj0kHJL", 8), "email": "fkinforth2m@blog.com", "avatar": "superhero-11.png"
+						"last_name": "Barbera", "username": "pdutch2m", "password": bcrypt.hashSync("tkycj0kHJL", 8), "email": "fkinforth2m@blog.com", "avatar": "avatars/superhero-11.png"
 					},
 					{
 						"first_name": "Johannah",
-						"last_name": "Northleigh", "username": "gtrayford2n", "password": bcrypt.hashSync("jvFnHjD8", 8), "email": "srevey2n@taobao.com", "avatar": "superhero-12.png"
+						"last_name": "Northleigh", "username": "gtrayford2n", "password": bcrypt.hashSync("jvFnHjD8", 8), "email": "srevey2n@taobao.com", "avatar": "avatars/superhero-12.png"
 					},
 					{
 						"first_name": "Emmalee",
-						"last_name": "Harce", "username": "onorcliffe2o", "password": bcrypt.hashSync("z6yZTDO1oqLs", 8), "email": "tlandis2o@merriam-webster.com", "avatar": "superhero-1.png"
+						"last_name": "Harce", "username": "onorcliffe2o", "password": bcrypt.hashSync("z6yZTDO1oqLs", 8), "email": "tlandis2o@merriam-webster.com", "avatar": "avatars/superhero-1.png"
 					},
 					{
 						"first_name": "Tristam",
-						"last_name": "Blomfield", "username": "dpeery2p", "password": bcrypt.hashSync("Ky2CuRtExFtV", 8), "email": "ljammes2p@sun.com", "avatar": "superhero-2.png"
+						"last_name": "Blomfield", "username": "dpeery2p", "password": bcrypt.hashSync("Ky2CuRtExFtV", 8), "email": "ljammes2p@sun.com", "avatar": "avatars/superhero-2.png"
 					},
 					{
 						"first_name": "Bearnard",
-						"last_name": "Oakwood", "username": "ikosel2q", "password": bcrypt.hashSync("PYveWBchF2fY", 8), "email": "nmendoza2q@i2i.jp", "avatar": "superhero-3.png"
+						"last_name": "Oakwood", "username": "ikosel2q", "password": bcrypt.hashSync("PYveWBchF2fY", 8), "email": "nmendoza2q@i2i.jp", "avatar": "avatars/superhero-3.png"
 					},
 					{
 						"first_name": "Carr",
-						"last_name": "Pitfield", "username": "fschaben2r", "password": bcrypt.hashSync("NyMXmsw5", 8), "email": "spollington2r@ezinearticles.com", "avatar": "superhero-4.png"
+						"last_name": "Pitfield", "username": "fschaben2r", "password": bcrypt.hashSync("NyMXmsw5", 8), "email": "spollington2r@ezinearticles.com", "avatar": "avatars/superhero-4.png"
 					}
 				]
 			);
