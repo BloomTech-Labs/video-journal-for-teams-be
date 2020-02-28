@@ -18,7 +18,7 @@ const upload = multer({
 			bucket: process.env.AWS_S3_BUCKET,
 			acl: 'public-read',
 			key: function (req, file, cb) {
-					cb(null, `photos/ALPACAVID-${shortId.generate()}.webm`);
+					cb(null, `videos/ALPACAVID-${shortId.generate()}.webm`);
 			}
 	})
 });
