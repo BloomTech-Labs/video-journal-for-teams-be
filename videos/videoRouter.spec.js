@@ -230,20 +230,6 @@ describe("Video Data Routes", () => {
 				expect(response.status).toEqual(201);
 			});
 
-			it("should return status code 422 if the owner id is invalid", async () => {
-				const invalidFeedback = {
-					owner_id: 9999999,
-					post: "This is a test feedback submission",
-				};
-
-				const response = await request(server)
-					.post("/api/videos/1/feedback")
-					.set("authorization", token)
-					.send(invalidFeedback);
-
-				expect(response.status).toEqual(422);
-			});
-
 			it("should return a properly formatted JSON object on success", async () => {
 				const validFeedback = {
 					owner_id: 1,
