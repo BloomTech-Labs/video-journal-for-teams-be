@@ -58,7 +58,7 @@ describe("Team Data Routes", () => {
 		describe("GET /teams/:id", () => {
 			it("should return status code 200", async () => {
 				const response = await request(server)
-					.get("/api/teams/1")
+					.get("/api/teams/20")
 					.set("authorization", token);
 
 				expect(response.status).toEqual(200);
@@ -74,7 +74,7 @@ describe("Team Data Routes", () => {
 
 			it("should return a properly formatted JSON object on success", async () => {
 				const response = await request(server)
-					.get("/api/teams/1")
+					.get("/api/teams/20")
 					.set("authorization", token);
 
 				expect(response.body).toEqual(
@@ -92,7 +92,7 @@ describe("Team Data Routes", () => {
 		describe("GET /teams/:id/users", () => {
 			it("should return status code 200", async () => {
 				const response = await request(server)
-					.get("/api/teams/1/users")
+					.get("/api/teams/20/users")
 					.set("authorization", token);
 
 				expect(response.status).toEqual(200);
@@ -108,7 +108,7 @@ describe("Team Data Routes", () => {
 
 			it("should return array of data", async () => {
 				const response = await request(server)
-					.get("/api/teams/1/users")
+					.get("/api/teams/20/users")
 					.set("authorization", token);
 
 				expect(Array.isArray(response.body)).toBe(true);
@@ -173,7 +173,7 @@ describe("Team Data Routes", () => {
 				};
 
 				const response = await request(server)
-					.post("/api/teams/1/users")
+					.post("/api/teams/20/users")
 					.set("authorization", token)
 					.send(userToAdd);
 
@@ -187,7 +187,7 @@ describe("Team Data Routes", () => {
 				};
 
 				const response = await request(server)
-					.post("/api/teams/1/users")
+					.post("/api/teams/20/users")
 					.set("authorization", token)
 					.send(userToAdd);
 
@@ -213,7 +213,7 @@ describe("Team Data Routes", () => {
 
 			it("should return array of data", async () => {
 				const response = await request(server)
-					.get("/api/teams/1/prompts")
+					.get("/api/teams/20/prompts")
 					.set("authorization", token);
 
 				expect(Array.isArray(response.body)).toBe(true);
@@ -248,7 +248,7 @@ describe("Team Data Routes", () => {
 
 			it("should return array of data", async () => {
 				const response = await request(server)
-					.post("/api/teams/1/prompts")
+					.post("/api/teams/20/prompts")
 					.set("authorization", token);
 
 				expect(typeof response.body).toBe("object");
@@ -257,7 +257,7 @@ describe("Team Data Routes", () => {
 		describe("GET /teams/:id/videos", () => {
 			it("should return status code 200", async () => {
 				const response = await request(server)
-					.get("/api/teams/1/prompts")
+					.get("/api/teams/20/videos")
 					.set("authorization", token);
 
 				expect(response.status).toEqual(200);
@@ -273,7 +273,7 @@ describe("Team Data Routes", () => {
 
 			it("should return array of data", async () => {
 				const response = await request(server)
-					.get("/api/teams/1/videos")
+					.get("/api/teams/20/videos")
 					.set("authorization", token);
 
 				expect(Array.isArray(response.body)).toBe(true);
