@@ -8,7 +8,7 @@ exports.seed = function(knex) {
 
   //Get every image in the avatar folder and add it to an array
   fs.readdirSync(avatarDir).forEach((avatar) => {
-    avatars.push({ src: avatar });
+    avatars.push({ src: `avatars/${avatar}` });
   });
 
   //Insert avatars into db
