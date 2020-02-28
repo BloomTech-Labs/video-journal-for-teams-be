@@ -2,24 +2,30 @@ const express = require("express");
 const router = express.Router();
 const shortId = require("shortid");
 const multer = require("multer");
-const path = require("path");
+const multerS3 = require('multer-s3');
+const AWS = require('aws-sdk');
+
+AWS.config.update({
+	accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+	secretAccessKey: process.env.AWS_SECRET_ACCESS
+});
+
+const s3 = new AWS.S3();
+
+const upload = multer({
+	storage: multerS3({
+			s3: s3,
+			bucket: process.env.AWS_S3_BUCKET,
+			acl: 'public-read',
+			key: function (req, file, cb) {
+					cb(null, `photos/ALPACAVID-${shortId.generate()}.webm`);
+			}
+	})
+});
 
 const Videos = require("../videos/videoModel.js");
 
 const { validateVideoId, validateFeedback } = require("../middleware/middleware");
-
-const videoDir = path.join(__dirname, "../public/videos");
-
-const storage = multer.diskStorage({
-	destination: (req, file, cb) => {
-		cb(null, videoDir);
-	},
-	filename: (req, file, cb) => {
-		cb(null, `ALPACAVID-${shortId.generate()}.webm`);
-	},
-});
-
-const upload = multer({ storage: storage });
 
 // 1. Fetch all videos
 router.get("/", (req, res) => {
@@ -61,14 +67,14 @@ router.post("/:id/feedback", validateVideoId, validateFeedback, (req, res) => {
 });
 
 // 5. Add a new video
-router.post("/", upload.single("video"), (req, res) => {
+router.post("/", upload.array('video',1), (req, res) => {
 	const { title, description, owner_id, prompt_id } = req.body;
 
 	const newVideo = {
 		owner_id: owner_id,
 		title: title,
 		description: description,
-		video_url: req.file.filename,
+		video_url: req.files[0].key,
 		prompt_id: prompt_id,
 	};
 
