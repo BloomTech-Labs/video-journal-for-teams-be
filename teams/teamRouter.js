@@ -92,13 +92,15 @@ router.post("/", validateTeamData, (req, res) => {
 				.then((result) => {
 					result.rowCount === 1 ? res.status(201).json(team) : null;
 				})
-				.catch((err) => res.status(500).json({ message: `Could not insert ${req.user.id} into team ${team.id}.`, error: err }))
+				.catch((err) =>
+					res.status(500).json({ message: `Could not insert ${req.user.id} into team ${team.id}.`, error: err })
+				);
 		})
 		.catch((err) => res.status(500).json({ message: "Could not create team.", error: err }));
 });
 
 // 8. Add a user to a team
-router.post("/:id/users", verifyUserToTeam, validateTeamId, (req, res) => {
+router.post("/:id/users", validateTeamId, (req, res) => {
 	const { id } = req.params;
 	const body = { ...req.body, team_id: id };
 
@@ -167,11 +169,17 @@ router.put("/:id/users/:user_id/role", verifyUserToTeam, validateTeamId, validat
 
 	if (isTeamLead(req.user.role)) {
 		if (!role_id) {
-			res.status(400).json({ message: "Missing role id." })
+			res.status(400).json({ message: "Missing role id." });
 		} else {
 			Teams.switchRole(teamId, userId, role_id)
-				.then((updatedRole) => res.status(200).json({ message: `Successfully updated user ${userId} to role ${role_id} on team ${teamId}.`, updatedRole }))
-				.catch((err) => res.status(500).json({ message: `Could not update information for team ${teamId}.`, error: err }));
+				.then((updatedRole) =>
+					res
+						.status(200)
+						.json({ message: `Successfully updated user ${userId} to role ${role_id} on team ${teamId}.`, updatedRole })
+				)
+				.catch((err) =>
+					res.status(500).json({ message: `Could not update information for team ${teamId}.`, error: err })
+				);
 		}
 	} else {
 		res.status(403).json({ message: "Permission denied." });
@@ -180,8 +188,7 @@ router.put("/:id/users/:user_id/role", verifyUserToTeam, validateTeamId, validat
 
 // 12. Returns team invite object
 router.post("/:id/invite", verifyUserToTeam, validateTeamId, validateMembership, (req, res) => {
-
-	// #region docstring 
+	// #region docstring
 	/*
 
 	REQUIRES: 
@@ -221,7 +228,7 @@ router.post("/:id/invite", verifyUserToTeam, validateTeamId, validateMembership,
 		* Generates 3 greek letters
 		* Creates a single word: McClure-ThetaPhiTau
 	*/
-	// #endregion 
+	// #endregion
 	const team_id = req.params.id;
 	const { team_name } = req.body;
 
@@ -229,24 +236,26 @@ router.post("/:id/invite", verifyUserToTeam, validateTeamId, validateMembership,
 		res.status(403).json({ message: "Permission denied." });
 	} else {
 		if (!team_id || !team_name) {
-			res.status(400).json({ message: "Request needs to be an object with team_id and team_name elements.", body: req.body })
+			res
+				.status(400)
+				.json({ message: "Request needs to be an object with team_id and team_name elements.", body: req.body });
 		}
 
 		// generate a code ahead of time, and create the db object.
 		const newcode = genCode(team_name);
 
-		const dbsend = { team_id, newcode: newcode }
+		const dbsend = { team_id, newcode: newcode };
 
 		Invites.findByTeam(team_id)
-			.then(invite => {
-				const expires = Date.parse(invite.expires_at)
+			.then((invite) => {
+				const expires = Date.parse(invite.expires_at);
 
 				if (expires > Date.now() && invite.isValid === true) {
 					/* 
 						THIS FOUND A VIABLE CODE
 						It will do nothing but return the existing code.
 					 */
-					res.status(200).json({ message: "Existing, valid invite code", ...invite })
+					res.status(200).json({ message: "Existing, valid invite code", ...invite });
 				}
 				if (expires < Date.now() || invite.isValid === false) {
 					/* 
@@ -254,45 +263,46 @@ router.post("/:id/invite", verifyUserToTeam, validateTeamId, validateMembership,
 						It will use the generated code to
 						UPDATE EXISTING in the db and return the code.
 					 */
-					console.log("Current team code exists, but is either expired or invalid, generating new code.")
+					console.log("Current team code exists, but is either expired or invalid, generating new code.");
 					Invites.update(dbsend)
-						.then(updated => {
-							res.status(200).json({ message: "Team code expiration validity has been successfully refreshed.", ...updated })
+						.then((updated) => {
+							res
+								.status(200)
+								.json({ message: "Team code expiration validity has been successfully refreshed.", ...updated });
 						})
-						.catch(err => {
+						.catch((err) => {
 							res.status(500).json({
 								message: `Update existing invite ${invite} error.`,
-								error: `${err}`
-							})
-						})
+								error: `${err}`,
+							});
+						});
 				}
 			})
-			.catch(err => {
+			.catch((err) => {
 				/* 
 					THIS CATCH IS A FAILURE TO FIND AN EXISTING, VIABLE CODE.
 					It will use the generated code to
 					INSERT NEW in the db then return the code.
 				 */
 				Invites.insert(dbsend)
-					.then(inserted => {
-						res.status(200).json({ message: "Creation successful", ...inserted })
+					.then((inserted) => {
+						res.status(200).json({ message: "Creation successful", ...inserted });
 					})
-					.catch(err => {
-						if (err.detail.includes("not present in table \"teams\"")) {
-							res.status(400).json({ message: `Team ${team_id} doesn't exist.`, error: err.detail })
+					.catch((err) => {
+						if (err.detail.includes('not present in table "teams"')) {
+							res.status(400).json({ message: `Team ${team_id} doesn't exist.`, error: err.detail });
 						} else {
 							res.status(500).json({
 								message: `Error inserting new invite code for team ${team_id}.`,
-								error: err
-							})
+								error: err,
+							});
 						}
-					})
-			})
-
+					});
+			});
 
 		function genCode(team_name) {
 			// generate a new code using the first part of name and 3 greek characters
-			let cull = team_name.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
+			let cull = team_name.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
 			firstword = cull.split(" ")[0];
 			const newcode = greek[rand(greek.length)] + greek[rand(greek.length)] + greek[rand(greek.length)];
 			return `${firstword}-${newcode}`;
