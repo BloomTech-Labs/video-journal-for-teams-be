@@ -6,23 +6,29 @@ const router = express.Router();
 
 const shortId = require("shortid");
 const multer = require("multer");
-const path = require("path");
+const multerS3 = require('multer-s3');
+const AWS = require('aws-sdk');
 
-const { validateUserId, verifyPassword } = require("../middleware/middleware");
-
-const photoDir = path.join(__dirname, "../public/photos");
-
-const storage = multer.diskStorage({
-	destination: (req, file, cb) => {
-		cb(null, photoDir);
-	},
-	filename: (req, file, cb) => {
-		const extension = file.mimetype.replace(/image\//g, "");
-		cb(null, `ALPACAPIC-${shortId.generate()}.${extension}`);
-	},
+AWS.config.update({
+	accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+	secretAccessKey: process.env.AWS_SECRET_ACCESS
 });
 
-const upload = multer({ storage: storage });
+const s3 = new AWS.S3();
+
+const upload = multer({
+	storage: multerS3({
+			s3: s3,
+			bucket: process.env.AWS_S3_BUCKET,
+			acl: 'public-read',
+			key: function (req, file, cb) {
+				const extension = file.mimetype.replace(/image\//g, "");
+				cb(null, `photos/ALPACAPIC-${shortId.generate()}.${extension}`);
+			}
+	})
+});
+
+const { validateUserId, verifyPassword } = require("../middleware/middleware");
 
 // 1. Fetch all users
 router.get("/", (req, res) => {
@@ -73,11 +79,11 @@ router.put("/:id", validateUserId, verifyPassword, (req, res) => {
 	}
 });
 
-router.post("/:id/photo", upload.single("photo"), (req, res) => {
+router.post("/:id/photo", upload.array('photo',1), (req, res) => {
 	const { id } = req.params;
 
 	const newPhoto = {
-		avatar: req.file.filename,
+		avatar: req.files[0].key,
 	};
 
 	Users.update(id, newPhoto)
