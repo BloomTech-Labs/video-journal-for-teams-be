@@ -167,10 +167,9 @@ create a .env file that includes the following:
 - DATABASE_URL_DEV="postgres://username:password@localhost:5432/db_name"
 - DATABASE_URL_TEST = "postgres://username:password@localhost:5432/db_name_test"
 
-(these are all for a staging/test bucket)
-- AWS_ACCESS_KEY_ID=AKIAW4XU2FSWDYV2I74K
-- AWS_SECRET_ACCESS_KEY=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
-- AWS_S3_BUCKET=alpaca-vids-storage-staging
+- AWS_ACCESS_KEY_ID
+- AWS_SECRET_ACCESS_KEY
+- AWS_S3_BUCKET
 
 ## Contributing
 
