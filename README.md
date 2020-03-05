@@ -167,6 +167,10 @@ create a .env file that includes the following:
 - DATABASE_URL_DEV="postgres://username:password@localhost:5432/db_name"
 - DATABASE_URL_TEST = "postgres://username:password@localhost:5432/db_name_test"
 
+- AWS_ACCESS_KEY_ID
+- AWS_SECRET_ACCESS_KEY
+- AWS_S3_BUCKET
+
 ## Contributing
 
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
