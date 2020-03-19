@@ -3,7 +3,12 @@ require("dotenv").config();
 module.exports = {
   development: {
     client: "pg",
-    connection: process.env.DATABASE_URL_DEV,
+    connection: {
+      database: "alpacadev",
+      port: process.env.LOCAL_PORT,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD
+    },
     useNullAsDefault: true,
     migrations: {
       directory: "./database/migrations",
