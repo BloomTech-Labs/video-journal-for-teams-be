@@ -26,9 +26,13 @@ router.get("/:id/users", validateTeamId, verifyUserToTeam, (req, res) => {
 	const { id } = req.params;
 
 	Teams.getUsersByTeamId(id)
-		.then((users) => res.status(200).json(users))
+		.then((users) =>  {
+			//console.log('teammmmmmmmms', users)
+			res.status(200).json(users)})
+
 		.catch((err) => res.status(500).json({ message: `Could not get users for team ${id}`, error: err }));
 });
+
 
 // 4. Fetch prompts created by a team
 router.get("/:id/prompts", validateTeamId, verifyUserToTeam, (req, res) => {
