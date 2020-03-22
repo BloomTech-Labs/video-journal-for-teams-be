@@ -23,7 +23,7 @@ router.post("/", (req, res) => {
     .then((item) => {
       console.log('this', item)
       sgMail.sendMultiple({
-        to: ['isabella.guofei@gmail.com', item.email],
+        to: ['isabella.mozart@gmail.com', item.email],
         from: 'test@example.com',
         subject: 'Someone commented on your video',
         html: `<strong> ${req.body.post}</strong>`,
@@ -32,6 +32,8 @@ router.post("/", (req, res) => {
 		  .catch((err) => res.status(500).json({ message: "Could not send.", error: err }));
     })
     .catch((err) => res.status(500).json({ message: "Could not send.", error: err }));
+
+
     
 
 
