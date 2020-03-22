@@ -4,6 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"dependencies": {
+		"@sendgrid/mail": "^6.5.5",
 		"aws-sdk": "^2.628.0",
 		"bcrypt": "^3.0.7",
 		"cors": "^2.8.5",
