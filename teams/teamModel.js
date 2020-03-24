@@ -54,6 +54,8 @@ function findByUserId(userId) {
 		);
 }
 
+
+
 // match specific user to specific team.
 function matchUserToTeam(userId, teamId) {
 	return db("teams")
@@ -104,7 +106,7 @@ function getUsersByTeamId(teamId) {
 		.join("team_members", "teams.id", "team_members.team_id")
 		.join("users", "users.id", "team_members.user_id")
 		.where("team_members.team_id", teamId)
-		.select("teams.name as team_name", "users.id as user_id", "team_members.role_id as role_id", "users.avatar as avatar")
+		.select("teams.name as team_name", "users.id as user_id", "team_members.role_id as role_id", "users.avatar as avatar", 'users.email')
 		.columns(db.raw("users.first_name || ' ' || users.last_name as user_full_name"));
 }
 

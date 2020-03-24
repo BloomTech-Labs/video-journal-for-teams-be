@@ -382,7 +382,8 @@ exports.seed = function (knex) {
 					},
 					{
 						"first_name": "Benny",
-						"last_name": "Ribou", "username": "gbexon2l", "password": bcrypt.hashSync("nVsu7fU6b", 8), "email": "buc2l@omniture.com", "avatar": "avatars/superhero-10.png"
+						"last_name": "Ribou", "username": "gbexon2l", "password": bcrypt.hashSync("nVsu7fU6b", 8), "email": "buc2l@omniture.com", "avatar": 
+						"avatars/superhero-10.png"
 					},
 					{
 						"first_name": "Cory",

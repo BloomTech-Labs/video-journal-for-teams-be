@@ -116,3 +116,4 @@ uploads/
 
 # vscode config
 .vscode/launch.json
+sendgrid.env
