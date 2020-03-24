@@ -35,13 +35,15 @@ router.post("/register", validateSignup, async function (req, res) {
 		});
 
 	user.avatar = avatar;
-
+	//read socket io from req.app.get
+	const io = req.app.get('io')
 	//Create new user
 	Users.insert(user)
 		.then((userId) => {
 			user.id = userId[0];
 			//Login newly created user
 			res.status(201).json(loginSuccessBody(user));
+			io.emit('registeredUser');
 		})
 		.catch((err) => {
 			if (err.code === "23505") {
