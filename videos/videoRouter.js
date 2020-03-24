@@ -13,6 +13,7 @@ AWS.config.update({
 
 const s3 = new AWS.S3();
 
+
 const upload = multer({
 	storage: multerS3({
 			s3: s3,
@@ -57,13 +58,16 @@ router.get("/:id/feedback", validateVideoId, (req, res) => {
 router.post("/:id/feedback", validateVideoId, validateFeedback, (req, res) => {
 	const { id } = req.params;
 	req.feedback.video_id = Number(id);
+	const io = req.app.get('io');
 
 	Videos.insertFeedback(req.feedback)
 		.then((feedbackId) => {
 			res.status(201).json(feedbackId);
+			
 		})
 		.catch((err) => {
 			res.status(500).json({ message: "Could not add feedback.", error: err });
+			
 		});
 });
 

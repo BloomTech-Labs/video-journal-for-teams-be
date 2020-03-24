@@ -60,7 +60,7 @@ router.get("/:id/videos", validateTeamId, verifyUserToTeam, async (req, res) => 
 router.post("/:id/prompts", validateTeamId, verifyUserToTeam, validateMembership, (req, res) => {
 	const { body } = req;
 	const { id } = req.params;
-
+	const io = req.app.get('io')
 	const promptdata = {
 		...body,
 		team_id: id,
@@ -73,6 +73,7 @@ router.post("/:id/prompts", validateTeamId, verifyUserToTeam, validateMembership
 			Teams.insertPrompt(promptdata)
 				.then((prompt) => {
 					res.status(201).json(prompt);
+					io.emit('createdPrompt')
 				})
 				.catch((err) => res.status(500).json({ message: "Could not create prompt.", err: err }));
 		}
