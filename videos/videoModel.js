@@ -38,7 +38,24 @@ function findByUserId(user_id) {
 		.select("*")
 		.from("videos")
 		.orderBy("created_at", "desc")
-		.where({ owner_id: user_id });
+		.where({ owner_id: user_id })
+		.then(videos => {
+			return Promise.all(videos.map(async video => {
+				const feedback =  await db('feedback')
+						
+						.where('feedback.video_id',video.id)
+				return {
+					...video,feedback
+				}
+			}))
+		})
+
+	// return db("videos")
+	// 	.leftJoin('feedback', 'feedback.video_id','videos.id')
+	// 	.select("*")
+	// 	.groupBy('videos.video_url')
+	// 	// .orderBy("created_at", "desc")
+	// 	.where( "videos.owner_id", user_id );
 }
 
 function findFeedbackByVideoId(video_id) {

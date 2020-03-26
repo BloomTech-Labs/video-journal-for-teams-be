@@ -133,7 +133,17 @@ function getVideosByTeamId(teamId) {
 			"videos.description as description",
 			"videos.created_at as created_at"
 		)
-		.columns(db.raw("users.first_name || ' ' || users.last_name as user_full_name"));
+		.columns(db.raw("users.first_name || ' ' || users.last_name as user_full_name"))
+		.then(videos => {
+			return Promise.all(videos.map( async video => {
+				const feedback = await db('feedback')
+						.where ('feedback.video_id',video.id)
+						return {
+							...video, feedback
+						}
+			}))
+		})
+		
 }
 
 function switchRole(teamId, userId, roleId) {
