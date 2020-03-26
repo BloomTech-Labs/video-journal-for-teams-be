@@ -31,6 +31,7 @@ function findById(video_id) {
 		)
 		.columns(db.raw("users.first_name || ' ' || users.last_name as owner_name"));
 }
+//hi
 
 function findByUserId(user_id) {
 	return db

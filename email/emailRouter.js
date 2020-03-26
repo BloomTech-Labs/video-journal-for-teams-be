@@ -24,10 +24,15 @@ router.post("/", (req, res) => {
     .then((item) => {
       console.log('this', item)
       sgMail.sendMultiple({
-        to: ['isabella.mozart@gmail.com', item.email],
-        from: 'test@example.com',
+        to: [item.email],
+        from: 'soapBX-noreply@soapBX.com',
+        templateId: '7673c8f0-ad31-40fa-9d74-dca76850903b',
         subject: 'Someone commented on your video',
-        html: `<strong> ${req.body.post}</strong>`,
+        substitutions: {
+          comment: req.body.post     
+        },
+        
+        // html: `<strong> ${req.body.post}</strong>`,
       })
       .then((email) => res.status(200).json(email))
 		  .catch((err) => res.status(500).json({ message: "Could not send.", error: err }));
@@ -42,12 +47,17 @@ router.post("/teams", (req,res) => {
    Teams.getUsersByTeamId(req.body.teamId)
    .then((item) => {
      let teamEmails = item.map(item => item.email) 
-     console.log(teamEmails)
+     let teamNames = item.map(item => item.team_name) 
     sgMail.sendMultiple({
       to: teamEmails,
-      from: 'test@example.com',
-      subject: 'New Promp Has Been Added!',
-      html: `<strong> ${req.body.post} </strong>`,
+      from: 'soapBX-noreply@soapBX.com',
+      templateId: '0e0fdabd-eb7e-4d27-beb2-7423f6f66c3f',
+      subject: 'New Prompt Has Been Added!',
+      substitutions: {
+        prompt: req.body.post,
+        teamName:  teamNames[0]   
+      },
+      //html: `<strong> ${req.body.post} </strong>`,
     })
     .then((email) => res.status(200).json(email))
     .catch((err) => res.status(500).json({ err }));
@@ -60,9 +70,5 @@ router.post("/teams", (req,res) => {
 })
 
 
-
-
-
 module.exports = router;
 
-//hello
