@@ -1,6 +1,7 @@
 const express = require("express");
 
 const Teams = require("../teams/teamModel.js");
+const Videos = require("../videos/videoModel.js");
 const Invites = require("../invites/inviteModel.js");
 const greek = require("../invites/greekalpha.json");
 
@@ -49,6 +50,7 @@ router.get("/:id/videos", validateTeamId, verifyUserToTeam, async (req, res) => 
 
 	const prompts = await Teams.getPromptsByTeamId(id);
 	const videos = await Teams.getVideosByTeamId(id);
+	
 	const results = prompts.map((prompt) => {
 		return {
 			...prompt,
