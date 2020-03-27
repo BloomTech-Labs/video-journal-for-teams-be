@@ -40,6 +40,7 @@ server.use(express.json());
 
 server.use(passport.initialize());
 
+
 server.use("/api/auth", AuthRouter);
 server.use("/api/users", passport.authenticate("jwt", { session: false }), UserRouter);
 server.use("/api/teams", passport.authenticate("jwt", { session: false }), TeamRouter);
@@ -58,5 +59,7 @@ server.use(function (err, req, res, next) {
 server.get("/", (req, res) => {
 	res.status(200).json({ api: "running" });
 });
+
+
 
 module.exports = app;
