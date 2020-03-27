@@ -58,11 +58,13 @@ router.get("/:id/feedback", validateVideoId, (req, res) => {
 router.post("/:id/feedback", validateVideoId, validateFeedback, (req, res) => {
 	const { id } = req.params;
 	req.feedback.video_id = Number(id);
-	const io = req.app.get('io');
+	
+	io = req.app.get('io')
 
 	Videos.insertFeedback(req.feedback)
 		.then((feedbackId) => {
 			res.status(201).json(feedbackId);
+			io.emit('insertedFeedback', feedbackId )
 			
 		})
 		.catch((err) => {
