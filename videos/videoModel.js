@@ -42,13 +42,18 @@ function findByUserId(user_id) {
 		.then(videos => {
 			return Promise.all(videos.map(async video => {
 				const feedback =  await db('feedback')
+										.join('users', 'users.id','feedback.owner_id')
+										.join('videos','videos.id','feedback.video_id')
+										.select('feedback.*','users.first_name','users.last_name','videos.title as video_title')
 						
 						.where('feedback.video_id',video.id)
 				return {
 					...video,feedback
 				}
 			}))
+			
 		})
+		
 
 	// return db("videos")
 	// 	.leftJoin('feedback', 'feedback.video_id','videos.id')
