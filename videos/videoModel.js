@@ -8,6 +8,7 @@ module.exports = {
 	insert,
 	insertFeedback,
 	update,
+	updateViewedFeedbackByVideoId,
 };
 
 function find() {
@@ -77,6 +78,13 @@ function findFeedbackByVideoId(video_id) {
 		)
 		.orderBy("feedback.created_at", "desc")
 		.columns(db.raw("users.first_name || ' ' || users.last_name as owner_name"));
+}
+
+function updateViewedFeedbackByVideoId(video_id){
+	return db("feedback")
+	.where("feedback.video_id", video_id)
+	.update({viewed: true})
+	
 }
 
 function insert(vidObj) {

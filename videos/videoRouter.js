@@ -73,6 +73,19 @@ router.post("/:id/feedback", validateVideoId, validateFeedback, (req, res) => {
 		});
 });
 
+// Viewed feeback change boolean from falsee to true
+
+router.put("/:id/feedback", validateVideoId, (req, res) => {
+	const { id } = req.params
+	Videos.updateViewedFeedbackByVideoId(id)
+	.then(item => {
+		res.status(201).json({ message: "this is from updateViewedFeedback", item: item})
+	})
+	.catch((err) => {
+		console.log(err)
+	})
+})
+
 // 5. Add a new video
 router.post("/", upload.array('video',1), (req, res) => {
 	const { title, description, owner_id, prompt_id } = req.body;
