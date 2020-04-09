@@ -80,11 +80,13 @@ function findFeedbackByVideoId(video_id) {
 		.columns(db.raw("users.first_name || ' ' || users.last_name as owner_name"));
 }
 
-function updateViewedFeedbackByVideoId(video_id){
+function updateViewedFeedbackByVideoId(video_id, user_id){
 	return db("feedback")
 	.where("feedback.video_id", video_id)
 	.update({viewed: true})
-	
+	.then(count => {
+		return findByUserId(user_id)
+	})
 }
 
 function insert(vidObj) {

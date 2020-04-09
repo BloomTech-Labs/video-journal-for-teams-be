@@ -77,9 +77,10 @@ router.post("/:id/feedback", validateVideoId, validateFeedback, (req, res) => {
 
 router.put("/:id/feedback", validateVideoId, (req, res) => {
 	const { id } = req.params
-	Videos.updateViewedFeedbackByVideoId(id)
-	.then(item => {
-		res.status(201).json({ message: "this is from updateViewedFeedback", item: item})
+	const { userId } =req.body
+	Videos.updateViewedFeedbackByVideoId(id, userId )
+	.then(videos => {
+		res.status(201).json(videos)
 	})
 	.catch((err) => {
 		console.log(err)
