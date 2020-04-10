@@ -5,7 +5,7 @@ const Teams = require("../teams/teamModel.js")
 
 const router = express.Router();
 
-sgMail.setApiKey('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');
+sgMail.setApiKey('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');
 
 const msg = {
   to: ['oakes680@gmail.com', 'chris.oakes@outlook.com'],
@@ -15,26 +15,25 @@ const msg = {
   html: '<strong>and easy to do anywhere, even with Node.js</strong>',
 };
 
-
-
 router.post("/", (req, res) => {
     console.log('hello', req.body)
     
     Users.findByIdEmail(req.body.id)
     .then((item) => {
       console.log('this', item)
-      sgMail.sendMultiple({
-        to: [item.email],
-        from: 'soapBX-noreply@soapBX.com',
-        templateId: '7673c8f0-ad31-40fa-9d74-dca76850903b',
-        subject: 'Someone commented on your video',
-        substitutions: {
-          comment: req.body.post     
-        },
+      sgMail.send(msg)
+      // sgMail.sendMultiple({
+      //   to: [item.email],
+      //   from: 'soapBX-noreply@soapBX.com',
+      //   templateId: '7673c8f0-ad31-40fa-9d74-dca76850903b',
+      //   subject: 'Someone commented on your video',
+      //   substitutions: {
+      //     comment: req.body.post     
+      //   },
         
-        // html: `<strong> ${req.body.post}</strong>`,
-      })
-      .then((email) => res.status(200).json(email))
+      //   // html: `<strong> ${req.body.post}</strong>`,
+      // })
+      .then((email) => res.status(200).json('whatis this', email))
 		  .catch((err) => res.status(500).json({ message: "Could not send.", error: err }));
     })
     .catch((err) => res.status(500).json({ message: "Could not send.", error: err }));

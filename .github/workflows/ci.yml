@@ -35,6 +35,7 @@ jobs:
           CC_TEST_REPORTER_ID: ${{ secrets.CodeClimateReporterId }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           AWS_S3_BUCKET: ${{secrets.AWS_S3_BUCKET}}
+          
         with:
           # Run our `coverage` command from our `package.json`
           coverageCommand: npm run coverage
