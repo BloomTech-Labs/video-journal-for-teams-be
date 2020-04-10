@@ -5,17 +5,15 @@ const Teams = require("../teams/teamModel.js")
 
 const router = express.Router();
 
-sgMail.setApiKey('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');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-const msg = {
-  to: ['oakes680@gmail.com', 'chris.oakes@outlook.com'],
-  from: 'test@example.com',
-  subject: 'Sending with SendGrid is Fun',
-  text: 'and easy to do anywhere, even with Node.js',
-  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-};
-
-
+// const msg = {
+//   to: ['oakes680@gmail.com', 'chris.oakes@outlook.com'],
+//   from: 'test@example.com',
+//   subject: 'Sending with SendGrid is Fun',
+//   text: 'and easy to do anywhere, even with Node.js',
+//   html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+// };
 
 router.post("/", (req, res) => {
     console.log('hello', req.body)
@@ -25,8 +23,8 @@ router.post("/", (req, res) => {
       console.log('this', item)
       sgMail.sendMultiple({
         to: [item.email],
-        from: 'soapBX-noreply@soapBX.com',
-        templateId: '7673c8f0-ad31-40fa-9d74-dca76850903b',
+        from: 'alpacavideojournal@gmail.com',
+        templateId: 'f7245d4e-10d2-447c-b134-3913228ecf4a',
         subject: 'Someone commented on your video',
         substitutions: {
           comment: req.body.post     
@@ -34,7 +32,7 @@ router.post("/", (req, res) => {
         
         // html: `<strong> ${req.body.post}</strong>`,
       })
-      .then((email) => res.status(200).json(email))
+      .then((email) => res.status(200).json('hi'))
 		  .catch((err) => res.status(500).json({ message: "Could not send.", error: err }));
     })
     .catch((err) => res.status(500).json({ message: "Could not send.", error: err }));
@@ -50,8 +48,8 @@ router.post("/teams", (req,res) => {
      let teamNames = item.map(item => item.team_name) 
     sgMail.sendMultiple({
       to: teamEmails,
-      from: 'soapBX-noreply@soapBX.com',
-      templateId: '0e0fdabd-eb7e-4d27-beb2-7423f6f66c3f',
+      from: 'alpacavideojournal@gmail.com',
+      templateId: '525b29ad-6129-4b54-a0de-c93ef82029db',
       subject: 'New Prompt Has Been Added!',
       substitutions: {
         prompt: req.body.post,
@@ -59,8 +57,8 @@ router.post("/teams", (req,res) => {
       },
       //html: `<strong> ${req.body.post} </strong>`,
     })
-    .then((email) => res.status(200).json(email))
-    .catch((err) => res.status(500).json({ err }));
+    .then((email) => res.status(200).json(console.log('this is good')))
+    .catch((err) => res.status(500).json(console.log('this is bad') ));
    })
 
    .catch((err) => res.status(500).json({ err }));

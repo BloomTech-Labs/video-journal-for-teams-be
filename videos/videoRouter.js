@@ -6,6 +6,7 @@ const multerS3 = require('multer-s3');
 const AWS = require('aws-sdk');
 const app = require("../api/server");
 
+
 AWS.config.update({
 	accessKeyId: process.env.AWS_ACCESS_KEY_ID,
 	secretAccessKey: process.env.AWS_SECRET_ACCESS
@@ -72,6 +73,23 @@ router.post("/:id/feedback", validateVideoId, validateFeedback, (req, res) => {
 			
 		});
 });
+
+// Viewed feeback change boolean from falsee to true
+
+router.put("/:id/feedback", validateVideoId, (req, res) => {
+	const { id } = req.params
+	const { userId } =req.body
+
+	Videos.updateViewedFeedbackByVideoId(id, userId )
+	.then(videos => {
+		
+		res.status(201).json(videos)
+
+	})
+	.catch((err) => {
+		console.log(err)
+	})
+})
 
 // 5. Add a new video
 router.post("/", upload.array('video',1), (req, res) => {
