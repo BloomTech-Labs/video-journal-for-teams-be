@@ -8,6 +8,7 @@ module.exports = {
 	insert,
 	insertFeedback,
 	update,
+	updateViewedFeedbackByVideoId,
 };
 
 function find() {
@@ -31,13 +32,36 @@ function findById(video_id) {
 		)
 		.columns(db.raw("users.first_name || ' ' || users.last_name as owner_name"));
 }
+//hi
 
 function findByUserId(user_id) {
 	return db
 		.select("*")
 		.from("videos")
 		.orderBy("created_at", "desc")
-		.where({ owner_id: user_id });
+		.where({ owner_id: user_id })
+		.then(videos => {
+			return Promise.all(videos.map(async video => {
+				const feedback =  await db('feedback')
+										.join('users', 'users.id','feedback.owner_id')
+										.join('videos','videos.id','feedback.video_id')
+										.select('feedback.*','users.first_name','users.last_name','videos.title as video_title')
+						
+						.where('feedback.video_id',video.id)
+				return {
+					...video,feedback
+				}
+			}))
+			
+		})
+		
+
+	// return db("videos")
+	// 	.leftJoin('feedback', 'feedback.video_id','videos.id')
+	// 	.select("*")
+	// 	.groupBy('videos.video_url')
+	// 	// .orderBy("created_at", "desc")
+	// 	.where( "videos.owner_id", user_id );
 }
 
 function findFeedbackByVideoId(video_id) {
@@ -54,6 +78,15 @@ function findFeedbackByVideoId(video_id) {
 		)
 		.orderBy("feedback.created_at", "desc")
 		.columns(db.raw("users.first_name || ' ' || users.last_name as owner_name"));
+}
+
+function updateViewedFeedbackByVideoId(video_id, user_id){
+	return db("feedback")
+	.where("feedback.video_id", video_id)
+	.update({viewed: true})
+	.then(count => {
+		return findByUserId(user_id)
+	})
 }
 
 function insert(vidObj) {

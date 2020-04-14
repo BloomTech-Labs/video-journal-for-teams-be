@@ -1,6 +1,7 @@
 const express = require("express");
 
 const Teams = require("../teams/teamModel.js");
+const Videos = require("../videos/videoModel.js");
 const Invites = require("../invites/inviteModel.js");
 const greek = require("../invites/greekalpha.json");
 
@@ -26,9 +27,13 @@ router.get("/:id/users", validateTeamId, verifyUserToTeam, (req, res) => {
 	const { id } = req.params;
 
 	Teams.getUsersByTeamId(id)
-		.then((users) => res.status(200).json(users))
+		.then((users) =>  {
+			// console.log('teammmmmmmmms', users)
+			res.status(200).json(users)})
+
 		.catch((err) => res.status(500).json({ message: `Could not get users for team ${id}`, error: err }));
 });
+
 
 // 4. Fetch prompts created by a team
 router.get("/:id/prompts", validateTeamId, verifyUserToTeam, (req, res) => {
@@ -45,6 +50,7 @@ router.get("/:id/videos", validateTeamId, verifyUserToTeam, async (req, res) => 
 
 	const prompts = await Teams.getPromptsByTeamId(id);
 	const videos = await Teams.getVideosByTeamId(id);
+	
 	const results = prompts.map((prompt) => {
 		return {
 			...prompt,
@@ -60,7 +66,7 @@ router.get("/:id/videos", validateTeamId, verifyUserToTeam, async (req, res) => 
 router.post("/:id/prompts", validateTeamId, verifyUserToTeam, validateMembership, (req, res) => {
 	const { body } = req;
 	const { id } = req.params;
-
+	const io = req.app.get('io')
 	const promptdata = {
 		...body,
 		team_id: id,
@@ -73,6 +79,7 @@ router.post("/:id/prompts", validateTeamId, verifyUserToTeam, validateMembership
 			Teams.insertPrompt(promptdata)
 				.then((prompt) => {
 					res.status(201).json(prompt);
+					io.emit('createdPrompt')
 				})
 				.catch((err) => res.status(500).json({ message: "Could not create prompt.", err: err }));
 		}

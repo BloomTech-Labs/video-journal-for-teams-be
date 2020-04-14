@@ -4,6 +4,8 @@ const shortId = require("shortid");
 const multer = require("multer");
 const multerS3 = require('multer-s3');
 const AWS = require('aws-sdk');
+const app = require("../api/server");
+
 
 AWS.config.update({
 	accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -11,6 +13,7 @@ AWS.config.update({
 });
 
 const s3 = new AWS.S3();
+
 
 const upload = multer({
 	storage: multerS3({
@@ -56,19 +59,42 @@ router.get("/:id/feedback", validateVideoId, (req, res) => {
 router.post("/:id/feedback", validateVideoId, validateFeedback, (req, res) => {
 	const { id } = req.params;
 	req.feedback.video_id = Number(id);
+	
+	io = req.app.get('io')
 
 	Videos.insertFeedback(req.feedback)
 		.then((feedbackId) => {
 			res.status(201).json(feedbackId);
+			io.emit('insertedFeedback', feedbackId )
+			
 		})
 		.catch((err) => {
 			res.status(500).json({ message: "Could not add feedback.", error: err });
+			
 		});
 });
+
+// Viewed feeback change boolean from falsee to true
+
+router.put("/:id/feedback", validateVideoId, (req, res) => {
+	const { id } = req.params
+	const { userId } =req.body
+
+	Videos.updateViewedFeedbackByVideoId(id, userId )
+	.then(videos => {
+		
+		res.status(201).json(videos)
+
+	})
+	.catch((err) => {
+		console.log(err)
+	})
+})
 
 // 5. Add a new video
 router.post("/", upload.array('video',1), (req, res) => {
 	const { title, description, owner_id, prompt_id } = req.body;
+	
 
 	const newVideo = {
 		owner_id: owner_id,
@@ -79,7 +105,12 @@ router.post("/", upload.array('video',1), (req, res) => {
 	};
 
 	Videos.insert(newVideo)
-		.then((video) => res.status(201).json({ message: "Video creation successful.", id: video[0] }))
+		.then((video) => {
+			const io = req.app.get('io')
+			
+			res.status(201).json({ message: "Video creation successful.", id: video[0] })
+			io.emit('videoPosted')
+		})
 		.catch((err) => {
 			res.status(500).json({ message: "Could not insert new video.", error: err });
 		});
@@ -102,3 +133,4 @@ router.put("/", (req, res) => {
 });
 
 module.exports = router;
+
