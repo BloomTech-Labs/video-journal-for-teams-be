@@ -28,7 +28,6 @@ router.get("/:id/users", validateTeamId, verifyUserToTeam, (req, res) => {
 
 	Teams.getUsersByTeamId(id)
 		.then((users) =>  {
-			// console.log('teammmmmmmmms', users)
 			res.status(200).json(users)})
 
 		.catch((err) => res.status(500).json({ message: `Could not get users for team ${id}`, error: err }));
