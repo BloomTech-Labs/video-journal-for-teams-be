@@ -14,7 +14,9 @@ passport.use(
         if (!bcrypt.compareSync(password, user.password)) {
           return verify(null, false, "Invalid username/password combination.");
         }
-        return verify(null, user);
+      
+        return verify(null, user)
+        
       })
       .catch((err) => {
         return verify(err);
