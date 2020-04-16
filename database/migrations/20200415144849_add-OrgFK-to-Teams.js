@@ -3,8 +3,8 @@ exports.up = function (knex) {
     tbl
       .integer("organization_id")
       .unsigned()
-      .notNullable()
-      .defaultTo(1)
+      // .notNullable()
+      // .defaultTo(1)
       .references("id")
       .inTable("organizations")
       .onUpdate("CASCADE")
