@@ -15,6 +15,7 @@ passport.use(
   new Strategy(opts, function(jwtPayload, verify) {
     db.findById(jwtPayload.sub)
       .then((user) => {
+        console.log('from jwt passport', user)
         if (!user) {
           return verify(null, false, "Invalid user id");
         } else {

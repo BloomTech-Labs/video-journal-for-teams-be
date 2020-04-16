@@ -8,6 +8,7 @@ passport.use(
   new Strategy({ usernameField: "email" }, function(email, password, verify) {
     db.findByEmail(email)
       .then((user) => {
+        console.log('from email login', user)
         if (!user) {
           return verify(null, false, "Invalid email/password combination");
         }

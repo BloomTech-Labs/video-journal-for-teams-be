@@ -15,6 +15,7 @@ const VideoRouter = require("../videos/videoRouter.js");
 const InviteRouter = require("../invites/inviteRouter.js");
 const AvatarRouter = require("../avatars/avatarRouter");
 const EmailRouter = require("../email/emailRouter")
+const OrganizationRouter = require("../organization/organizationRouter");
 
 const server = express();
 
@@ -48,6 +49,7 @@ server.use("/api/videos", passport.authenticate("jwt", { session: false }), Vide
 server.use("/api/invites", InviteRouter);
 server.use("/api/avatars", AvatarRouter);
 server.use("/api/email", EmailRouter)
+server.use("/api/organizations", passport.authenticate("jwt", { session: false }), OrganizationRouter);
 
 server.use("/public", express.static(path.join(__dirname, "../public")));
 
