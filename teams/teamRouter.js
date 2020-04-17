@@ -7,8 +7,8 @@ const greek = require("../invites/greekalpha.json");
 
 const router = express.Router();
 
-const { validateTeamId, validateTeamData, validateMembership, verifyUserToTeam } = require("../middleware/middleware");
-const { isTeamLead } = require("../utils/utils");
+const { validateTeamId, validateTeamData, validateMembership, validateOrganizationRole, verifyUserToTeam } = require("../middleware/middleware");
+const { isTeamLead, isOrgOwner } = require("../utils/utils");
 
 // 1. Fetch all teams
 router.get("/", (req, res) => {
@@ -193,7 +193,7 @@ router.put("/:id/users/:user_id/role", validateTeamId, verifyUserToTeam, validat
 });
 
 // 12. Returns team invite object
-router.post("/:id/invite", validateTeamId, verifyUserToTeam, validateMembership, (req, res) => {
+router.post("/:id/invite", validateTeamId, verifyUserToTeam, validateMembership, validateOrganizationRole, (req, res) => {
 	// #region docstring
 	/*
 
@@ -237,20 +237,23 @@ router.post("/:id/invite", validateTeamId, verifyUserToTeam, validateMembership,
 	// #endregion
 	const team_id = req.params.id;
 	const { team_name } = req.body;
+	const { org_id } = req.body;
+	console.log('form team router', req.body)
+	console.log('this is req.user',req.user)
 
-	if (!isTeamLead(req.user.role)) {
+	if (!isOrgOwner(req.user.org_role) && !isTeamLead(req.user.role)  ) {
 		res.status(403).json({ message: "Permission denied." });
 	} else {
-		if (!team_id || !team_name) {
+		if (!team_id || !team_name || !org_id) {
 			res
 				.status(400)
 				.json({ message: "Request needs to be an object with team_id and team_name elements.", body: req.body });
+		
 		}
-
 		// generate a code ahead of time, and create the db object.
 		const newcode = genCode(team_name);
 
-		const dbsend = { team_id, newcode: newcode };
+		const dbsend = { team_id, organization_id: org_id, newcode: newcode };
 
 		Invites.findByTeam(team_id)
 			.then((invite) => {
@@ -271,7 +274,9 @@ router.post("/:id/invite", validateTeamId, verifyUserToTeam, validateMembership,
 					 */
 					console.log("Current team code exists, but is either expired or invalid, generating new code.");
 					Invites.update(dbsend)
+					console.log(dbsend)
 						.then((updated) => {
+							console.log('update ', updated)
 							res
 								.status(200)
 								.json({ message: "Team code expiration validity has been successfully refreshed.", ...updated });
@@ -295,6 +300,7 @@ router.post("/:id/invite", validateTeamId, verifyUserToTeam, validateMembership,
 						res.status(200).json({ message: "Creation successful", ...inserted });
 					})
 					.catch((err) => {
+						console.log('we are checking 302')
 						if (err.detail.includes('not present in table "teams"')) {
 							res.status(400).json({ message: `Team ${team_id} doesn't exist.`, error: err.detail });
 						} else {

@@ -8,6 +8,7 @@ const validateTeamData = require("./validateTeamData");
 const validateMembership = require("./validateMembership");
 const verifyUserToTeam = require("./verifyUserToTeam");
 const verifyPassword = require("./verifyPassword.js");
+const validateOrganizationRole = require("./validateOrganizationRole")
 
 module.exports = {
 	signToken,
@@ -20,4 +21,5 @@ module.exports = {
 	validateMembership,
 	verifyUserToTeam,
 	verifyPassword,
+	validateOrganizationRole
 };
