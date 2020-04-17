@@ -15,23 +15,23 @@ exports.up = function (knex) {
             .onUpdate("CASCADE")
             .onDelete("RESTRICT");
 
-      tbl
-        .integer("user_id")
-        .unsigned()
-        .notNullable()
-        .references("id")
-        .inTable("users")
-        .onUpdate("CASCADE")
-        .onDelete("RESTRICT");
+       tbl
+            .integer("user_id")
+            .unsigned()
+            .notNullable()
+            .references("id")
+            .inTable("users")
+            .onUpdate("CASCADE")
+            .onDelete("RESTRICT");
 
         tbl
-        .integer("role_id")
-        .unsigned()
-        .notNullable()
-        .references("id")
-        .inTable("roles")
-        .onUpdate("CASCADE")
-        .onDelete("RESTRICT");
+            .integer("role_id")
+            .unsigned()
+            .notNullable()
+            .references("id")
+            .inTable("roles")
+            .onUpdate("CASCADE")
+            .onDelete("RESTRICT");
 
 
       // Composite key with user_id and team_id
