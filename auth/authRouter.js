@@ -14,6 +14,8 @@ router.post("/login/email", passport.authenticate("email-login", { session: fals
 
 // 2. Login with username
 router.post("/login/username", passport.authenticate("username-login", { session: false }), function (req, res) {
+	console.log('post', req.user)
+	
 	res.status(200).json(loginSuccessBody(req.user));
 });
 
@@ -60,7 +62,6 @@ module.exports = router;
 
 function loginSuccessBody(user) {
 	const token = signToken({ sub: user.id });
-
 	return {
 		user: {
 			id: user.id,
@@ -69,6 +70,7 @@ function loginSuccessBody(user) {
 			first_name: user.first_name,
 			last_name: user.last_name,
 			avatar: user.avatar,
+			organization_id: user.organization_id
 		},
 		token: token,
 	};

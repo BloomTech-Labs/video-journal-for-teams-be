@@ -31,20 +31,38 @@ function findByIdEmail(id) {
 		.first();
 }
 
+// function findByEmail(email) {
+// 	return db
+// 		.select("*")
+// 		.from("users")
+// 		.where({ email: email })
+// 		.first();
+// }
+
 function findByEmail(email) {
-	return db
+	return db("users")
 		.select("*")
-		.from("users")
+		.join("organizations_users", "users.id", "organizations_users.user_id")
 		.where({ email: email })
 		.first();
 }
 
+// function findByUsername(username) {
+// 	return db
+// 		.select("*")
+// 		.from("users")
+// 		.where({ username: username })
+// 		.first();
+
+// }
+
 function findByUsername(username) {
-	return db
-		.select("*")
-		.from("users")
+	return db("users")
+		.join("organizations_users", "users.id", "organizations_users.user_id")
 		.where({ username: username })
-		.first();
+		.first()
+		.select("*");
+		
 }
 
 function insert(user) {
