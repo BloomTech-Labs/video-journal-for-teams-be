@@ -24,10 +24,10 @@ function findByTeam(team_id) {
 }
 
 function insert(insertion) {
-	const {team_id, newcode, org_id} = insertion;
+	const {team_id, newcode, organization_id} = insertion;
 	return db("team_invite_link")
 		.insert({
-			organization_id: org_id,
+			organization_id: organization_id,
 			team_id,
 			link: newcode,
 			isValid: true,
@@ -54,6 +54,7 @@ function update(changes) {
 			organization_id: organization_id
 		})
 		.then(() => {
+			//console.log('hi')
 			return findByCode(newcode);
 		})
 		.catch((err)=> {

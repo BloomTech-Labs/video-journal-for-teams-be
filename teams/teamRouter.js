@@ -90,7 +90,7 @@ router.post("/:id/prompts", validateTeamId, verifyUserToTeam, validateMembership
 // 7. Add a new team
 router.post("/", validateTeamData, (req, res) => {
 	const { body } = req;
-	console.log('from team', req)
+	
 	Teams.insert(body)
 		.then((team) => {
 			// after creating team it adds the team creator to the team with team_manager role
@@ -238,8 +238,9 @@ router.post("/:id/invite", validateTeamId, verifyUserToTeam, validateMembership,
 	const team_id = req.params.id;
 	const { team_name } = req.body;
 	const { org_id } = req.body;
-	console.log('form team router', req.body)
-	console.log('this is req.user',req.user)
+	console.log('get at me', req.body)
+	//console.log('form team router', req.body)
+	//console.log('this is req.user',req.user)
 
 	if (!isOrgOwner(req.user.org_role) && !isTeamLead(req.user.role)  ) {
 		res.status(403).json({ message: "Permission denied." });
@@ -274,9 +275,7 @@ router.post("/:id/invite", validateTeamId, verifyUserToTeam, validateMembership,
 					 */
 					console.log("Current team code exists, but is either expired or invalid, generating new code.");
 					Invites.update(dbsend)
-					console.log(dbsend)
 						.then((updated) => {
-							console.log('update ', updated)
 							res
 								.status(200)
 								.json({ message: "Team code expiration validity has been successfully refreshed.", ...updated });
