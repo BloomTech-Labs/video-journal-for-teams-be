@@ -196,7 +196,7 @@ router.put("/:id/users/:user_id/role", validateTeamId, verifyUserToTeam, validat
 router.post("/:id/invite", validateTeamId, verifyUserToTeam, validateMembership, validateOrganizationRole, (req, res) => {
 	// #region docstring
 	/*
-
+             validateOrganizationRole, 
 	REQUIRES: 
 		req.body should be an object in this form: 
 		{
@@ -235,10 +235,13 @@ router.post("/:id/invite", validateTeamId, verifyUserToTeam, validateMembership,
 		* Creates a single word: McClure-ThetaPhiTau
 	*/
 	// #endregion
+	console.log('ddddddddd')
+	console.log('get at me', req.body)
 	const team_id = req.params.id;
 	const { team_name } = req.body;
 	const { org_id } = req.body;
-	console.log('get at me', req.body)
+		
+	
 	//console.log('form team router', req.body)
 	//console.log('this is req.user',req.user)
 
@@ -253,11 +256,12 @@ router.post("/:id/invite", validateTeamId, verifyUserToTeam, validateMembership,
 		}
 		// generate a code ahead of time, and create the db object.
 		const newcode = genCode(team_name);
-
+	
 		const dbsend = { team_id, organization_id: org_id, newcode: newcode };
-
+		console.log('dbsend', dbsend)
 		Invites.findByTeam(team_id)
 			.then((invite) => {
+				console.log('this is invite', invite)
 				const expires = Date.parse(invite.expires_at);
 
 				if (expires > Date.now() && invite.isValid === true) {
@@ -294,7 +298,9 @@ router.post("/:id/invite", validateTeamId, verifyUserToTeam, validateMembership,
 					It will use the generated code to
 					INSERT NEW in the db then return the code.
 				 */
+		
 				Invites.insert(dbsend)
+			
 					.then((inserted) => {
 						res.status(200).json({ message: "Creation successful", ...inserted });
 					})
