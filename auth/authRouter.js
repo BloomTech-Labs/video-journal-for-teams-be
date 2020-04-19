@@ -42,6 +42,7 @@ router.post("/register", validateSignup, async function (req, res) {
 	//Create new user
 	Users.insert(user)
 		.then((userId) => {
+			console.log('dddddd', userId)
 			const io = req.app.get('io')
 			user.id = userId[0];
 			//Login newly created user

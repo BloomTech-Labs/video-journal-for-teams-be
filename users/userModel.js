@@ -66,8 +66,17 @@ function findByUsername(username) {
 }
 
 function insert(user) {
-	return db("users").insert(user, "id");
+	return db("users").insert(user, 'id')
+	.then(response => {
+		console.log('yo yo response',response[0])
+		return db('organizations_users')
+		.insert({organization_id: 1, user_id: response[0], role_id: 4}, 'user_id')
+	})
 }
+
+// function insert(user) {
+// 	return db("users").insert(user, "id");
+// }
 
 function update(id, changes) {
 	return db("users")
