@@ -65,12 +65,15 @@ function findByUsername(username) {
 		
 }
 
-function insert(user) {
+
+//insert new user when registering...   How do i get organization ID from invite link? 
+function insert(user, org_id) {
 	return db("users").insert(user, 'id')
 	.then(response => {
 		console.log('yo yo response',response[0])
+		console.log(user)
 		return db('organizations_users')
-		.insert({organization_id: 1, user_id: response[0], role_id: 4}, 'user_id')
+		.insert({organization_id: org_id, user_id: response[0], role_id: 4}, 'user_id')
 	})
 }
 

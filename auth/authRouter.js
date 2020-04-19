@@ -40,9 +40,9 @@ router.post("/register", validateSignup, async function (req, res) {
 	//read socket io from req.app.get
 	
 	//Create new user
-	Users.insert(user)
+	Users.insert(user, req.body.organization_id)
 		.then((userId) => {
-			console.log('dddddd', userId)
+			console.log('dddddd', req.body)
 			const io = req.app.get('io')
 			user.id = userId[0];
 			//Login newly created user
