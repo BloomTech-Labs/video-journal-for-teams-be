@@ -30,8 +30,13 @@ function findById(id) {
 }
 
 function insert(team) {
-	return db("teams").insert(team, ["id", "name", "description", "created_at", "updated_at"]);
+	return db("teams").insert(team, ["id", "name", "description", "created_at", "updated_at", "organization_id"]);
 }
+
+// function insert(team) {
+// 	return db("teams").insert(team, ["id", "name", "description", "created_at", "updated_at"]);
+// }
+
 
 // Insert prompt
 function insertPrompt(prompt) {

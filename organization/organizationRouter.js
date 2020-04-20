@@ -15,8 +15,9 @@ router.post("/", (req,res) =>{
                     console.log("organiztion id", org)
                     console.log("req user", req.user.id)
                     Organization.insertOrgUser({organization_id:org[0] , user_id: req.user.id, role_id:3})
-                        .then(count => res.status(201).json({id: org[0]}))
+                        .then(count => res.status(201).json({id: org[0]}))   
                         .catch(err => res.status(500).json({message:`couldn't insert user ${req.user.id} and organization ${org[0].id} to the org_users table`, error:err }))
+
                     }
                 )
                 .catch( err => res.status(500).json({message: "Sorry organization can't be created", error:err}))
