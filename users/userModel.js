@@ -66,7 +66,7 @@ function findByUsername(username) {
 // }
 
 
-//insert new user when registering...   How do i get organization ID from invite link? 
+// insert new user when registering...   How do i get organization ID from invite link? 
 // function insert(user, org_id) {
 // 	return db("users").insert(user, 'id')
 // 	.then(response => {
