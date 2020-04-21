@@ -30,8 +30,13 @@ function findById(id) {
 }
 
 function insert(team) {
-	return db("teams").insert(team, ["id", "name", "description", "created_at", "updated_at"]);
+	return db("teams").insert(team, ["id", "name", "description", "created_at", "updated_at", "organization_id"]);
 }
+
+// function insert(team) {
+// 	return db("teams").insert(team, ["id", "name", "description", "created_at", "updated_at"]);
+// }
+
 
 // Insert prompt
 function insertPrompt(prompt) {
@@ -39,10 +44,10 @@ function insertPrompt(prompt) {
 	return db("prompts").insert(prompt, ["id", "question", "description", "team_id", "created_at", "updated_at"]);
 }
 
-function findByUserId(userId) {
+function findByUserId(userId, organization_id) {
 	return db("teams")
 		.join("team_members", "teams.id", "team_members.team_id")
-		.where("team_members.user_id", userId)
+		.where({"team_members.user_id":userId, organization_id})
 		.orderBy("created_at", "desc")
 		.select(
 			"teams.id as id",

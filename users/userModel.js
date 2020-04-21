@@ -47,39 +47,37 @@ function findByEmail(email) {
 		.first();
 }
 
-// function findByUsername(username) {
-// 	return db
-// 		.select("*")
-// 		.from("users")
-// 		.where({ username: username })
-// 		.first();
-
-// }
-
 function findByUsername(username) {
-	return db("users")
-		.join("organizations_users", "users.id", "organizations_users.user_id")
+	return db
+		.select("*")
+		.from("users")
 		.where({ username: username })
-		.first()
-		.select("*");
+		.first();
+
+}
+
+// function findByUsername(username) {
+// 	return db("users")
+// 		.join("organizations_users", "users.id", "organizations_users.user_id")
+// 		.where({ username: username })
+// 		.first()
+// 		.select("*");
 		
-}
-
-
-//insert new user when registering...   How do i get organization ID from invite link? 
-function insert(user, org_id) {
-	return db("users").insert(user, 'id')
-	.then(response => {
-		console.log('yo yo response',response[0])
-		console.log(user)
-		return db('organizations_users')
-		.insert({organization_id: org_id, user_id: response[0], role_id: 4}, 'user_id')
-	})
-}
-
-// function insert(user) {
-// 	return db("users").insert(user, "id");
 // }
+
+
+// insert new user when registering...   How do i get organization ID from invite link? 
+// function insert(user, org_id) {
+// 	return db("users").insert(user, 'id')
+// 	.then(response => {
+// 		return db('organizations_users')
+// 		.insert({organization_id: org_id, user_id: response[0], role_id: 4}, 'user_id')
+// 	})
+// }
+
+function insert(user) {
+	return db("users").insert(user, "id");
+}
 
 function update(id, changes) {
 	return db("users")

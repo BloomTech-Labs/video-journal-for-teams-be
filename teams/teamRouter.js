@@ -90,7 +90,7 @@ router.post("/:id/prompts", validateTeamId, verifyUserToTeam, validateMembership
 // 7. Add a new team
 router.post("/", validateTeamData, (req, res) => {
 	const { body } = req;
-	
+	console.log(body)
 	Teams.insert(body)
 		.then((team) => {
 			// after creating team it adds the team creator to the team with team_manager role
