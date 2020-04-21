@@ -47,8 +47,6 @@ router.get("/:id", validateUserId, (req, res) => {
 router.get("/:id/teams/:organization_id", validateUserId, (req, res) => {
 	const { id, organization_id } = req.params;
 	
-
-		
 	Teams.findByUserId(id, organization_id)
 		.then((teams) => res.status(200).json(teams))
 		.catch((err) => res.status(500).json({ message: `Could not get teams for user ${id}.`, error: err }));
