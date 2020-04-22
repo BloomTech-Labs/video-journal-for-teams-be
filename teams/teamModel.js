@@ -14,7 +14,8 @@ module.exports = {
 	getPromptsByTeamId,
 	getVideosByTeamId,
 	switchRole,
-	matchUserToTeam
+	matchUserToTeam,
+	findPublicTeams
 };
 
 function find() {
@@ -47,7 +48,7 @@ function insertPrompt(prompt) {
 function findByUserId(userId, organization_id) {
 	return db("teams")
 		.join("team_members", "teams.id", "team_members.team_id")
-		.where({"team_members.user_id":userId, organization_id})
+		.where({"team_members.user_id":userId, organization_id, team_type:"private"})
 		.orderBy("created_at", "desc")
 		.select(
 			"teams.id as id",
@@ -59,14 +60,15 @@ function findByUserId(userId, organization_id) {
 		)
 		.then( async (teamsByUserID) => {
 			const publicTeams = await findPublicTeams(organization_id)
-			return [...teamsByUserID, publicTeams]
+			return [...teamsByUserID, ...publicTeams]
 		})
 }
 
 function findPublicTeams(organization_id){
 	return db("teams")
-	.where({organization_id: organization_id, type: public})
+	.where({organization_id: organization_id, team_type: "public"})
 }
+
 
 
 // match specific user to specific team.
