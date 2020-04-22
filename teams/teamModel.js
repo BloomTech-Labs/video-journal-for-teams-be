@@ -56,9 +56,17 @@ function findByUserId(userId, organization_id) {
 			"teams.created_at as created_at",
 			"teams.updated_at as updated_at",
 			"team_members.role_id as role_id"
-		);
+		)
+		.then( async (teamsByUserID) => {
+			const publicTeams = await findPublicTeams(organization_id)
+			return [...teamsByUserID, publicTeams]
+		})
 }
 
+function findPublicTeams(organization_id){
+	return db("teams")
+	.where({organization_id: organization_id, type: public})
+}
 
 
 // match specific user to specific team.
