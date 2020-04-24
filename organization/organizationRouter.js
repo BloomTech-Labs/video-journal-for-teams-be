@@ -1,5 +1,6 @@
 const express = require("express");
 const Organization = require("../organization/organizationModel.js");
+const Team = require("../teams/teamModel.js")
 const Invites = require("../invites/inviteModel.js");
 const greek = require("../invites/greekalpha.json");
 
@@ -40,8 +41,6 @@ router.post("/", (req, res) => {
 router.post("/:id/members", (req, res) => {
   const { id } = req.params;
   const body = { ...req.body, organization_id: id };
-  console.log(req.params);
-  console.log(body);
 
   if (body.organization_id && body.user_id && body.role_id) {
     Organization.insertOrgUser(body)
@@ -73,5 +72,26 @@ router.get("/:id/users", (req, res) => {
       );
   });
   
+
+  router.delete("/:id/users", (req, res) => {
+      const {id} = req.params
+      const {user_id} = req.body
+   
+      Team.removeFromAllTeams(user_id)
+      .then(() => {
+        
+        Organization.deleteOrganizationMember(id, user_id)
+        .then((user) => res.status(200).json({message: 'deleted user from organization', user}))
+        .catch((err) =>
+        
+        res.status(500).json({ message: "Cannot delete user from Organizaiton", error: err })
+        
+      );
+      })
+      .catch((err) =>
+      res.status(500).json({ message: "Cannot delete user from teams", error: err })
+    );
+      
+  })
 
 module.exports = router;

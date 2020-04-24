@@ -6,7 +6,8 @@ module.exports = {
     getOrgRole,
     getOrganzationsByUser,
     getTeamsByOrganization,
-    getUsersByOrganization
+    getUsersByOrganization,
+    deleteOrganizationMember
 
 }
 
@@ -45,6 +46,13 @@ function getUsersByOrganization(org_id) {
 	return db("users")
 		.join("organizations_users", "users.id", "organizations_users.user_id")
 		.where("organizations_users.organization_id", org_id)
-		.select( "users.id as user_id", "users.avatar as avatar", 'users.email')
+		.select( "users.id as user_id", "users.avatar as avatar", 'users.email', "organizations_users.role_id")
 		.columns(db.raw("users.first_name || ' ' || users.last_name as user_full_name"));
+}
+
+function deleteOrganizationMember(org_id, member_id){
+    return db('organizations_users')
+    .where({organization_id: org_id,  user_id: member_id})
+    .del()
+
 }
