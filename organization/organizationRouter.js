@@ -76,17 +76,17 @@ router.get("/:id/users", (req, res) => {
 router.delete("/:id/users", validateOrgOwnership, (req, res) => {
   const { id } = req.params;
   const { user_id } = req.body;
- 
+
   Team.finduserTeamMembership(user_id)
     .then((teams) => {
-      console.log("team membership", teams)
-      if (teams > 0) {
+      
+      if (teams.length > 0) {
         Team.removeFromAllTeams(user_id).then(() => {
           Organization.deleteOrganizationMember(id, user_id)
             .then((user) =>
               res
                 .status(200)
-                .json({ message: "deleted user from organization", user })
+                .json({ message: "deleted user from organization", user_id: user_id })
             )
             .catch((err) =>
               res
@@ -103,7 +103,7 @@ router.delete("/:id/users", validateOrgOwnership, (req, res) => {
             .then((user) =>
               res
                 .status(200)
-                .json({ message: "deleted user from organization", user })
+                .json({ message: "deleted user from organization", user_id: user_id })
             )
             .catch((err) =>
               res
