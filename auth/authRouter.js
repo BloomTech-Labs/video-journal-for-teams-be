@@ -14,8 +14,6 @@ router.post("/login/email", passport.authenticate("email-login", { session: fals
 
 // 2. Login with username
 router.post("/login/username", passport.authenticate("username-login", { session: false }), function (req, res) {
-	console.log('post', req.user)
-	
 	res.status(200).json(loginSuccessBody(req.user));
 });
 
@@ -42,7 +40,7 @@ router.post("/register", validateSignup, async function (req, res) {
 	//Create new user
 	Users.insert(user)
 		.then((userId) => {
-			console.log('dddddd', req.body)
+		
 			const io = req.app.get('io')
 			user.id = userId[0];
 			//Login newly created user

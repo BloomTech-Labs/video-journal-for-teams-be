@@ -54,7 +54,6 @@ function update(changes) {
 			organization_id: organization_id
 		})
 		.then(() => {
-			//console.log('hi')
 			return findByCode(newcode);
 		})
 		.catch((err)=> {

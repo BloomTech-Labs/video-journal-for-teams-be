@@ -122,7 +122,7 @@ router.post(
 // 7. Add a new team
 router.post("/", validateTeamData, (req, res) => {
   const { body } = req;
-  console.log(body);
+
   Teams.insert(body)
     .then((team) => {
       // after creating team it adds the team creator to the team with team_manager role
@@ -354,14 +354,10 @@ router.post(
 		* Creates a single word: McClure-ThetaPhiTau
 	*/
     // #endregion
-    console.log("ddddddddd");
-    console.log("get at me", req.body);
+
     const team_id = req.params.id;
     const { team_name } = req.body;
     const { org_id } = req.body;
-
-    //console.log('form team router', req.body)
-    //console.log('this is req.user',req.user)
 
     if (!isOrgOwner(req.user.org_role) && !isTeamLead(req.user.role)) {
       res.status(403).json({ message: "Permission denied." });
@@ -379,10 +375,10 @@ router.post(
       const newcode = genCode(team_name);
 
       const dbsend = { team_id, organization_id: org_id, newcode: newcode };
-      console.log("dbsend", dbsend);
+    
       Invites.findByTeam(team_id)
         .then((invite) => {
-          console.log("this is invite", invite);
+    
           const expires = Date.parse(invite.expires_at);
 
           if (expires > Date.now() && invite.isValid === true) {
@@ -436,7 +432,7 @@ router.post(
                 .json({ message: "Creation successful", ...inserted });
             })
             .catch((err) => {
-              console.log("we are checking 302");
+         
               if (err.detail.includes('not present in table "teams"')) {
                 res
                   .status(400)
