@@ -15,7 +15,8 @@ module.exports = {
 	getVideosByTeamId,
 	switchRole,
 	matchUserToTeam,
-	findPublicTeams
+	findPublicTeams,
+	removeFromAllTeams
 };
 
 function find() {
@@ -99,6 +100,15 @@ function remove(userId, teamId) {
 		.where({
 			user_id: userId,
 			team_id: teamId,
+		})
+		.del();
+}
+
+function removeFromAllTeams(userId) {
+	// delete from team_members where user_id = 2 and team_id = 1;
+	return db("team_members")
+		.where({
+			user_id: userId,
 		})
 		.del();
 }
