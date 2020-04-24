@@ -36,10 +36,11 @@ router.post("/register", validateSignup, async function (req, res) {
 
 	user.avatar = avatar;
 	//read socket io from req.app.get
-	
+	// req.body.organization_id
 	//Create new user
 	Users.insert(user)
 		.then((userId) => {
+		
 			const io = req.app.get('io')
 			user.id = userId[0];
 			//Login newly created user
@@ -60,7 +61,6 @@ module.exports = router;
 
 function loginSuccessBody(user) {
 	const token = signToken({ sub: user.id });
-
 	return {
 		user: {
 			id: user.id,
@@ -69,6 +69,7 @@ function loginSuccessBody(user) {
 			first_name: user.first_name,
 			last_name: user.last_name,
 			avatar: user.avatar,
+			organization_id: user.organization_id
 		},
 		token: token,
 	};

@@ -1,9 +1,9 @@
 module.exports = function(req, res, next) {
-  const { name, description } = req.body;
+  const { name, description, organization_id } = req.body;
 
-  if (name && description) {
+  if (name && description && organization_id) {
     next();
   } else {
-    res.status(400).json({ message: "Please provide a valid name and description for the team." });
+    res.status(400).json({ message: "Please provide a valid name, description, organization Id for the team." });
   }
 };

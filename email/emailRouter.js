@@ -16,11 +16,11 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 // };
 
 router.post("/", (req, res) => {
-    console.log('hello', req.body)
+   
     
     Users.findByIdEmail(req.body.id)
     .then((item) => {
-      console.log('this', item)
+    
       sgMail.sendMultiple({
         to: [item.email],
         from: 'alpacavideojournal@gmail.com',
@@ -41,7 +41,7 @@ router.post("/", (req, res) => {
 
 
 router.post("/teams", (req,res) => {
-  console.log("reqbody", req.body);
+ 
    Teams.getUsersByTeamId(req.body.teamId)
    .then((item) => {
      let teamEmails = item.map(item => item.email) 

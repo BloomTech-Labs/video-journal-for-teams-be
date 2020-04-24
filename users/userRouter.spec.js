@@ -88,10 +88,10 @@ describe("User Data Routes", () => {
 			});
 		});
 
-		describe("GET /users/:id/teams", () => {
+		describe("GET /users/:id/teams/:orgId", () => {
 			it("should return status code 200", async () => {
 				const response = await request(server)
-					.get("/api/users/1/teams")
+					.get("/api/users/1/teams/1")
 					.set("authorization", token);
 
 				expect(response.status).toEqual(200);
@@ -99,7 +99,7 @@ describe("User Data Routes", () => {
 
 			it("should return an array", async () => {
 				const response = await request(server)
-					.get("/api/users/1/teams")
+					.get("/api/users/1/teams/1")
 					.set("authorization", token);
 
 				expect(Array.isArray(response.body)).toBe(true);

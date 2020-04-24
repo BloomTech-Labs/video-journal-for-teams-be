@@ -1,4 +1,5 @@
 exports.seed = function (knex) {
+	
 	return knex('roles')
 		.then(function () {
 			return knex('roles').insert(
@@ -7,7 +8,11 @@ exports.seed = function (knex) {
 
 				[
 					{ "name": "Team Member" },
-					{ "name": "Team Lead" }
+					{ "name": "Team Lead" },
+					{ "name": "Organization Owner" },
+					{ "name": "Organization Member" }
+					
+
 				]
 			);
 		});
