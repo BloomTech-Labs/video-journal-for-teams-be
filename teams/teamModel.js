@@ -16,7 +16,8 @@ module.exports = {
 	switchRole,
 	matchUserToTeam,
 	findPublicTeams,
-	removeFromAllTeams
+	removeFromAllTeams,
+	finduserTeamMembership,
 };
 
 function find() {
@@ -65,6 +66,13 @@ function findByUserId(userId, organization_id) {
 			const publicTeams = await findPublicTeams(organization_id)
 			return [...teamsByUserID, ...publicTeams]
 		})
+}
+
+function finduserTeamMembership(user_id){
+	return db("team_members")
+			.select("*")
+			.where({user_id})
+
 }
 
 
