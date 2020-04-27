@@ -34,11 +34,13 @@ function findById(video_id) {
 }
 //hi
 
+
 function findByUserId(user_id, organization_id) {
 	return db("videos")
-		.join("organizations_users","organizations_users.user_id","videos.owner_id")
-		.where({"videos.owner_id":user_id, "organizations_users.organization_id":organization_id})
-		.select("videos.*","organizations_users.organization_id")
+		.join("prompts","prompts.id","videos.prompt_id")
+		.join("teams","teams.id","prompts.team_id")
+		.where({"videos.owner_id":user_id,"teams.organization_id":organization_id})
+		.select("videos.*","teams.organization_id")
 		.orderBy("videos.created_at", "videos.desc")
 		.then(videos => {
 			console.log("video model", videos)
@@ -54,6 +56,27 @@ function findByUserId(user_id, organization_id) {
 			}))
 		})
 }
+
+// function findByUserId(user_id, organization_id) {
+// 	return db("videos")
+// 		.join("organizations_users","organizations_users.user_id","videos.owner_id")
+// 		.where({"videos.owner_id":user_id, "organizations_users.organization_id":organization_id})
+// 		.select("videos.*","organizations_users.organization_id")
+// 		.orderBy("videos.created_at", "videos.desc")
+// 		.then(videos => {
+// 			console.log("video model", videos)
+// 			return Promise.all(videos.map(async video => {
+// 				const feedback =  await db('feedback')
+// 										.join('users', 'users.id','feedback.owner_id')
+// 										.join('videos','videos.id','feedback.video_id')
+// 										.select('feedback.*','users.first_name','users.last_name','videos.title as video_title')
+// 						.where('feedback.video_id',video.id)
+// 				return {
+// 					...video,feedback
+// 				}
+// 			}))
+// 		})
+// }
 // function findByUserId(user_id) {
 // 	return db
 // 		.select("*")
