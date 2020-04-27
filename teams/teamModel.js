@@ -14,7 +14,10 @@ module.exports = {
 	getPromptsByTeamId,
 	getVideosByTeamId,
 	switchRole,
-	matchUserToTeam
+	matchUserToTeam,
+	findPublicTeams,
+	removeFromAllTeams,
+	finduserTeamMembership,
 };
 
 function find() {
@@ -30,8 +33,13 @@ function findById(id) {
 }
 
 function insert(team) {
-	return db("teams").insert(team, ["id", "name", "description", "created_at", "updated_at"]);
+	return db("teams").insert(team, ["id", "name", "description", "created_at", "updated_at", "organization_id"]);
 }
+
+// function insert(team) {
+// 	return db("teams").insert(team, ["id", "name", "description", "created_at", "updated_at"]);
+// }
+
 
 // Insert prompt
 function insertPrompt(prompt) {
@@ -39,10 +47,10 @@ function insertPrompt(prompt) {
 	return db("prompts").insert(prompt, ["id", "question", "description", "team_id", "created_at", "updated_at"]);
 }
 
-function findByUserId(userId) {
+function findByUserId(userId, organization_id) {
 	return db("teams")
 		.join("team_members", "teams.id", "team_members.team_id")
-		.where("team_members.user_id", userId)
+		.where({"team_members.user_id":userId, organization_id, team_type:"private"})
 		.orderBy("created_at", "desc")
 		.select(
 			"teams.id as id",
@@ -50,8 +58,27 @@ function findByUserId(userId) {
 			"teams.description as description",
 			"teams.created_at as created_at",
 			"teams.updated_at as updated_at",
-			"team_members.role_id as role_id"
-		);
+			"team_members.role_id as role_id",
+			"teams.organization_id"
+		)
+
+		.then( async (teamsByUserID) => {
+			const publicTeams = await findPublicTeams(organization_id)
+			return [...teamsByUserID, ...publicTeams]
+		})
+}
+
+function finduserTeamMembership(user_id){
+	return db("team_members")
+			.select("*")
+			.where({user_id})
+
+}
+
+
+function findPublicTeams(organization_id){
+	return db("teams")
+	.where({organization_id: organization_id, team_type: "public"})
 }
 
 
@@ -81,6 +108,15 @@ function remove(userId, teamId) {
 		.where({
 			user_id: userId,
 			team_id: teamId,
+		})
+		.del();
+}
+
+function removeFromAllTeams(userId) {
+	// delete from team_members where user_id = 2 and team_id = 1;
+	return db("team_members")
+		.where({
+			user_id: userId,
 		})
 		.del();
 }

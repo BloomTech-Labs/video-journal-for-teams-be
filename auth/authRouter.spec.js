@@ -126,6 +126,7 @@ describe("Login/Register routes", () => {
 						first_name: expect.any(String),
 						last_name: expect.any(String),
 						avatar: expect.any(String),
+						organization_id: expect.any(Number),
 					},
 					token: expect.any(String),
 				})
@@ -282,8 +283,8 @@ describe("Login/Register routes", () => {
 		it("authenticated request with email login auth token should be successful", async () => {
 			//To test valid signup scenario
 			const validUser = {
-				email: "test2@email.com",
-				password: "testPassword",
+				email: "asculpher0@independent.co.uk",
+				password: "4OTUUVDkYT",
 			};
 
 			return request(server)

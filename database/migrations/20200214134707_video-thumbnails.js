@@ -10,5 +10,9 @@ exports.up = function (knex) {
 };
 
 exports.down = function (knex) {
+	return knex.schema.table("videos", (tbl) => 
 	tbl.dropColumn("thumbnail")
+	)
 };
+
+

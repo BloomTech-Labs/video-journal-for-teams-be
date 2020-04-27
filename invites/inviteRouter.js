@@ -28,7 +28,7 @@ router.get("/:code", (req, res) => {
 				clg("INVALID")
 				res.status(406).json({ message: "Code is INVALID", team_id: -1 })
 			} else {
-				res.status(200).json({ team_id: invite.team_id })
+				res.status(200).json({ team_id: invite.team_id, organization_id:  invite.organization_id})
 			}
 
 		})

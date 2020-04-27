@@ -2,6 +2,7 @@ const express = require("express");
 const Users = require("../users/userModel.js");
 const Teams = require("../teams/teamModel.js");
 const Videos = require("../videos/videoModel.js");
+const Organizations = require("../organization/organizationModel.js")
 const router = express.Router();
 
 const shortId = require("shortid");
@@ -43,22 +44,33 @@ router.get("/:id", validateUserId, (req, res) => {
 });
 
 // 3. Fetch a user's teams
-router.get("/:id/teams", validateUserId, (req, res) => {
-	const { id } = req.params;
-
-	Teams.findByUserId(id)
+router.get("/:id/teams/:organization_id", validateUserId, (req, res) => {
+	const { id, organization_id } = req.params;
+	
+	Teams.findByUserId(id, organization_id)
 		.then((teams) => res.status(200).json(teams))
 		.catch((err) => res.status(500).json({ message: `Could not get teams for user ${id}.`, error: err }));
 });
 
 // 4. Fetch at user's videos
-router.get("/:id/videos", validateUserId, (req, res) => {
-	const { id } = req.params;
-
-	Videos.findByUserId(id)
-		.then((videos) => res.status(200).json(videos))
+router.get("/:id/videos/:organization_id", validateUserId, (req, res) => {
+	const { id, organization_id} = req.params;
+	console.log("video route", id, organization_id)
+	Videos.findByUserId(id, organization_id)
+		.then((videos) => 
+		{
+			console.log("videos router", videos)
+			res.status(200).json(videos)})
 		.catch((err) => res.status(500).json({ message: `Could not get videos for user ${id}.`, error: err }));
 });
+
+// router.get("/:id/videos", validateUserId, (req, res) => {
+// 	const { id } = req.params;
+
+// 	Videos.findByUserId(id)
+// 		.then((videos) => res.status(200).json(videos))
+// 		.catch((err) => res.status(500).json({ message: `Could not get videos for user ${id}.`, error: err }));
+// });
 
 // 5. Update a user's info
 router.put("/:id", validateUserId, verifyPassword, (req, res) => {
@@ -93,6 +105,14 @@ router.post("/:id/photo", upload.array('photo',1), (req, res) => {
 		.catch((err) => {
 			res.status(500).json({ message: "Could not upload photo.", error: err })
 		});
+});
+
+router.get("/:id/organizations", validateUserId, (req, res) => {
+	const { id } = req.params;
+
+	Organizations.getOrganzationsByUser(id)
+		.then((organizations) => res.status(200).json(organizations))
+		.catch((err) => res.status(500).json({ message: `Could not get organizations for user ${id}.`, error: err }));
 });
 
 module.exports = router;

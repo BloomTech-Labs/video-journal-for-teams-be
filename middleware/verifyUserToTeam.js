@@ -10,7 +10,10 @@ module.exports = async function verifyUserToTeam(req, res, next) {
 
 	const userPermission = await Teams.matchUserToTeam(userId, parseInt(teamId));
 
-	if (userPermission.length > 0) {
+	const userTeams = await Teams.findById(parseInt(teamId));
+
+	if (userPermission.length > 0 
+		|| userTeams.team_type === "public") {
 		next();
 	} else {
 		res.status(403).json({ message: "You have no permission to view this team." });
