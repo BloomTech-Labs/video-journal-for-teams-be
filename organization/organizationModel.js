@@ -7,7 +7,9 @@ module.exports = {
     getOrganzationsByUser,
     getTeamsByOrganization,
     getUsersByOrganization,
-    deleteOrganizationMember
+    deleteOrganizationMember,
+    findById,
+    switchOrgRole,
 
 }
 
@@ -55,4 +57,22 @@ function deleteOrganizationMember(org_id, member_id){
     .where({organization_id: org_id,  user_id: member_id})
     .del()
 
+}
+
+function switchOrgRole(organization_id, user_id, role_id) {
+	return db("organizations_users")
+        .update({ role_id })
+        .where({ organization_id, user_id })
+		.then((count) => {
+            console.log("count", count)
+			return getOrgRole(user_id, organization_id)
+			
+		})
+}
+
+
+function findById(id){
+    return db("organizations")
+    .where({id})
+    .first()
 }
