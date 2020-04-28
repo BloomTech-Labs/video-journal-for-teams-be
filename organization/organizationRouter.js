@@ -7,8 +7,14 @@ const greek = require("../invites/greekalpha.json");
 const router = express.Router();
 
 const {
+
   validateOrgOwnership,
+  validateOrganizationId,
+  validateOrgMembership,
+  validateOrganizationRole,
+  
 } = require("../middleware/middleware");
+const { isOrgOwner } = require("../utils/utils");
 
 //create an org
 router.post("/", (req, res) => {
@@ -121,5 +127,49 @@ router.delete("/:id/users", validateOrgOwnership, (req, res) => {
     );
 });
 
-//hii
+// organization role update
+router.put(
+  "/:id/users/:user_id/role",
+
+  validateOrganizationId,
+  validateOrgOwnership,
+  validateOrgMembership,
+  (req, res) => {
+    const organization_id = req.params.id;
+    const user_id = req.params.user_id;
+    const { role_id } = req.body;
+
+    console.log("from switch role", organization_id, user_id, role_id)
+
+    if (isOrgOwner(req.user.role_id)) {
+      if (!role_id) {
+        res.status(400).json({ message: "Missing role id." });
+      } else {
+        Organization.switchOrgRole(organization_id, user_id,role_id )
+          .then((updatedRole) =>
+            res
+              .status(200)
+              .json(
+                {
+                  message: `successfully updated ${user_id} in organization ${organization_id}.`,
+                  updatedRole,
+                })
+          )
+          .catch((err) =>
+         
+            res
+              .status(500)
+              .json({
+                message: `Could not update role for user ${user_id} in organization ${organization_id}.`,
+                error: err,
+              })
+          );
+      }
+    } else {
+      console.log("role", req.user.role_id)
+      res.status(403).json({ message: "Permission denied." });
+    }
+  }
+)
+
 module.exports = router;
