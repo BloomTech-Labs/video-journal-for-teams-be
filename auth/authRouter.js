@@ -41,11 +41,11 @@ router.post("/register", validateSignup, async function (req, res) {
 	Users.insert(user)
 		.then((userId) => {
 		
-			const io = req.app.get('io')
+			
 			user.id = userId[0];
 			//Login newly created user
 			res.status(201).json(loginSuccessBody(user));
-			io.emit('registeredUser');
+			
 		})
 		.catch((err) => {
 			if (err.code === "23505") {
