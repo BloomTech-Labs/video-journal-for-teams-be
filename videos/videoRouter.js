@@ -79,10 +79,11 @@ router.post("/:id/feedback", validateVideoId, validateFeedback, (req, res) => {
 router.put("/:id/feedback", validateVideoId, (req, res) => {
 	const { id } = req.params
 	const { userId } =req.body
+	const { organizationId } =req.body
 
-	Videos.updateViewedFeedbackByVideoId(id, userId )
+	Videos.updateViewedFeedbackByVideoId(id, userId, organizationId )
 	.then(videos => {
-		
+	
 		res.status(201).json(videos)
 
 	})
