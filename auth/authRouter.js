@@ -20,7 +20,7 @@ router.post("/login/username", passport.authenticate("username-login", { session
 // 3. register new user
 router.post("/register", validateSignup, async function (req, res) {
 	const user = req.user;
-
+	//
 	//Hash user password before storing in database
 	user.password = bcrypt.hashSync(user.password, 8);
 
@@ -41,11 +41,11 @@ router.post("/register", validateSignup, async function (req, res) {
 	Users.insert(user)
 		.then((userId) => {
 		
-			const io = req.app.get('io')
+			
 			user.id = userId[0];
 			//Login newly created user
 			res.status(201).json(loginSuccessBody(user));
-			io.emit('registeredUser');
+			
 		})
 		.catch((err) => {
 			if (err.code === "23505") {
