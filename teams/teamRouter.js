@@ -105,6 +105,8 @@ router.post(
         Teams.insertPrompt(promptdata)
           .then((prompt) => {
             res.status(201).json(prompt);
+            const io = req.app.get('io')
+		
             io.emit("createdPrompt");
           })
           .catch((err) =>
@@ -157,6 +159,8 @@ router.post("/:id/users", validateTeamId, (req, res) => {
 	
 	Teams.insertUser({user_id: body.user_id,  role_id: body.role_id, team_id: body.team_id})
       .then(() => {
+        const io = req.app.get('io')
+        io.emit('registeredUser');
         Organization.insertOrgUser({
           user_id: body.user_id,
           organization_id: req.body.organization_id,
