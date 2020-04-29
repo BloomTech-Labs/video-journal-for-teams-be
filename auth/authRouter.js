@@ -20,7 +20,7 @@ router.post("/login/username", passport.authenticate("username-login", { session
 // 3. register new user
 router.post("/register", validateSignup, async function (req, res) {
 	const user = req.user;
-
+	//
 	//Hash user password before storing in database
 	user.password = bcrypt.hashSync(user.password, 8);
 
