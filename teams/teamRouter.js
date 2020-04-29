@@ -5,7 +5,7 @@ const Videos = require("../videos/videoModel.js");
 const Invites = require("../invites/inviteModel.js");
 const greek = require("../invites/greekalpha.json");
 const Organization = require("../organization/organizationModel.js");
-
+const app = require("../api/server.js")
 const router = express.Router();
 
 const {
@@ -105,6 +105,7 @@ router.post(
         Teams.insertPrompt(promptdata)
           .then((prompt) => {
             res.status(201).json(prompt);
+            const io = req.app.get('io')
             io.emit("createdPrompt");
           })
           .catch((err) =>
