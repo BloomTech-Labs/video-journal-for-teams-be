@@ -400,9 +400,7 @@ router.post(
 						It will use the generated code to
 						UPDATE EXISTING in the db and return the code.
 					 */
-            console.log(
-              "Current team code exists, but is either expired or invalid, generating new code."
-            );
+           
             Invites.update(dbsend)
               .then((updated) => {
                 res

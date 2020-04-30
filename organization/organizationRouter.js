@@ -7,12 +7,10 @@ const greek = require("../invites/greekalpha.json");
 const router = express.Router();
 
 const {
-
   validateOrgOwnership,
   validateOrganizationId,
   validateOrgMembership,
   validateOrganizationRole,
-  
 } = require("../middleware/middleware");
 const { isOrgOwner } = require("../utils/utils");
 
@@ -82,41 +80,40 @@ router.delete("/:id/users", validateOrgOwnership, (req, res) => {
 
   Team.finduserTeamMembership(user_id)
     .then((teams) => {
-      
       if (teams.length > 0) {
         Team.removeFromAllTeams(user_id).then(() => {
           Organization.deleteOrganizationMember(id, user_id)
             .then((user) =>
               res
                 .status(200)
-                .json({ message: "deleted user from organization", user_id: user_id })
+                .json({
+                  message: "deleted user from organization",
+                  user_id: user_id,
+                })
             )
             .catch((err) =>
-              res
-                .status(500)
-                .json({
-                  message: "Cannot delete user from Organizaiton",
-                  error: err,
-                })
+              res.status(500).json({
+                message: "Cannot delete user from Organizaiton",
+                error: err,
+              })
             );
         });
       } else {
-
         Organization.deleteOrganizationMember(id, user_id)
-            .then((user) =>
-              res
-                .status(200)
-                .json({ message: "deleted user from organization", user_id: user_id })
-            )
-            .catch((err) =>
-              res
-                .status(500)
-                .json({
-                  message: "Cannot delete user from Organizaiton",
-                  error: err,
-                })
-            )
-
+          .then((user) =>
+            res
+              .status(200)
+              .json({
+                message: "deleted user from organization",
+                user_id: user_id,
+              })
+          )
+          .catch((err) =>
+            res.status(500).json({
+              message: "Cannot delete user from Organizaiton",
+              error: err,
+            })
+          );
       }
     })
 
@@ -139,37 +136,29 @@ router.put(
     const user_id = req.params.user_id;
     const { role_id } = req.body;
 
-    console.log("from switch role", organization_id, user_id, role_id)
-
     if (isOrgOwner(req.user.role_id)) {
       if (!role_id) {
         res.status(400).json({ message: "Missing role id." });
       } else {
-        Organization.switchOrgRole(organization_id, user_id,role_id )
+        Organization.switchOrgRole(organization_id, user_id, role_id)
           .then((updatedRole) =>
-            res
-              .status(200)
-              .json(
-                {
-                  message: `successfully updated ${user_id} in organization ${organization_id}.`,
-                  updatedRole,
-                })
+            res.status(200).json({
+              message: `successfully updated ${user_id} in organization ${organization_id}.`,
+              updatedRole,
+            })
           )
           .catch((err) =>
-         
-            res
-              .status(500)
-              .json({
-                message: `Could not update role for user ${user_id} in organization ${organization_id}.`,
-                error: err,
-              })
+            res.status(500).json({
+              message: `Could not update role for user ${user_id} in organization ${organization_id}.`,
+              error: err,
+            })
           );
       }
     } else {
-      console.log("role", req.user.role_id)
+    
       res.status(403).json({ message: "Permission denied." });
     }
   }
-)
+);
 
 module.exports = router;

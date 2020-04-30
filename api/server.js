@@ -26,13 +26,9 @@ server.set('io',io);
 
 
 io.on('connect', (socket) => {
-	console.log('socket connection established');
 
 	socket.emit('connected', 'Established connection with the client')
 
-	// socket.on('disconnect', () => {
-	// 	console.log('socket disconnected')
-	// })
 })
 
 server.use(helmet());
