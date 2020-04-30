@@ -21,9 +21,7 @@ To get the server running locally:
 - **yarn test** to start server using testing environment
 - **yarn coverage** to generate test coverage report
 
-## Endpoints
 
-API Endpoint documentation is [**available on netlify**](https://alpacavid-api-doc.netlify.com/). 
 
 ---
 
@@ -55,6 +53,32 @@ API Endpoint documentation is [**available on netlify**](https://alpacavid-api-d
 }
 ```
 
+
+#### ORGANIZATIONS
+
+---
+
+```
+{
+  id: AUTO INCREMENT ID
+  name: STRING, NOT NULLABLE
+
+}
+```
+
+#### ORGANIZATIONS_USERS
+
+---
+
+```
+{
+  user_id: FOREIGN KEY
+  organization_id: FOREIGN KEY
+  role_id: FOREIGN KEY
+}
+```
+
+
 #### TEAMS
 
 ---
@@ -66,6 +90,7 @@ API Endpoint documentation is [**available on netlify**](https://alpacavid-api-d
   description: STRING, NOT NULLABLE
   created_at: TIME_STAMP, DEFAULTS_TO(knex.fn.now()), NOT NULLABLE
   updated_at: TIME_STAMP, DEFAULTS_TO(knex.fn.now()), NOT NULLABLE
+  organization_id:FOREIGN KEY
 }
 ```
 
@@ -125,10 +150,11 @@ API Endpoint documentation is [**available on netlify**](https://alpacavid-api-d
   owner_id: FOREIGN KEY
   created_at: TIME_STAMP, DEFAULTS_TO(knex.fn.now()), NOT NULLABLE
   updated_at: TIME_STAMP, DEFAULTS_TO(knex.fn.now()), NOT NULLABLE
+  viewed: BOOLEAN
 }
 ```
 
-#### INVITATION CODE
+#### TEAM_INVITATION_LINK
 
 ---
 
@@ -139,7 +165,8 @@ API Endpoint documentation is [**available on netlify**](https://alpacavid-api-d
 	link: STRING
 	isValid: BOOL
 	created_at: TIMESTAMP
-	expires_at: TIMESTAMP.
+	expires_at: TIMESTAMP
+  organization_id: FOREIGN KEY
 }
 ```
 
@@ -170,6 +197,7 @@ create a .env file that includes the following:
 - AWS_ACCESS_KEY_ID
 - AWS_SECRET_ACCESS_KEY
 - AWS_S3_BUCKET
+- SENDGRID_API_KEY = *secure passphrase*
 
 ## Contributing
 
