@@ -4,14 +4,43 @@ const Avatars = require("../avatars/avatarModel");
 const passport = require("passport");
 const bcrypt = require("bcrypt");
 const router = express.Router();
+// const db = require("../user");
 
 const { signToken, validateSignup } = require("../middleware/middleware");
 
 // 1. Login with email
+
+router.post("/test", (req, res) => {
+  Users.findByEmail(req.body.email).then(async (u) => {
+    if (u == undefined) {
+      let user = req.body;
+      user.password = bcrypt.hashSync(user.password, 8);
+
+      //Pick a random avatar and assign it to new user
+      const avatar = Avatars.find()
+        .then((avatars) => {
+          const index = Math.floor(Math.random() * (avatars.length - 1));
+          return avatars[index].src;
+        })
+        .catch((err) => {
+          res.status(500).json({
+            message: `Could not assign avatar ${avatar} to user ${user}.`,
+          });
+        });
+
+      user.avatar = avatar;
+      Users.insert(user).then((user) => res.status(201).json(user));
+    } else {
+      res.status(200).json(u);
+    }
+  });
+});
+
 router.post(
   "/login/email",
   passport.authenticate("email-login", { session: false }),
   function (req, res) {
+    console.log(req.body);
     res.status(200).json(loginSuccessBody(req.user));
   }
 );
@@ -39,11 +68,9 @@ router.post("/register", validateSignup, async function (req, res) {
       return avatars[index].src;
     })
     .catch((err) => {
-      res
-        .status(500)
-        .json({
-          message: `Could not assign avatar ${avatar} to user ${user}.`,
-        });
+      res.status(500).json({
+        message: `Could not assign avatar ${avatar} to user ${user}.`,
+      });
     });
 
   user.avatar = avatar;
