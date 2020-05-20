@@ -27,4 +27,19 @@ router.get("/:id/organizations", (req, res) => {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
+router.get("/:id/teams/:org_id", (req, res) => {
+  const { id, org_id } = req.params;
+
+  Teams.findByUserId(id, org_id)
+    .then((teams) => res.status(200).json(teams))
+    .catch((err) => res.status(500).json({ error: err }));
+});
+
+router.get("/:id/videos/:org_id", (req, res) => {
+  const { id, org_id } = req.params;
+
+  Videos.findByUserId(id, org_id)
+    .then((vids) => res.status(200).json(vids))
+    .catch((err) => res.status(500).json({ error: err }));
+});
 module.exports = router;
