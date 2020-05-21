@@ -3,6 +3,9 @@ const router = express.Router();
 const Teams = require("../teams/teamModel");
 const Organization = require("../organization/organizationModel");
 const validateTeamId = require("../middleware/validateUserId");
+const isTeamLead = require("../utils/isTeamLead");
+const verifyUserToTeam = require("../middleware/verifyUserToTeam");
+const ValidateMembership = require("../middleware/validateMembership");
 
 //fetch all teams (for testing api)
 
@@ -104,4 +107,40 @@ router.get("/:id/videos", async (req, res) => {
   }
 });
 
+// delete a user from the team if team lead
+
+router.delete(
+  "/:id/users/:user_id/",
+  validateTeamId,
+  verifyUserToTeam,
+  async (req, res) => {
+    const { id, user_id } = req.params;
+    const role = await Teams.getUserRole(id, user_id);
+
+    if (!role) {
+      res
+        .status(404)
+        .json({ message: `user with id of ${user_id} is not on the team` });
+    } else {
+      if (isTeamLead(role.role_id)) {
+        user_id &&
+          Teams.remove(user_id, id).then((count) =>
+            count > 0
+              ? res.status(200).json({
+                  message: `user with id of ${user_id} successfully deleted from team`,
+                })
+              : res
+                  .status(404)
+                  .json({
+                    message: `unable to find user with id of ${user_id}`,
+                  })
+          );
+      } else {
+        res
+          .status(403)
+          .json({ message: `you don't have permission to delete teammates` });
+      }
+    }
+  }
+);
 module.exports = router;
