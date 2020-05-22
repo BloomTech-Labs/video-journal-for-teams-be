@@ -5,7 +5,7 @@ const Strategy = require("passport-local").Strategy;
 
 passport.use(
   "email-login",
-  new Strategy({ usernameField: "email" }, function(email, password, verify) {
+  new Strategy({ usernameField: "email" }, function (email, password, verify) {
     db.findByEmail(email)
       .then((user) => {
         if (!user) {
@@ -17,7 +17,7 @@ passport.use(
         return verify(null, user);
       })
       .catch((err) => {
-        return verify(err,"testtest");
+        return verify(err, "testtest");
       });
   })
 );

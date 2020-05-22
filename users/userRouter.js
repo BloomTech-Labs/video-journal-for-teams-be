@@ -61,7 +61,6 @@ router.get("/:id/teams/:organization_id", validateUserId, (req, res) => {
 // 4. Fetch at user's videos
 router.get("/:id/videos/:organization_id", validateUserId, (req, res) => {
   const { id, organization_id } = req.params;
-
   Videos.findByUserId(id, organization_id)
     .then((videos) => {
       res.status(200).json(videos);
