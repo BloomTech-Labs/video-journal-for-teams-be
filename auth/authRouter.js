@@ -17,7 +17,7 @@ router.post("/test", (req, res) => {
       user.password = bcrypt.hashSync(user.password, 8);
 
       //Pick a random avatar and assign it to new user
-      const avatar = Avatars.find()
+      const avatar = await Avatars.find()
         .then((avatars) => {
           const index = Math.floor(Math.random() * (avatars.length - 1));
           return avatars[index].src;
@@ -29,6 +29,7 @@ router.post("/test", (req, res) => {
         });
 
       user.avatar = avatar;
+      console.log(user);
       Users.insert(user).then((user) => res.status(201).json(user));
     } else {
       res.status(200).json(u);
@@ -40,7 +41,6 @@ router.post(
   "/login/email",
   passport.authenticate("email-login", { session: false }),
   function (req, res) {
-    console.log(req.body);
     res.status(200).json(loginSuccessBody(req.user));
   }
 );

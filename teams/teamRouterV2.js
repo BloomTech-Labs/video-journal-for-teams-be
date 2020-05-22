@@ -2,9 +2,11 @@ const express = require("express");
 const router = express.Router();
 const Teams = require("../teams/teamModel");
 const Organization = require("../organization/organizationModel");
+const Invites = require("../invites/inviteModel");
 const validateTeamId = require("../middleware/validateUserId");
 const isTeamLead = require("../utils/isTeamLead");
 const verifyUserToTeam = require("../middleware/verifyUserToTeam");
+const greek = require("../invites/greekalpha.json");
 const ValidateMembership = require("../middleware/validateMembership");
 
 //fetch all teams (for testing api)
@@ -129,11 +131,9 @@ router.delete(
               ? res.status(200).json({
                   message: `user with id of ${user_id} successfully deleted from team`,
                 })
-              : res
-                  .status(404)
-                  .json({
-                    message: `unable to find user with id of ${user_id}`,
-                  })
+              : res.status(404).json({
+                  message: `unable to find user with id of ${user_id}`,
+                })
           );
       } else {
         res
@@ -143,4 +143,69 @@ router.delete(
     }
   }
 );
+
+//create invitation link
+router.post(
+  "/:id/invite/:user_id",
+  validateTeamId,
+  verifyUserToTeam,
+  async (req, res) => {
+    const team_id = req.params.id;
+    const { user_id } = req.params;
+    const { team_name, org_id } = req.body;
+    const role = await Teams.getUserRole(team_id, user_id);
+    console.log(role, user_id, team_id, org_id);
+    //check for proper role permissions
+    if (role.role_id !== 3 && role.role_id !== 2) {
+      res.status(403).json({ error: "insufficient role to invite user" });
+    } else {
+      //check for required properties
+      if (!team_id || !team_name || !org_id) {
+        res.status(400).json({ message: "must contain org_id and team_name" });
+      }
+
+      //generate new invite code (see gencode function below) and create object  to send to DB
+      const newcode = genCode(team_name);
+      const dbsend = { team_id, organization_id: org_id, newcode: newcode };
+
+      Invites.findByTeam(team_id)
+        .then((invite) => {
+          const expires = Date.parse(invite.expires_at);
+
+          if (expires > Date.now() && invite.isValid) {
+            Invites.update(dbsend)
+              .then((updated) => res.status(200).json({ ...updated }))
+              .catch((err) => res.status(500).json({ error: err }));
+          }
+        })
+        .catch(() => {
+          Invites.insert(dbsend)
+            .then((inserted) => res.status(200).json({ ...inserted }))
+            .catch((err) => {
+              err.details.includes('not present in table "teams"')
+                ? res.status(400).json({
+                    message: `team with id of ${team_id} does not exist`,
+                  })
+                : res.status(500).json({ error: err });
+            });
+        });
+    }
+  }
+);
+function genCode(team_name) {
+  // generate a new code using the first part of name and 3 greek characters
+  let cull = team_name.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+  firstword = cull.split(" ")[0];
+  const newcode =
+    greek[rand(greek.length)] +
+    greek[rand(greek.length)] +
+    greek[rand(greek.length)];
+  return `${firstword}-${newcode}`;
+}
+
+function rand(max) {
+  // generate a random number from 0 to "max" argument
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
 module.exports = router;
