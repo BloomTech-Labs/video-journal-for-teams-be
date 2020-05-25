@@ -4,16 +4,19 @@ const Avatars = require("../avatars/avatarModel");
 const passport = require("passport");
 const bcrypt = require("bcrypt");
 const router = express.Router();
-// const db = require("../user");
 
 const { signToken, validateSignup } = require("../middleware/middleware");
 
-// 1. Login with email
-
+//Okta Auth Login/Register.
+//Checks if user exists in Database (we will get user's registering through Okta), if not creates a user with credentials provided by Okta and log's them in.
+//If a registered user, log's them in
 router.post("/test", (req, res) => {
   Users.findByEmail(req.body.email).then(async (u) => {
     if (u == undefined) {
       let user = req.body;
+      //this hashes the subject id as a password
+      //In future, remove password column from table, as Okta will handle storing this sensitive info.
+      //Password field currently needs to remain in place for iOS, as they are using basic Auth through v1 of api.
       user.password = bcrypt.hashSync(user.password, 8);
 
       //Pick a random avatar and assign it to new user
@@ -37,6 +40,7 @@ router.post("/test", (req, res) => {
   });
 });
 
+//email login
 router.post(
   "/login/email",
   passport.authenticate("email-login", { session: false }),
