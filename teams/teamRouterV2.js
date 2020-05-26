@@ -33,7 +33,7 @@ router.post("/", (req, res) => {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
-//fetch all users in a team
+//add user to a team
 
 router.post("/:id/users", (req, res) => {
   const { id } = req.params;
@@ -74,7 +74,7 @@ router.get("/:id", validateTeamId, (req, res) => {
 
   Teams.findById(id)
     .then((team) => res.status(200).json(team))
-    .catch((err) => console.log(err));
+    .catch((err) => res.status(500).json({ error: err }));
 });
 
 //fetch team users
@@ -217,13 +217,11 @@ router.post(
 
       Invites.findByTeam(team_id)
         .then((invite) => {
-          console.log("invite", invite);
           const expires = Date.parse(invite.expires_at);
           //checks if expired, if it is, updates the inivitation
           if (expires < Date.now() || !invite.isValid) {
             Invites.update(dbsend)
               .then((updated) => {
-                console.log("updated", updated);
                 res.status(200).json({
                   message: "team code expiration updated",
                   ...updated,
