@@ -19,6 +19,7 @@ const OrganizationRouter = require("../organization/organizationRouter");
 const userRouterV2 = require("../users/userV2Router");
 const OrganizationRouterV2 = require("../organization/organizationRouterV2");
 const TeamsRouterV2 = require("../teams/teamRouterV2");
+const VideoRouterV2 = require("../videos/videoRouterV2");
 
 const server = express();
 
@@ -38,6 +39,7 @@ server.use(express.json());
 server.use(passport.initialize());
 
 server.use("/api/auth", AuthRouter);
+
 server.use("/api/v2/users", userRouterV2);
 server.use(
   "/api/users",
@@ -50,11 +52,14 @@ server.use(
   TeamRouter
 );
 server.use("/api/v2/teams", TeamsRouterV2);
+
 server.use(
   "/api/videos",
   passport.authenticate("jwt", { session: false }),
   VideoRouter
 );
+
+server.use("/api/v2/videos", VideoRouterV2);
 server.use("/api/invites", InviteRouter);
 server.use("/api/avatars", AvatarRouter);
 server.use("/api/email", EmailRouter);

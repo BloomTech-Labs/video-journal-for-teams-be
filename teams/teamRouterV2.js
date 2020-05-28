@@ -7,7 +7,6 @@ const validateTeamId = require("../middleware/validateUserId");
 const isTeamLead = require("../utils/isTeamLead");
 const verifyUserToTeam = require("../middleware/verifyUserToTeam");
 const greek = require("../invites/greekalpha.json");
-const ValidateMembership = require("../middleware/validateMembership");
 
 //fetch all teams (for testing api)
 
@@ -34,13 +33,12 @@ router.post("/", (req, res) => {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
-//fetch all users in a team
+//add user to a team
 
 router.post("/:id/users", (req, res) => {
   const { id } = req.params;
 
   const body = { ...req.body, team_id: id };
-  console.log(req.body, id, body);
 
   if (body.team_id && body.user_id && body.role_id && body.organization_id) {
     const user = {
@@ -76,7 +74,7 @@ router.get("/:id", validateTeamId, (req, res) => {
 
   Teams.findById(id)
     .then((team) => res.status(200).json(team))
-    .catch((err) => console.log(err));
+    .catch((err) => res.status(500).json({ error: err }));
 });
 
 //fetch team users
@@ -109,6 +107,55 @@ router.get("/:id/videos", async (req, res) => {
   }
 });
 
+//fetch prompts created by a team
+
+router.get("/:id/prompts", (req, res) => {
+  const { id } = req.params;
+
+  Teams.getPromptsByTeamId(id)
+    .then((prompts) => res.status(200).json(prompts))
+    .catch((err) =>
+      res
+        .status(500)
+        .json({ message: `Could not get prompts for team ${id}`, error: err })
+    );
+});
+
+//add a prompt
+router.post(
+  "/:id/prompts/:user_id",
+  validateTeamId,
+  verifyUserToTeam,
+  async (req, res) => {
+    const { id, user_id } = req.params;
+    console.log(id, user_id);
+    const { body } = req;
+    const propmptData = {
+      ...body,
+      team_id: id,
+    };
+
+    const role = await Teams.getUserRole(id, user_id);
+
+    if (role.role_id === 2) {
+      if (!body.question || !body.description) {
+        res
+          .status(400)
+          .json({ message: "Needs to have question and description" });
+      }
+      Teams.insertPrompt(propmptData)
+        .then((prompt) => {
+          const io = req.app.get("io");
+          res.status(201).json(prompt);
+          io.emit("createdPrompt");
+        })
+        .catch((err) => res.status(500).json({ error: err }));
+    } else {
+      res.status(403).json({ message: "permission denied" });
+    }
+  }
+);
+
 // delete a user from the team if team lead
 
 router.delete(
@@ -119,6 +166,7 @@ router.delete(
     const { id, user_id } = req.params;
     const role = await Teams.getUserRole(id, user_id);
 
+    //check for proper team roles, if undefined, not on team.
     if (!role) {
       res
         .status(404)
@@ -144,17 +192,49 @@ router.delete(
   }
 );
 
+//update team name/description
+router.put("/:id", validateTeamId, (req, res) => {
+  const updates = {
+    ...req.body,
+    updated_at: new Date(Date.now()).toISOString(),
+  };
+  const { id } = req.params;
+
+  if (updates.name || updates.description) {
+    Teams.update(id, updates)
+      .then((count) => {
+        if (count > 0) {
+          res.status(200).json(count);
+        } else {
+          res
+            .status(404)
+            .json({ message: `Team ${id} is not available for update.` });
+        }
+      })
+      .catch((err) =>
+        res.status(500).json({
+          message: `Could not update information for team ${id}.`,
+          error: err,
+        })
+      );
+  } else {
+    res
+      .status(400)
+      .json({ message: "Must have a team name or description to update." });
+  }
+});
+
 //create invitation link
 router.post(
   "/:id/invite/:user_id",
   validateTeamId,
   verifyUserToTeam,
   async (req, res) => {
-    const team_id = req.params.id;
+    const team_id = +req.params.id;
     const { user_id } = req.params;
     const { team_name, org_id } = req.body;
     const role = await Teams.getUserRole(team_id, user_id);
-    console.log(role, user_id, team_id, org_id);
+
     //check for proper role permissions
     if (role.role_id !== 3 && role.role_id !== 2) {
       res.status(403).json({ error: "insufficient role to invite user" });
@@ -164,21 +244,27 @@ router.post(
         res.status(400).json({ message: "must contain org_id and team_name" });
       }
 
-      //generate new invite code (see gencode function below) and create object  to send to DB
+      //generate new invite code (see gencode function below) and create object to send to DB
       const newcode = genCode(team_name);
       const dbsend = { team_id, organization_id: org_id, newcode: newcode };
 
       Invites.findByTeam(team_id)
         .then((invite) => {
           const expires = Date.parse(invite.expires_at);
-
-          if (expires > Date.now() && invite.isValid) {
+          //checks if expired, if it is, updates the inivitation
+          if (expires < Date.now() || !invite.isValid) {
             Invites.update(dbsend)
-              .then((updated) => res.status(200).json({ ...updated }))
+              .then((updated) => {
+                res.status(200).json({
+                  message: "team code expiration updated",
+                  ...updated,
+                });
+              })
               .catch((err) => res.status(500).json({ error: err }));
           }
         })
         .catch(() => {
+          //if invite for team doesn't exist, insert created invitation
           Invites.insert(dbsend)
             .then((inserted) => res.status(200).json({ ...inserted }))
             .catch((err) => {
@@ -192,6 +278,13 @@ router.post(
     }
   }
 );
+
+router.delete("/:id", (req, res) => {
+  const { id } = req.params;
+  Teams.deleteTeam(id)
+    .then((deleted) => res.sendStatus(204))
+    .catch((err) => res.status(500).json({ error: err }));
+});
 function genCode(team_name) {
   // generate a new code using the first part of name and 3 greek characters
   let cull = team_name.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
