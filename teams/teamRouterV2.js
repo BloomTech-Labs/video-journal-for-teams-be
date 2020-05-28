@@ -121,6 +121,7 @@ router.get("/:id/prompts", (req, res) => {
     );
 });
 
+//add a prompt
 router.post(
   "/:id/prompts/:user_id",
   validateTeamId,
@@ -191,6 +192,38 @@ router.delete(
   }
 );
 
+//update team name/description
+router.put("/:id", validateTeamId, (req, res) => {
+  const updates = {
+    ...req.body,
+    updated_at: new Date(Date.now()).toISOString(),
+  };
+  const { id } = req.params;
+
+  if (updates.name || updates.description) {
+    Teams.update(id, updates)
+      .then((count) => {
+        if (count > 0) {
+          res.status(200).json(count);
+        } else {
+          res
+            .status(404)
+            .json({ message: `Team ${id} is not available for update.` });
+        }
+      })
+      .catch((err) =>
+        res.status(500).json({
+          message: `Could not update information for team ${id}.`,
+          error: err,
+        })
+      );
+  } else {
+    res
+      .status(400)
+      .json({ message: "Must have a team name or description to update." });
+  }
+});
+
 //create invitation link
 router.post(
   "/:id/invite/:user_id",
@@ -245,6 +278,13 @@ router.post(
     }
   }
 );
+
+router.delete("/:id", (req, res) => {
+  const { id } = req.params;
+  Teams.deleteTeam(id)
+    .then((deleted) => res.sendStatus(204))
+    .catch((err) => res.status(500).json({ error: err }));
+});
 function genCode(team_name) {
   // generate a new code using the first part of name and 3 greek characters
   let cull = team_name.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");

@@ -19,7 +19,7 @@ router.post("/test", (req, res) => {
       //Password field currently needs to remain in place for iOS, as they are using basic Auth through v1 of api.
       user.password = bcrypt.hashSync(user.password, 8);
 
-      //Pick a random avatar and assign it to new user
+      // Pick a random avatar and assign it to new user
       const avatar = await Avatars.find()
         .then((avatars) => {
           const index = Math.floor(Math.random() * (avatars.length - 1));
