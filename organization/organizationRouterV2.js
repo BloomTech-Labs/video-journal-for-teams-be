@@ -1,6 +1,7 @@
 const express = require("express");
 const Organizations = require("../organization/organizationModel");
 const router = express.Router();
+const Teams = require("../teams/teamModel");
 
 // router.get("/", (req, res) => {
 //   Organizations.findById(1)
@@ -57,5 +58,24 @@ router.get("/:id/teams", (req, res) => {
   Organizations.getTeamsByOrganization(id)
     .then((teams) => res.status(200).json(teams))
     .catch((err) => res.status(500).json({ error: err }));
+});
+
+router.delete("/:id/users", (req, res) => {
+  const { id } = req.params;
+  const { user_id } = req.body;
+
+  Teams.finduserTeamMembership(user_id).then((teams) => {
+    if (teams.length) {
+      Teams.removeFromAllTeams(user_id).then(() => {
+        Organizations.deleteOrganizationMember(id, user_id)
+          .then(() => res.sendStatus(204))
+          .catch((err) => res.status(500).json({ error: err }));
+      });
+    } else {
+      Organizations.deleteOrganizationMember(id, user_id)
+        .then(() => res.sendStatus(204))
+        .catch((err) => res.status(500).json({ error: err }));
+    }
+  });
 });
 module.exports = router;
