@@ -252,7 +252,7 @@ router.post(
         .then((invite) => {
           const expires = Date.parse(invite.expires_at);
           //checks if expired, if it is, updates the inivitation
-          if (expires < Date.now() || !invite.isValid) {
+          if (expires > Date.now() || !invite.isValid) {
             Invites.update(dbsend)
               .then((updated) => {
                 res.status(200).json({

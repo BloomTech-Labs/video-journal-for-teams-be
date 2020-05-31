@@ -4,6 +4,11 @@ const shortId = require("shortid");
 const multer = require("multer");
 const multerS3 = require("multer-s3");
 const AWS = require("aws-sdk");
+const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
+const ffmpeg = require("fluent-ffmpeg");
+ffmpeg.setFfmpegPath(ffmpegPath);
+const fs = require("fs");
+const path = require("path");
 
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -12,13 +17,16 @@ AWS.config.update({
 
 const s3 = new AWS.S3();
 
+var storage = multer.memoryStorage();
+var upload1 = multer({ dest: "uploads/" });
+
 const upload = multer({
   storage: multerS3({
     s3: s3,
     bucket: process.env.AWS_S3_BUCKET,
     acl: "public-read",
     key: function (req, file, cb) {
-      cb(null, `videos/ALPACAVID-${shortId.generate()}.webm`);
+      cb(null, `videos/ALPACAVID-${shortId.generate()}.mp4`);
     },
   }),
 });
@@ -100,17 +108,53 @@ router.put("/:id/feedback", validateVideoId, (req, res) => {
     });
 });
 
-// 5. Add a new video
-router.post("/", upload.array("video", 1), (req, res) => {
-  const { title, description, owner_id, prompt_id } = req.body;
+// upload.array("video", 1),
 
+// 5. Add a new video
+router.post("/", upload1.array("video", 1), async (req, res) => {
+  let jsonPath = path.join(__dirname, "..", "uploads", req.files[0].filename);
+  const correct = String(jsonPath).replace(/\\/g, "/");
+  const filepath = `videos/ALPACAVID-${shortId.generate()}.mp4`;
+
+  ffmpeg(`${correct}`)
+    .output(`${correct}.mp4`)
+    // .noAudio()
+    .audioCodec("aac")
+    .videoCodec("copy")
+    .on("end", function () {
+      console.log("conversion ended");
+      s3.putObject(
+        {
+          ACL: "public-read",
+          Bucket: process.env.AWS_S3_BUCKET,
+          Key: filepath,
+          Body: fs.readFileSync(`${correct}.mp4`),
+          // ContentType: metaData,
+        },
+        function (error, response) {
+          console.log(error, response);
+          fs.unlinkSync(correct);
+          fs.unlinkSync(`${correct}.mp4`);
+          // console.log(arguments);
+        }
+      );
+      // callback(null);
+    })
+    .on("error", function (err) {
+      console.log("error: ", err);
+      callback(err);
+    })
+    .run();
+
+  const { title, description, owner_id, prompt_id } = req.body;
   const newVideo = {
     owner_id: owner_id,
     title: title,
     description: description,
-    video_url: req.files[0].key,
+    video_url: filepath,
     prompt_id: prompt_id,
   };
+  console.log(newVideo);
 
   Videos.insert(newVideo)
     .then((video) => {
