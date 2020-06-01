@@ -13,7 +13,8 @@ const {
   validateTeamData,
   validateMembership,
   validateOrganizationRole,
-  verifyUserToTeam,
+  // verifyUserToTeam,
+  verifyUserBelongsToTeam,
 } = require("../middleware/middleware");
 const { isTeamLead, isOrgOwner } = require("../utils/utils");
 
@@ -27,44 +28,54 @@ router.get("/", (req, res) => {
 });
 
 // 2. Fetch team by id
-router.get("/:id", validateTeamId, verifyUserToTeam, (req, res) => {
+router.get("/:id", validateTeamId, verifyUserBelongsToTeam, (req, res) => {
   res.status(200).json(req.team);
 });
 
 // 3. Fetch users in a team
-router.get("/:id/users", validateTeamId, verifyUserToTeam, (req, res) => {
-  const { id } = req.params;
+router.get(
+  "/:id/users",
+  validateTeamId,
+  verifyUserBelongsToTeam,
+  (req, res) => {
+    const { id } = req.params;
 
-  Teams.getUsersByTeamId(id)
-    .then((users) => {
-      res.status(200).json(users);
-    })
+    Teams.getUsersByTeamId(id)
+      .then((users) => {
+        res.status(200).json(users);
+      })
 
-    .catch((err) =>
-      res
-        .status(500)
-        .json({ message: `Could not get users for team ${id}`, error: err })
-    );
-});
+      .catch((err) =>
+        res
+          .status(500)
+          .json({ message: `Could not get users for team ${id}`, error: err })
+      );
+  }
+);
 
 // 4. Fetch prompts created by a team
-router.get("/:id/prompts", validateTeamId, verifyUserToTeam, (req, res) => {
-  const { id } = req.params;
+router.get(
+  "/:id/prompts",
+  validateTeamId,
+  verifyUserBelongsToTeam,
+  (req, res) => {
+    const { id } = req.params;
 
-  Teams.getPromptsByTeamId(id)
-    .then((prompts) => res.status(200).json(prompts))
-    .catch((err) =>
-      res
-        .status(500)
-        .json({ message: `Could not get prompts for team ${id}`, error: err })
-    );
-});
+    Teams.getPromptsByTeamId(id)
+      .then((prompts) => res.status(200).json(prompts))
+      .catch((err) =>
+        res
+          .status(500)
+          .json({ message: `Could not get prompts for team ${id}`, error: err })
+      );
+  }
+);
 
 // 5. Fetch team videos nested in prompt array
 router.get(
   "/:id/videos",
   validateTeamId,
-  verifyUserToTeam,
+  verifyUserBelongsToTeam,
   async (req, res) => {
     const { id } = req.params;
 
@@ -87,7 +98,7 @@ router.get(
 router.post(
   "/:id/prompts",
   validateTeamId,
-  verifyUserToTeam,
+  verifyUserBelongsToTeam,
   validateMembership,
   (req, res) => {
     const { body } = req;
@@ -105,8 +116,8 @@ router.post(
         Teams.insertPrompt(promptdata)
           .then((prompt) => {
             res.status(201).json(prompt);
-            const io = req.app.get('io')
-		
+            const io = req.app.get("io");
+
             io.emit("createdPrompt");
           })
           .catch((err) =>
@@ -137,12 +148,10 @@ router.post("/", validateTeamData, (req, res) => {
           result.rowCount === 1 ? res.status(201).json(team) : null;
         })
         .catch((err) =>
-          res
-            .status(500)
-            .json({
-              message: `Could not insert ${req.user.id} into team ${team.id}.`,
-              error: err,
-            })
+          res.status(500).json({
+            message: `Could not insert ${req.user.id} into team ${team.id}.`,
+            error: err,
+          })
         );
     })
     .catch((err) =>
@@ -156,11 +165,14 @@ router.post("/:id/users", validateTeamId, (req, res) => {
   const body = { ...req.body, team_id: id };
 
   if (body.team_id && body.user_id && body.role_id && body.organization_id) {
-	
-	Teams.insertUser({user_id: body.user_id,  role_id: body.role_id, team_id: body.team_id})
+    Teams.insertUser({
+      user_id: body.user_id,
+      role_id: body.role_id,
+      team_id: body.team_id,
+    })
       .then(() => {
-        const io = req.app.get('io')
-        io.emit('registeredUser');
+        const io = req.app.get("io");
+        io.emit("registeredUser");
         Organization.insertOrgUser({
           user_id: body.user_id,
           organization_id: req.body.organization_id,
@@ -172,12 +184,10 @@ router.post("/:id/users", validateTeamId, (req, res) => {
             }
           })
           .catch((err) => {
-            res
-              .status(500)
-              .json({
-                message: `Could not add user to organization`,
-                error: err,
-              });
+            res.status(500).json({
+              message: `Could not add user to organization`,
+              error: err,
+            });
           });
       })
       .catch((err) => {
@@ -196,7 +206,7 @@ router.post("/:id/users", validateTeamId, (req, res) => {
 router.delete(
   "/:id/users/:user_id",
   validateTeamId,
-  verifyUserToTeam,
+  verifyUserBelongsToTeam,
   validateMembership,
   (req, res) => {
     const teamId = req.params.id;
@@ -207,27 +217,21 @@ router.delete(
         Teams.remove(userId, teamId)
           .then((count) => {
             if (count > 0) {
-              res
-                .status(200)
-                .json({
-                  count: count,
-                  message: `User ${userId} has been removed successfully.`,
-                });
+              res.status(200).json({
+                count: count,
+                message: `User ${userId} has been removed successfully.`,
+              });
             } else {
-              res
-                .status(404)
-                .json({
-                  count: count,
-                  message: `User ${userId} not found in team.`,
-                });
+              res.status(404).json({
+                count: count,
+                message: `User ${userId} not found in team.`,
+              });
             }
           })
           .catch((err) =>
-            res
-              .status(500)
-              .json({
-                message: `Could not update information for team ${teamid}.`,
-              })
+            res.status(500).json({
+              message: `Could not update information for team ${teamid}.`,
+            })
           );
       }
     } else {
@@ -237,7 +241,7 @@ router.delete(
 );
 
 // 10. Update team info
-router.put("/:id", validateTeamId, verifyUserToTeam, (req, res) => {
+router.put("/:id", validateTeamId, verifyUserBelongsToTeam, (req, res) => {
   const updates = {
     ...req.body,
     updated_at: new Date(Date.now()).toISOString(),
@@ -256,12 +260,10 @@ router.put("/:id", validateTeamId, verifyUserToTeam, (req, res) => {
         }
       })
       .catch((err) =>
-        res
-          .status(500)
-          .json({
-            message: `Could not update information for team ${id}.`,
-            error: err,
-          })
+        res.status(500).json({
+          message: `Could not update information for team ${id}.`,
+          error: err,
+        })
       );
   } else {
     res
@@ -274,7 +276,7 @@ router.put("/:id", validateTeamId, verifyUserToTeam, (req, res) => {
 router.put(
   "/:id/users/:user_id/role",
   validateTeamId,
-  verifyUserToTeam,
+  verifyUserBelongsToTeam,
   validateMembership,
   (req, res) => {
     const teamId = req.params.id;
@@ -287,20 +289,16 @@ router.put(
       } else {
         Teams.switchRole(teamId, userId, role_id)
           .then((updatedRole) =>
-            res
-              .status(200)
-              .json({
-                message: `Successfully updated user ${userId} to role ${role_id} on team ${teamId}.`,
-                updatedRole,
-              })
+            res.status(200).json({
+              message: `Successfully updated user ${userId} to role ${role_id} on team ${teamId}.`,
+              updatedRole,
+            })
           )
           .catch((err) =>
-            res
-              .status(500)
-              .json({
-                message: `Could not update information for team ${teamId}.`,
-                error: err,
-              })
+            res.status(500).json({
+              message: `Could not update information for team ${teamId}.`,
+              error: err,
+            })
           );
       }
     } else {
@@ -313,7 +311,7 @@ router.put(
 router.post(
   "/:id/invite",
   validateTeamId,
-  verifyUserToTeam,
+  verifyUserBelongsToTeam,
   validateMembership,
   validateOrganizationRole,
   (req, res) => {
@@ -367,22 +365,19 @@ router.post(
       res.status(403).json({ message: "Permission denied." });
     } else {
       if (!team_id || !team_name || !org_id) {
-        res
-          .status(400)
-          .json({
-            message:
-              "Request needs to be an object with team_id and team_name elements.",
-            body: req.body,
-          });
+        res.status(400).json({
+          message:
+            "Request needs to be an object with team_id and team_name elements.",
+          body: req.body,
+        });
       }
       // generate a code ahead of time, and create the db object.
       const newcode = genCode(team_name);
 
       const dbsend = { team_id, organization_id: org_id, newcode: newcode };
-    
+
       Invites.findByTeam(team_id)
         .then((invite) => {
-    
           const expires = Date.parse(invite.expires_at);
 
           if (expires > Date.now() && invite.isValid === true) {
@@ -400,16 +395,14 @@ router.post(
 						It will use the generated code to
 						UPDATE EXISTING in the db and return the code.
 					 */
-           
+
             Invites.update(dbsend)
               .then((updated) => {
-                res
-                  .status(200)
-                  .json({
-                    message:
-                      "Team code expiration validity has been successfully refreshed.",
-                    ...updated,
-                  });
+                res.status(200).json({
+                  message:
+                    "Team code expiration validity has been successfully refreshed.",
+                  ...updated,
+                });
               })
               .catch((err) => {
                 res.status(500).json({
@@ -434,14 +427,11 @@ router.post(
                 .json({ message: "Creation successful", ...inserted });
             })
             .catch((err) => {
-         
               if (err.detail.includes('not present in table "teams"')) {
-                res
-                  .status(400)
-                  .json({
-                    message: `Team ${team_id} doesn't exist.`,
-                    error: err.detail,
-                  });
+                res.status(400).json({
+                  message: `Team ${team_id} doesn't exist.`,
+                  error: err.detail,
+                });
               } else {
                 res.status(500).json({
                   message: `Error inserting new invite code for team ${team_id}.`,
