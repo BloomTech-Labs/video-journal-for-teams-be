@@ -141,8 +141,7 @@ router.post("/", upload1.array("video", 1), async (req, res) => {
       // callback(null);
     })
     .on("error", function (err) {
-      console.log("error: ", err);
-      callback(err);
+      res.status(500).json({ error: err });
     })
     .run();
 

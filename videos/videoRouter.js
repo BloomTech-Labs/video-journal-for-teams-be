@@ -5,6 +5,12 @@ const multer = require("multer");
 const multerS3 = require("multer-s3");
 const AWS = require("aws-sdk");
 const app = require("../api/server");
+const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
+const ffmpeg = require("fluent-ffmpeg");
+ffmpeg.setFfmpegPath(ffmpegPath);
+const fs = require("fs");
+const path = require("path");
+var upload1 = multer({ dest: "uploads/" });
 
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -94,18 +100,50 @@ router.put("/:id/feedback", validateVideoId, (req, res) => {
       console.log(err);
     });
 });
-
 // 5. Add a new video
-router.post("/", upload.array("video", 1), (req, res) => {
-  const { title, description, owner_id, prompt_id } = req.body;
+router.post("/", upload1.array("video", 1), async (req, res) => {
+  let jsonPath = path.join(__dirname, "..", "uploads", req.files[0].filename);
+  const correct = String(jsonPath).replace(/\\/g, "/");
+  const filepath = `videos/ALPACAVID-${shortId.generate()}.mp4`;
 
+  ffmpeg(`${correct}`)
+    .output(`${correct}.mp4`)
+    // .noAudio()
+    .audioCodec("aac")
+    .videoCodec("copy")
+    .on("end", function () {
+      console.log("conversion ended");
+      s3.putObject(
+        {
+          ACL: "public-read",
+          Bucket: process.env.AWS_S3_BUCKET,
+          Key: filepath,
+          Body: fs.readFileSync(`${correct}.mp4`),
+          // ContentType: metaData,
+        },
+        function (error, response) {
+          console.log(error, response);
+          fs.unlinkSync(correct);
+          fs.unlinkSync(`${correct}.mp4`);
+          // console.log(arguments);
+        }
+      );
+      // callback(null);
+    })
+    .on("error", function (err) {
+      res.status(500).json({ error: err });
+    })
+    .run();
+
+  const { title, description, owner_id, prompt_id } = req.body;
   const newVideo = {
     owner_id: owner_id,
     title: title,
     description: description,
-    video_url: req.files[0].key,
+    video_url: filepath,
     prompt_id: prompt_id,
   };
+  console.log(newVideo);
 
   Videos.insert(newVideo)
     .then((video) => {
@@ -122,6 +160,34 @@ router.post("/", upload.array("video", 1), (req, res) => {
         .json({ message: "Could not insert new video.", error: err });
     });
 });
+
+// 5. Add a new video
+// router.post("/", upload.array("video", 1), (req, res) => {
+//   const { title, description, owner_id, prompt_id } = req.body;
+
+//   const newVideo = {
+//     owner_id: owner_id,
+//     title: title,
+//     description: description,
+//     video_url: req.files[0].key,
+//     prompt_id: prompt_id,
+//   };
+
+//   Videos.insert(newVideo)
+//     .then((video) => {
+//       const io = req.app.get("io");
+
+//       res
+//         .status(201)
+//         .json({ message: "Video creation successful.", id: video[0] });
+//       io.emit("videoPosted");
+//     })
+//     .catch((err) => {
+//       res
+//         .status(500)
+//         .json({ message: "Could not insert new video.", error: err });
+//     });
+// });
 
 // 6. Update a video
 router.put("/", (req, res) => {
