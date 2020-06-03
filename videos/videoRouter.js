@@ -110,7 +110,7 @@ router.post("/", upload1.array("video", 1), async (req, res) => {
     .output(`${correct}.mp4`)
     // .noAudio()
     .audioCodec("aac")
-    .videoCodec("copy")
+    .videoCodec("h264")
     .on("end", function () {
       console.log("conversion ended");
       s3.putObject(
