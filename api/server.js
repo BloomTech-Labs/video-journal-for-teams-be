@@ -55,7 +55,7 @@ server.use("/api/v2/teams", TeamsRouterV2);
 
 server.use(
   "/api/videos",
-  passport.authenticate("jwt", { session: false }),
+  // passport.authenticate("jwt", { session: false }),
   VideoRouter
 );
 
