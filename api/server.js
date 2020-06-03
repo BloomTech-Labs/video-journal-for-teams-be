@@ -20,11 +20,13 @@ const userRouterV2 = require("../users/userV2Router");
 const OrganizationRouterV2 = require("../organization/organizationRouterV2");
 const TeamsRouterV2 = require("../teams/teamRouterV2");
 const VideoRouterV2 = require("../videos/videoRouterV2");
+const validateOktaAccessToken = require("../middleware/validateOktaAccessToken");
 
 const server = express();
 
 const app = http.createServer(server);
 const io = socketio(app);
+io.origins("*:*");
 //passing socket to routers
 server.set("io", io);
 
@@ -40,7 +42,7 @@ server.use(passport.initialize());
 
 server.use("/api/auth", AuthRouter);
 
-server.use("/api/v2/users", userRouterV2);
+server.use("/api/v2/users", validateOktaAccessToken, userRouterV2);
 server.use(
   "/api/users",
   passport.authenticate("jwt", { session: false }),
@@ -51,7 +53,7 @@ server.use(
   passport.authenticate("jwt", { session: false }),
   TeamRouter
 );
-server.use("/api/v2/teams", TeamsRouterV2);
+server.use("/api/v2/teams", validateOktaAccessToken, TeamsRouterV2);
 
 server.use(
   "/api/videos",
@@ -59,7 +61,7 @@ server.use(
   VideoRouter
 );
 
-server.use("/api/v2/videos", VideoRouterV2);
+server.use("/api/v2/videos", validateOktaAccessToken, VideoRouterV2);
 server.use("/api/invites", InviteRouter);
 server.use("/api/avatars", AvatarRouter);
 server.use("/api/email", EmailRouter);
@@ -68,7 +70,11 @@ server.use(
   passport.authenticate("jwt", { session: false }),
   OrganizationRouter
 );
-server.use("/api/v2/organizations", OrganizationRouterV2);
+server.use(
+  "/api/v2/organizations",
+  validateOktaAccessToken,
+  OrganizationRouterV2
+);
 
 server.use("/public", express.static(path.join(__dirname, "../public")));
 

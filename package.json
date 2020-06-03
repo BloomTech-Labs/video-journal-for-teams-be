@@ -5,8 +5,10 @@
 	"main": "index.js",
 	"dependencies": {
 		"@ffmpeg-installer/ffmpeg": "^1.0.20",
+		"@okta/jwt-verifier": "^1.0.0",
 		"@sendgrid/mail": "^6.5.5",
 		"aws-sdk": "^2.628.0",
+		"axios": "^0.19.2",
 		"bcrypt": "^4.0.1",
 		"cors": "^2.8.5",
 		"dotenv": "^8.2.0",

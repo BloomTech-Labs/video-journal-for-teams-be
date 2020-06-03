@@ -5,8 +5,23 @@ const Videos = require("../videos/videoModel.js");
 const Invites = require("../invites/inviteModel.js");
 const greek = require("../invites/greekalpha.json");
 const Organization = require("../organization/organizationModel.js");
+const OktaJwtVerifier = require("@okta/jwt-verifier");
+
+const oktaJwtVerifier = new OktaJwtVerifier({
+  clientId: "0oacbrrfntl0SndJM4x6",
+  issuer: "https://okta.alpacavids.com/oauth2/default",
+});
 
 const router = express.Router();
+
+router.get("/test", (req, res) => {
+  authHeader = req.headers.authorization;
+  console.log(authHeader);
+  return oktaJwtVerifier
+    .verifyAccessToken(authHeader, "api://default")
+    .then((jwt) => console.log(jwt))
+    .catch((err) => console.log(err));
+});
 
 const {
   validateTeamId,
