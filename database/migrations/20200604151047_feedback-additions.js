@@ -45,12 +45,3 @@ exports.down = function(knex) {
 		})
 };
 
-/* 
-
-Overall performance
-Delivery and presentation
-Quality of response: How well did he/she/they respond to the question?
-Audio quality: Voice clarity, background noise, etc.
-Visual environment: Does the environment look professional? Were there any unprofessional interruptions in the background? Etc.
-
- */
