@@ -12,37 +12,37 @@ exports.up = function(knex) {
 				.onUpdate("CASCADE")
 				.onDelete("CASCADE");
 
-			tbl.integer("overall_performance")
+			tbl.decimal("overall_performance",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("delivery_and_presentation")
+			tbl.decimal("delivery_and_presentation",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("response_quality")
+			tbl.decimal("response_quality",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("audio_quality")
+			tbl.decimal("audio_quality",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("visual_environment")
+			tbl.decimal("visual_environment",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("attitude")
+			tbl.decimal("attitude",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 				
-			tbl.integer("sentiment_visual")
+			tbl.decimal("sentiment_visual",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
@@ -51,7 +51,7 @@ exports.up = function(knex) {
 				.notNullable()
 				.defaultTo("0");
 				
-			tbl.integer("sentiment_audio")
+			tbl.decimal("sentiment_audio",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
@@ -60,77 +60,77 @@ exports.up = function(knex) {
 				.notNullable()
 				.defaultTo("0");
 				
-			tbl.integer("speaking_confidence")
+			tbl.decimal("speaking_confidence",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 				
-			tbl.integer("speaking_volume")
+			tbl.decimal("speaking_volume",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 				
-			tbl.integer("speaking_vocabulary")
+			tbl.decimal("speaking_vocabulary",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 				
-			tbl.integer("speaking_speed")
+			tbl.decimal("speaking_speed",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 				
-			tbl.integer("speaking_filler_words")
+			tbl.decimal("speaking_filler_words",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 				
-			tbl.integer("background_visual_environment")
+			tbl.decimal("background_visual_environment",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 				
-			tbl.integer("background_noise")
+			tbl.decimal("background_noise",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 				
-			tbl.integer("appearance_facial_centering")
+			tbl.decimal("appearance_facial_centering",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 				
-			tbl.integer("appearance_posture")
+			tbl.decimal("appearance_posture",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 				
-			tbl.integer("appearance_gesticulation")
+			tbl.decimal("appearance_gesticulation",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 				
-			tbl.integer("human_overall_performance")
+			tbl.decimal("human_overall_performance",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("human_delivery_and_presentation")
+			tbl.decimal("human_delivery_and_presentation",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("human_response_quality")
+			tbl.decimal("human_response_quality",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("human_audio_quality")
+			tbl.decimal("human_audio_quality",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("human_visual_environment")
+			tbl.decimal("human_visual_environment",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
@@ -147,37 +147,37 @@ exports.up = function(knex) {
 				.onUpdate("CASCADE")
 				.onDelete("CASCADE");
 
-			tbl.integer("overall_performance")
+			tbl.decimal("overall_performance",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("delivery_and_presentation")
+			tbl.decimal("delivery_and_presentation",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("response_quality")
+			tbl.decimal("response_quality",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("audio_quality")
+			tbl.decimal("audio_quality",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("visual_environment")
+			tbl.decimal("visual_environment",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("attitude")
+			tbl.decimal("attitude",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("sentiment_visual")
+			tbl.decimal("sentiment_visual",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
@@ -186,7 +186,7 @@ exports.up = function(knex) {
 				.notNullable()
 				.defaultTo("0");
 
-			tbl.integer("sentiment_audio")
+			tbl.decimal("sentiment_audio",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
@@ -195,77 +195,77 @@ exports.up = function(knex) {
 				.notNullable()
 				.defaultTo("0");
 
-			tbl.integer("speaking_confidence")
+			tbl.decimal("speaking_confidence",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("speaking_volume")
+			tbl.decimal("speaking_volume",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("speaking_vocabulary")
+			tbl.decimal("speaking_vocabulary",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("speaking_speed")
+			tbl.decimal("speaking_speed",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("speaking_filler_words")
+			tbl.decimal("speaking_filler_words",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("background_visual_environment")
+			tbl.decimal("background_visual_environment",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("background_noise")
+			tbl.decimal("background_noise",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("appearance_facial_centering")
+			tbl.decimal("appearance_facial_centering",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("appearance_posture")
+			tbl.decimal("appearance_posture",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("appearance_gesticulation")
+			tbl.decimal("appearance_gesticulation",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("human_overall_performance")
+			tbl.decimal("human_overall_performance",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("human_delivery_and_presentation")
+			tbl.decimal("human_delivery_and_presentation",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("human_response_quality")
+			tbl.decimal("human_response_quality",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("human_audio_quality")
+			tbl.decimal("human_audio_quality",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
 
-			tbl.integer("human_visual_environment")
+			tbl.decimal("human_visual_environment",5,3)
 				.unsigned()
 				.notNullable()
 				.defaultTo(0);
