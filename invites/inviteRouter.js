@@ -19,6 +19,7 @@ router.get("/:code", (req, res) => {
 	const { code } = req.params
 	Invites.findByCode(code)
 		.then(invite => {
+			console.log(invite)
 			const expires = Date.parse(invite.expires_at)
 
 			if (expires < Date.now()) {
