@@ -3,34 +3,11 @@ const router = express.Router();
 const Teams = require("../teams/teamModel");
 const Organization = require("../organization/organizationModel");
 const Invites = require("../invites/inviteModel");
-const validateTeamId = require("../middleware/validateUserId");
+const validateTeamId = require("../middleware/validateTeamId");
 const isTeamLead = require("../utils/isTeamLead");
 const verifyUserToTeam = require("../middleware/verifyUserToTeam");
-const validateOktaAccessToken = require("../middleware/validateOktaAccessToken");
 const greek = require("../invites/greekalpha.json");
 const axios = require("axios");
-const OktaJwtVerifier = require("@okta/jwt-verifier");
-
-const oktaJwtVerifier = new OktaJwtVerifier({
-  clientId: "0oacbrrfntl0SndJM4x6",
-  issuer: "https://okta.alpacavids.com/oauth2/",
-  assertClaims: { aud: "api://default" },
-});
-
-router.get("/test", (req, res) => {
-  authHeader = req.headers.authorization;
-  console.log(authHeader);
-  axios
-    .post(
-      `https://dev-292346.okta.com/oauth2/default/v1/introspect?client_id=0oacbrrfntl0SndJM4x6&token=${authHeader}&token_type_hint=access_token`
-    )
-    .then((response) =>
-      response.data.active
-        ? res.status(200).json("all good")
-        : res.status(401).json({ message: "unauthorized user" })
-    )
-    .catch((err) => res.status(500).json({ error: err }));
-});
 
 //fetch all teams (for testing api)
 
@@ -93,8 +70,10 @@ router.post("/:id/users", (req, res) => {
 
 //fetch a team by team_id
 
-router.get("/:id", validateTeamId, validateOktaAccessToken, (req, res) => {
+router.get("/:id", validateTeamId, (req, res) => {
   const { id } = req.params;
+  const team = req.team;
+  console.log("team", team);
 
   Teams.findById(id)
     .then((team) => res.status(200).json(team))
