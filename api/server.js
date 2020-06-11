@@ -53,7 +53,7 @@ server.use(
   passport.authenticate("jwt", { session: false }),
   TeamRouter
 );
-server.use("/api/v2/teams", validateOktaAccessToken, TeamsRouterV2);
+server.use("/api/v2/teams", TeamsRouterV2);
 
 server.use(
   "/api/videos",
