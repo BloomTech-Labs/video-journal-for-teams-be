@@ -5,7 +5,7 @@ DROP and REMAKE videos_feedbag
 	set `sentiment_*_details` to tbl.jsonb 
 
 */
-exports.up = function(knex) {
+exports.up = function (knex) {
 	return knex.schema
 		.dropTableIfExists("users_feedback")
 		.dropTableIfExists("videos_feedback")
@@ -57,7 +57,7 @@ exports.up = function(knex) {
 
 			tbl.jsonb("sentiment_visual_details")
 				.notNullable()
-				.defaultTo("0");
+				.defaultTo("{}");
 
 			tbl.decimal("sentiment_audio", 5, 3)
 				.unsigned()
@@ -66,7 +66,7 @@ exports.up = function(knex) {
 
 			tbl.jsonb("sentiment_audio_details")
 				.notNullable()
-				.defaultTo("0");
+				.defaultTo("{}");
 
 			tbl.decimal("speaking_confidence", 5, 3)
 				.unsigned()
@@ -146,6 +146,7 @@ exports.up = function(knex) {
 
 };
 
-exports.down = function(knex) {
-  
+exports.down = function (knex) {
+	return knex.schema
+		.dropTableIfExists("videos_feedback")
 };
