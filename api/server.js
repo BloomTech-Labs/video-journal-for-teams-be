@@ -42,7 +42,7 @@ server.use(passport.initialize());
 
 server.use("/api/auth", AuthRouter);
 
-server.use("/api/v2/users", validateOktaAccessToken, userRouterV2);
+server.use("/api/v2/users", userRouterV2);
 server.use(
   "/api/users",
   passport.authenticate("jwt", { session: false }),
@@ -61,7 +61,7 @@ server.use(
   VideoRouter
 );
 
-server.use("/api/v2/videos", validateOktaAccessToken, VideoRouterV2);
+server.use("/api/v2/videos", VideoRouterV2);
 server.use("/api/invites", InviteRouter);
 server.use("/api/avatars", AvatarRouter);
 server.use("/api/email", EmailRouter);
@@ -70,11 +70,7 @@ server.use(
   passport.authenticate("jwt", { session: false }),
   OrganizationRouter
 );
-server.use(
-  "/api/v2/organizations",
-  validateOktaAccessToken,
-  OrganizationRouterV2
-);
+server.use("/api/v2/organizations", OrganizationRouterV2);
 
 server.use("/public", express.static(path.join(__dirname, "../public")));
 
