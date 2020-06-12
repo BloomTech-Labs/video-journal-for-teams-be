@@ -31,6 +31,40 @@ const upload = multer({
   }),
 });
 
+const VidFeedback = require("./videoFeedbackModel.js");
+
+// INSERT` a new Videos Feedback
+router.post("/feedback", (req, res) => {
+	const extfbk = req.body;
+	VidFeedback.insertVideosFeedback(extfbk)
+		.then((id) => {
+			res.status(201).json(id);
+		})
+		.catch((err) => {
+			console.log(47,"Catch");			
+			res.status(500).json({ message: "Could not add Videos Feedback.", error: err });
+		});
+});
+
+// GET ALL existing Videos Feedback by `video_id`
+router.get("/feedback", (req, res) => {
+	const {video_id} = req.body;
+	// const vidid = req
+	VidFeedback.findVideosFeedbackByVideoId(video_id)
+		.then((data) => res.status(200).json(data))
+		.catch((err) => res.status(500).json({ error: err }));
+});
+
+// GET ONE existing Videos Feedback by `id`
+router.get("/feedback/:id", (req, res) => {
+	const { id } = req.params;
+	VidFeedback.findVideosFeedbackById(id)
+		.then((data) => res.status(200).json(data))
+		.catch((err) => res.status(500).json({ error: err }));
+});
+
+
+
 //select all users
 router.get("/", (req, res) => {
   Users.find()
