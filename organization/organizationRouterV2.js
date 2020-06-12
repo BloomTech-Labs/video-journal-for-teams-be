@@ -11,11 +11,8 @@ const Teams = require("../teams/teamModel");
 
 //create and add member to organization
 router.post("/", (req, res) => {
-  console.log(req.body);
   const org = req.body.name;
-  console.log(org);
   const uid = req.body.uid;
-  console.log(org);
   Organizations.insert(org)
     .then((_org) => {
       console.log(_org);

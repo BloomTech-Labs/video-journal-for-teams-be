@@ -2,7 +2,6 @@ const Teams = require("../teams/teamModel.js");
 
 module.exports = function validateTeamId(req, res, next) {
   const { id } = req.params;
-  console.log(id, "idddd");
   Teams.findById(id)
     .then((team) => {
       if (team) {

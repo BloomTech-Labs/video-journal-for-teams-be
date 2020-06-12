@@ -73,7 +73,6 @@ router.post("/:id/users", (req, res) => {
 router.get("/:id", validateTeamId, (req, res) => {
   const { id } = req.params;
   const team = req.team;
-  console.log("team", team);
 
   Teams.findById(id)
     .then((team) => res.status(200).json(team))
@@ -233,7 +232,7 @@ router.post(
   validateTeamId,
   verifyUserToTeam,
   async (req, res) => {
-    const team_id = +req.params.id;
+    const team_id = req.params.id;
     const { user_id } = req.params;
     const { team_name, org_id } = req.body;
     const role = await Teams.getUserRole(team_id, user_id);
@@ -264,6 +263,8 @@ router.post(
                 });
               })
               .catch((err) => res.status(500).json({ error: err }));
+          } else {
+            res.status(200).json(...invite);
           }
         })
         .catch(() => {
