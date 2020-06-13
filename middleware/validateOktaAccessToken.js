@@ -3,15 +3,13 @@ require("dotenv").config();
 
 const validateOktaAccessToken = (req, res, next) => {
   const token = req.headers.authorization;
-  const introspectUrl =
-    "https://dev-292346.okta.com/oauth2/default/v1/introspect?client_id=" +
-    process.env.CLIENT_ID +
-    "&token=" +
-    token +
-    "&token_type_hint=access_token".replace(/%0A/, "");
-  console.log("concatenated url", introspectUrl);
+  const introspectUrl = `https://dev-292346.okta.com/oauth2/default/v1/introspect?client_id=${process.env.CLIENT_ID}&token=${token}&token_type_hint=access_token`.replace(
+    /%0A/
+  );
   axios
-    .post(introspectUrl)
+    .post(
+      `https://dev-292346.okta.com/oauth2/default/v1/introspect?client_id=0oacbrrfntl0SndJM4x6&token=${token}&token_type_hint=access_token`
+    )
     .then((response) => {
       console.log("response", response.data);
       response.data.active
