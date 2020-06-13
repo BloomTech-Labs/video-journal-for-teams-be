@@ -3,6 +3,7 @@ require("dotenv").config();
 
 const validateOktaAccessToken = (req, res, next) => {
   authHeader = req.headers.authorization;
+  console.log(process.env.CLIENT_ID);
   axios
     .post(
       `https://dev-292346.okta.com/oauth2/default/v1/introspect?client_id=${process.env.CLIENT_ID}&token=${authHeader}&token_type_hint=access_token`
