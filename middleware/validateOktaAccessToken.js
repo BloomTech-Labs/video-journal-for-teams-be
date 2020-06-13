@@ -2,11 +2,10 @@ const axios = require("axios");
 require("dotenv").config();
 
 const validateOktaAccessToken = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-  const client_id = process.env.CLIENT_ID;
+  const token = req.headers.authorization;
   axios
     .post(
-      `https://dev-292346.okta.com/oauth2/default/v1/introspect?client_id=${client_id}&token=${authHeader}&token_type_hint=access_token`
+      `https://dev-292346.okta.com/oauth2/default/v1/introspect?client_id=0oacbrrfntl0SndJM4x6&token=${token}&token_type_hint=access_token`
     )
     .then((response) => {
       console.log("response", response.data);
