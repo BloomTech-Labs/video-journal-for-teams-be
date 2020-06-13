@@ -6,7 +6,7 @@ const validateOktaAccessToken = (req, res, next) => {
   console.log(process.env.CLIENT_ID);
   axios
     .post(
-      `https://dev-292346.okta.com/oauth2/default/v1/introspect?client_id=${process.env.CLIENT_ID}&token=${authHeader}&token_type_hint=access_token`
+      `https://dev-292346.okta.com/oauth2/default/v1/introspect?client_id=0oacbrrfntl0SndJM4x6&token=${authHeader}&token_type_hint=access_token`
     )
     .then((response) => {
       console.log("response", response.data);
