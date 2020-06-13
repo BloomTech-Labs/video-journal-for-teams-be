@@ -15,7 +15,7 @@ const validateOktaAccessToken = (req, res, next) => {
     })
     .catch((err) => {
       res.status(500).json({ error: err });
-      console.log("error", error);
+      console.log("error", err);
     });
 };
 
