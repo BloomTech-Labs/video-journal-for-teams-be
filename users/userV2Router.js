@@ -36,13 +36,11 @@ const VidFeedback = require("./videoFeedbackModel.js");
 // INSERT` a new Videos Feedback
 router.post("/feedback", (req, res) => {
   const extfbk = req.body;
-  console.log(extfbk);
   VidFeedback.insertVideosFeedback(extfbk)
     .then((id) => {
       res.status(201).json(id);
     })
     .catch((err) => {
-      console.log(47, "Catch");
       res
         .status(500)
         .json({ message: "Could not add Videos Feedback.", error: err });

@@ -9,7 +9,6 @@ module.exports = {
 };
 
 function insertVideosFeedback(Obj) {
-  console.log(13, Obj);
   return db("feedback").insert(Obj, "id");
 }
 
