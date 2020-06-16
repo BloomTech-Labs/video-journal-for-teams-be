@@ -51,7 +51,9 @@ router.post("/feedback", (req, res) => {
 router.get("/feedback/:id", (req, res) => {
   const { id } = req.params;
   VidFeedback.getOverallPerformance(id)
-    .then((data) => res.status(200).json(data))
+    .then((data) => {
+      res.status(200).json(data);
+    })
     .catch((err) => res.status(500).json({ error: err }));
 });
 
