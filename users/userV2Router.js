@@ -48,11 +48,12 @@ router.post("/feedback", (req, res) => {
 });
 
 // GET ALL existing Videos Feedback by `video_id`
-router.get("/feedback", (req, res) => {
-  const { video_id } = req.body;
-  // const vidid = req
-  VidFeedback.findVideosFeedbackByVideoId(video_id)
-    .then((data) => res.status(200).json(data))
+router.get("/feedback/:id", (req, res) => {
+  const { id } = req.params;
+  VidFeedback.getOverallPerformance(id)
+    .then((data) => {
+      res.status(200).json(data);
+    })
     .catch((err) => res.status(500).json({ error: err }));
 });
 

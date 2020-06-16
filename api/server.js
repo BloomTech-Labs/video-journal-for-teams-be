@@ -7,6 +7,7 @@ var http = require("http");
 
 const passport = require("passport");
 require("../passport/index");
+require("dotenv").config();
 
 const AuthRouter = require("../auth/authRouter.js");
 const UserRouter = require("../users/userRouter.js");
@@ -20,7 +21,7 @@ const userRouterV2 = require("../users/userV2Router");
 const OrganizationRouterV2 = require("../organization/organizationRouterV2");
 const TeamsRouterV2 = require("../teams/teamRouterV2");
 const VideoRouterV2 = require("../videos/videoRouterV2");
-const validateOktaAccessToken = require("../middleware/validateOktaAccessToken");
+const validateOktaJwt = require("../middleware/validateOktaJwt");
 
 const server = express();
 
@@ -42,7 +43,7 @@ server.use(passport.initialize());
 
 server.use("/api/auth", AuthRouter);
 
-server.use("/api/v2/users", validateOktaAccessToken, userRouterV2);
+server.use("/api/v2/users", validateOktaJwt, userRouterV2);
 server.use(
   "/api/users",
   passport.authenticate("jwt", { session: false }),
@@ -53,7 +54,7 @@ server.use(
   passport.authenticate("jwt", { session: false }),
   TeamRouter
 );
-server.use("/api/v2/teams", validateOktaAccessToken, TeamsRouterV2);
+server.use("/api/v2/teams", validateOktaJwt, TeamsRouterV2);
 
 server.use(
   "/api/videos",
@@ -61,7 +62,7 @@ server.use(
   VideoRouter
 );
 
-server.use("/api/v2/videos", validateOktaAccessToken, VideoRouterV2);
+server.use("/api/v2/videos", validateOktaJwt, VideoRouterV2);
 server.use("/api/invites", InviteRouter);
 server.use("/api/avatars", AvatarRouter);
 server.use("/api/email", EmailRouter);
@@ -70,11 +71,7 @@ server.use(
   passport.authenticate("jwt", { session: false }),
   OrganizationRouter
 );
-server.use(
-  "/api/v2/organizations",
-  validateOktaAccessToken,
-  OrganizationRouterV2
-);
+server.use("/api/v2/organizations", validateOktaJwt, OrganizationRouterV2);
 
 server.use("/public", express.static(path.join(__dirname, "../public")));
 
@@ -85,6 +82,15 @@ server.use(function (err, req, res, next) {
 
 server.get("/", (req, res) => {
   res.status(200).json({ api: "running" });
+});
+
+//test okta jwt validation
+server.get("/okta-test", (req, res) => {
+  const token = req.headers.authorization;
+  oktaJWTVerifier
+    .verifyAccessToken(token, "api://default")
+    .then((jwt) => console.log(jwt.claims))
+    .catch((err) => console.log(err));
 });
 
 module.exports = app;
