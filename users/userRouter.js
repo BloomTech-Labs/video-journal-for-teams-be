@@ -3,6 +3,7 @@ const Users = require("../users/userModel.js");
 const Teams = require("../teams/teamModel.js");
 const Videos = require("../videos/videoModel.js");
 const Organizations = require("../organization/organizationModel.js");
+const VidFeedback = require("../users/videoFeedbackModel");
 const router = express.Router();
 
 const shortId = require("shortid");
@@ -115,7 +116,7 @@ router.put("/:id", validateUserId, verifyPassword, (req, res) => {
       );
   }
 });
-
+//add avatar
 router.post("/:id/photo", upload.array("photo", 1), (req, res) => {
   const { id } = req.params;
 
@@ -134,6 +135,7 @@ router.post("/:id/photo", upload.array("photo", 1), (req, res) => {
     });
 });
 
+//GET user organizations
 router.get("/:id/organizations", validateUserId, (req, res) => {
   const { id } = req.params;
 
@@ -145,6 +147,40 @@ router.get("/:id/organizations", validateUserId, (req, res) => {
         error: err,
       })
     );
+});
+
+//GET video feedback scores by userId
+router.get("/feedback/:id", (req, res) => {
+  const { id } = req.params;
+  VidFeedback.getOverallPerformance(id)
+    .then((data) => {
+      res.status(200).json(data);
+    })
+    .catch((err) => res.status(500).json({ error: err }));
+});
+
+//GET all of a users teams by userId
+router.get("/teams/:id", (req, res) => {
+  const { id } = req.params;
+  VidFeedback.getUserTeams(id)
+    .then((teams) => res.status(200).json({ teams }))
+    .catch((err) => res.status(500).json({ error: err }));
+});
+
+//GET all of a users prompts by userId
+router.get("/prompts/:id", (req, res) => {
+  const { id } = req.params;
+  return VidFeedback.getUserPrompts(id)
+    .then((prompts) => res.status(200).json({ prompts }))
+    .catch((err) => res.status(500).json({ error: err }));
+});
+
+//GET all of a users videos by userId
+router.get("/videos/:id", (req, res) => {
+  const { id } = req.params;
+  return VidFeedback.getUserVideos(id)
+    .then((videos) => res.status(200).json({ videos }))
+    .catch((err) => res.status(500).json({ error: err }));
 });
 
 module.exports = router;

@@ -57,14 +57,6 @@ router.get("/feedback/:id", (req, res) => {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
-// GET ONE existing Videos Feedback by `id`
-router.get("/feedback/:id", (req, res) => {
-  const { id } = req.params;
-  VidFeedback.findVideosFeedbackById(id)
-    .then((data) => res.status(200).json(data))
-    .catch((err) => res.status(500).json({ error: err }));
-});
-
 //select all users
 router.get("/", (req, res) => {
   Users.find()
