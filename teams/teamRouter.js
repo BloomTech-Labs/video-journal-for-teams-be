@@ -16,7 +16,6 @@ const router = express.Router();
 
 router.get("/test", (req, res) => {
   authHeader = req.headers.authorization;
-  console.log(authHeader);
   return oktaJwtVerifier
     .verifyAccessToken(authHeader, "api://default")
     .then((jwt) => console.log(jwt))

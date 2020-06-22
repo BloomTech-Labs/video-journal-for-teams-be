@@ -8,8 +8,6 @@ module.exports = async function verifyUserToTeam(req, res, next) {
   const teamId = req.params.id;
   const userId = req.params.user_id;
 
-  console.log("$$$", userId, teamId);
-
   const userPermission = await Teams.matchUserToTeam(userId, parseInt(teamId));
 
   const userTeams = await Teams.findById(parseInt(teamId));

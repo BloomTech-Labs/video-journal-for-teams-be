@@ -32,7 +32,6 @@ router.post("/test", (req, res) => {
         });
 
       user.avatar = avatar;
-      console.log(user);
       Users.insert(user).then((user) => res.status(201).json(user));
     } else {
       res.status(200).json(u);

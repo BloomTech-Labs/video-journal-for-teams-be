@@ -108,7 +108,6 @@ router.post("/", upload1.array("video", 1), async (req, res) => {
 
   ffmpeg(`${correct}`)
     .output(`${correct}.mp4`)
-    // .noAudio()
     .audioCodec("aac")
     .videoCodec("copy")
     .on("end", function () {
@@ -119,13 +118,11 @@ router.post("/", upload1.array("video", 1), async (req, res) => {
           Bucket: process.env.AWS_S3_BUCKET,
           Key: filepath,
           Body: fs.readFileSync(`${correct}.mp4`),
-          // ContentType: metaData,
         },
         function (error, response) {
           console.log(error, response);
           fs.unlinkSync(correct);
           fs.unlinkSync(`${correct}.mp4`);
-          // console.log(arguments);
         }
       );
       // callback(null);

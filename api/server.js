@@ -26,8 +26,7 @@ const validateOktaJwt = require("../middleware/validateOktaJwt");
 const server = express();
 
 const app = http.createServer(server);
-const io = socketio(app);
-io.origins("*:*");
+const io = socketio.listen(app);
 //passing socket to routers
 server.set("io", io);
 

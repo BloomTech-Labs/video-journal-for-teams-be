@@ -212,6 +212,5 @@ function switchRole(teamId, userId, roleId) {
 }
 
 function deleteTeam(team_id) {
-  console.log("team_id", team_id);
   return db("teams").where({ id: team_id }).del();
 }

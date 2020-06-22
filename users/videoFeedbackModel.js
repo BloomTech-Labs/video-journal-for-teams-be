@@ -6,8 +6,9 @@ module.exports = {
   findVideosFeedbackById,
   findVideosFeedbackByVideoId,
   getOverallPerformance,
-  // findVideosFeedbackByUserId,
-  // updateVideosFeedbackByVideoId
+  getUserTeams,
+  getUserPrompts,
+  getUserVideos,
 };
 
 function insertVideosFeedback(Obj) {
@@ -44,4 +45,24 @@ async function getOverallPerformance(userId) {
   const format = formatFeedback(total, progressOverTime);
 
   return format;
+}
+
+function getUserTeams(userId) {
+  return db
+    .select(db.raw("distinct name as team_name"))
+    .from("teams")
+    .join("team_members", "teams.id", "team_members.team_id")
+    .where("user_id", userId);
+}
+
+function getUserPrompts(userId) {
+  return db
+    .select(db.raw("distinct question, description"))
+    .from("prompts")
+    .join("team_members", "prompts.team_id", "team_members.team_id")
+    .where("user_id", userId);
+}
+
+function getUserVideos(userId) {
+  return db("videos").where("owner_id", userId);
 }
