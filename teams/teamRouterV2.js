@@ -130,7 +130,6 @@ router.post(
   verifyUserToTeam,
   async (req, res) => {
     const { id, user_id } = req.params;
-    console.log(id, user_id);
     const { body } = req;
     const propmptData = {
       ...body,

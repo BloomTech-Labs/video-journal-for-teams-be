@@ -15,7 +15,6 @@ router.post("/", (req, res) => {
   const uid = req.body.uid;
   Organizations.insert(org)
     .then((_org) => {
-      console.log(_org);
       Organizations.insertOrgUser({
         organization_id: _org[0],
         user_id: uid,

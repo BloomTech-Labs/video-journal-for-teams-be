@@ -2,7 +2,6 @@ const Users = require("../users/userModel.js");
 
 module.exports = function validateUserId(req, res, next) {
   const { id } = req.params;
-  console.log(id);
 
   Users.findById(id)
     .then((user) => {
@@ -14,11 +13,9 @@ module.exports = function validateUserId(req, res, next) {
       }
     })
     .catch((err) =>
-      res
-        .status(500)
-        .json({
-          message: `Failed to get user ${id} from database.`,
-          error: err,
-        })
+      res.status(500).json({
+        message: `Failed to get user ${id} from database.`,
+        error: err,
+      })
     );
 };

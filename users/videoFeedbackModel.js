@@ -9,8 +9,6 @@ module.exports = {
   getUserTeams,
   getUserPrompts,
   getUserVideos,
-  // findVideosFeedbackByUserId,
-  // updateVideosFeedbackByVideoId
 };
 
 function insertVideosFeedback(Obj) {
@@ -58,14 +56,11 @@ function getUserTeams(userId) {
 }
 
 function getUserPrompts(userId) {
-  return (
-    db
-      .select(db.raw("distinct question, description"))
-      .from("prompts")
-      .join("team_members", "prompts.team_id", "team_members.team_id")
-      // .join("prompts", "team_members.team_id", "prompts.team_id")
-      .where("user_id", userId)
-  );
+  return db
+    .select(db.raw("distinct question, description"))
+    .from("prompts")
+    .join("team_members", "prompts.team_id", "team_members.team_id")
+    .where("user_id", userId);
 }
 
 function getUserVideos(userId) {

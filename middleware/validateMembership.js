@@ -5,7 +5,6 @@ module.exports = async function validateMembership(req, res, next) {
   const uid = req.params.user_id;
 
   const role = await Teams.getUserRole(teamId, uid);
-  console.log(role);
   if (role === undefined) {
     res.status(404).json({ message: `User ${uid} is not on team ${teamId}.` });
   } else {

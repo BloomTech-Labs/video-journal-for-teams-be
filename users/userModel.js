@@ -8,6 +8,7 @@ module.exports = {
   insert,
   update,
   findByIdEmail,
+  getSingleVideoFeedback,
 };
 
 function find() {
@@ -77,4 +78,8 @@ function update(id, changes) {
     .then((count) => {
       return findById(id);
     });
+}
+
+function getSingleVideoFeedback(videoId) {
+  return db("videos_feedback").where("video_id", videoId);
 }

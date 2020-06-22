@@ -124,4 +124,12 @@ router.post("/:id/photo", upload.array("photo", 1), (req, res) => {
     .then((updated) => res.status(201).json({ avatar: updated }))
     .catch((err) => res.status(500).json({ error: err }));
 });
+
+//GET single video feedback for a user
+router.get("/singlevid/:id", (req, res) => {
+  const { id } = req.params;
+  Users.getSingleVideoFeedback(id)
+    .then(([video]) => res.status(200).json({ video }))
+    .catch((err) => res.status(500).json({ error: err }));
+});
 module.exports = router;
