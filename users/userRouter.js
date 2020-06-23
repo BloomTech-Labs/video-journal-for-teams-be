@@ -163,7 +163,7 @@ router.get("/feedback/:id", (req, res) => {
 router.get("/teams/:id", (req, res) => {
   const { id } = req.params;
   VidFeedback.getUserTeams(id)
-    .then((teams) => res.status(200).json({ teams }))
+    .then((teams) => res.status(200).json(teams))
     .catch((err) => res.status(500).json({ error: err }));
 });
 
@@ -171,7 +171,7 @@ router.get("/teams/:id", (req, res) => {
 router.get("/prompts/:id", (req, res) => {
   const { id } = req.params;
   return VidFeedback.getUserPrompts(id)
-    .then((prompts) => res.status(200).json({ prompts }))
+    .then((prompts) => res.status(200).json(prompts))
     .catch((err) => res.status(500).json({ error: err }));
 });
 
@@ -179,7 +179,7 @@ router.get("/prompts/:id", (req, res) => {
 router.get("/videos/:id", (req, res) => {
   const { id } = req.params;
   return VidFeedback.getUserVideos(id)
-    .then((videos) => res.status(200).json({ videos }))
+    .then((videos) => res.status(200).json(videos))
     .catch((err) => res.status(500).json({ error: err }));
 });
 
