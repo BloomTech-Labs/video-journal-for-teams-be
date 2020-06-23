@@ -48,16 +48,23 @@ async function getOverallPerformance(userId) {
 }
 
 function getUserTeams(userId) {
-  return db
-    .select(db.raw("distinct name as team_name"))
-    .from("teams")
-    .join("team_members", "teams.id", "team_members.team_id")
-    .where("user_id", userId);
+  return (
+    db
+      .select("*")
+      // .select(db.raw("distinct name as team_name"))
+      .from("teams")
+      .join("team_members", "teams.id", "team_members.team_id")
+      .where("user_id", userId)
+  );
 }
 
 function getUserPrompts(userId) {
   return db
-    .select(db.raw("distinct question, description"))
+    .select(
+      db.raw(
+        "distinct question, description, prompts.team_id, prompts.created_at, prompts.updated_at, id"
+      )
+    )
     .from("prompts")
     .join("team_members", "prompts.team_id", "team_members.team_id")
     .where("user_id", userId);
