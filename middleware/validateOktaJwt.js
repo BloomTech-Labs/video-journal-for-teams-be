@@ -13,9 +13,9 @@ const validateOktaJwt = (req, res, next) => {
       req.jwt = jwt.claims;
       next();
     })
-    .catch((err) =>
-      res.status(401).json({ message: "unauthorized user", error: err })
-    );
+    .catch((err) => {
+      res.status(401).json({ message: "unauthorized user", error: err });
+    });
 };
 
 module.exports = validateOktaJwt;
